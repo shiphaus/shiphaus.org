@@ -82,9 +82,9 @@ function HeroSection() {
               className="flex flex-wrap gap-8 mt-12 pt-8 border-t border-[var(--border-subtle)]"
             >
               {[
-                { label: 'Projects Shipped', value: '126+' },
+                { label: 'Projects Shipped', value: '20' },
                 { label: 'Active Chapters', value: '4' },
-                { label: 'Build Events', value: '20+' },
+                { label: 'Build Events', value: '2' },
               ].map((stat, i) => (
                 <div key={i}>
                   <p className="text-3xl font-bold">{stat.value}</p>
@@ -102,20 +102,20 @@ function HeroSection() {
             className="relative hidden lg:flex justify-center"
           >
             <div className="relative">
-              <div className="relative w-80 h-80 rounded-2xl overflow-hidden shadow-2xl">
+              <div className="relative w-[480px] h-[480px] rounded-2xl overflow-hidden shadow-2xl">
                 <Image
                   src="/photo.jpeg"
                   alt="Builders at Shiphaus event"
-                  width={320}
-                  height={320}
+                  width={480}
+                  height={480}
                   className="w-full h-full object-cover"
                   priority
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
               </div>
               <div className="absolute -bottom-3 -left-3 bg-white rounded-xl p-3 shadow-lg border border-[var(--border-subtle)]">
-                <p className="text-sm font-semibold">1st Shiphaus</p>
-                <p className="text-xs text-[var(--text-muted)]">15 builders, 15 projects</p>
+                <p className="text-sm font-semibold">Zero to One Day</p>
+                <p className="text-xs text-[var(--text-muted)]">14 builders, 14 projects</p>
               </div>
             </div>
           </motion.div>
@@ -139,8 +139,8 @@ function ValuePropsSection() {
     },
     {
       icon: Globe,
-      title: '4 Cities, 1 Mission',
-      description: 'NYC. Chicago. Boulder. Malaysia. Different time zones, same energy: less talk, more build.',
+      title: 'Growing Global',
+      description: 'Started in NYC. Expanding soon. Same energy everywhere: less talk, more build.',
     },
   ];
 
