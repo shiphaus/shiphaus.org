@@ -49,7 +49,7 @@ export default function ProjectsPage() {
           </div>
           <button
             onClick={() => setSelectedChapter('all')}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition-colors whitespace-nowrap ${
+            className={`px-4 py-2 rounded-full text-sm font-medium transition-colors whitespace-nowrap cursor-pointer ${
               selectedChapter === 'all'
                 ? 'bg-[var(--text-primary)] text-white'
                 : 'bg-[var(--bg-secondary)] text-[var(--text-secondary)] hover:bg-[var(--bg-tertiary)]'
@@ -61,7 +61,7 @@ export default function ProjectsPage() {
             <button
               key={chapter.id}
               onClick={() => setSelectedChapter(chapter.id)}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors whitespace-nowrap ${
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors whitespace-nowrap cursor-pointer ${
                 selectedChapter === chapter.id
                   ? 'bg-[var(--text-primary)] text-white'
                   : 'bg-[var(--bg-secondary)] text-[var(--text-secondary)] hover:bg-[var(--bg-tertiary)]'

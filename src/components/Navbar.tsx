@@ -6,6 +6,8 @@ import { Menu, X, Rocket, User, LogOut } from 'lucide-react';
 import { useState } from 'react';
 import { useAuth } from '@/lib/auth-context';
 import { chapters } from '@/lib/data';
+import { NavCityLink } from './NavCityLink';
+import { TaxiDoodle, WindDoodle, FlatironsDoodle, NetworkDoodle } from './doodles';
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -30,13 +32,14 @@ export function Navbar() {
           <div className="hidden md:flex items-center gap-8">
             <div className="flex items-center gap-6">
               {chapters.map((chapter) => (
-                <Link
+                <NavCityLink
                   key={chapter.id}
                   href={`/chapter/${chapter.id}`}
-                  className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors text-sm font-medium"
+                  chapterId={chapter.id}
+                  chapterColor={chapter.color}
                 >
                   {chapter.city}
-                </Link>
+                </NavCityLink>
               ))}
             </div>
 
@@ -56,7 +59,7 @@ export function Navbar() {
                         />
                         <button
                           onClick={signOut}
-                          className="p-2 text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors"
+                          className="p-2 text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors cursor-pointer"
                           title="Sign out"
                         >
                           <LogOut className="w-4 h-4" />
@@ -80,7 +83,7 @@ export function Navbar() {
           {/* Mobile menu button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden p-2 text-[var(--text-secondary)]"
+            className="md:hidden p-2 text-[var(--text-secondary)] cursor-pointer"
           >
             {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
@@ -124,7 +127,7 @@ export function Navbar() {
                           signOut();
                           setIsOpen(false);
                         }}
-                        className="w-full text-left py-2 text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors flex items-center gap-2"
+                        className="w-full text-left py-2 text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors flex items-center gap-2 cursor-pointer"
                       >
                         <LogOut className="w-4 h-4" />
                         Sign out
@@ -148,6 +151,24 @@ export function Navbar() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Preload doodles - hidden render to warm browser cache */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: 'absolute',
+          opacity: 0,
+          pointerEvents: 'none',
+          overflow: 'hidden',
+          width: 0,
+          height: 0,
+        }}
+      >
+        <TaxiDoodle />
+        <WindDoodle />
+        <FlatironsDoodle />
+        <NetworkDoodle />
+      </div>
     </nav>
   );
 }
