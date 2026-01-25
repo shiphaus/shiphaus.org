@@ -33,7 +33,7 @@ export interface Project {
   id: string;
   title: string;
   description: string;
-  deployedUrl: string;
+  deployedUrl?: string;
   githubUrl?: string;
   createdAt: string;
   chapterId: string;
