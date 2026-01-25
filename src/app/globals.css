@@ -95,6 +95,7 @@ body::before {
   transition: all 0.2s ease;
   position: relative;
   overflow: hidden;
+  cursor: pointer;
 }
 
 .btn-primary::before {
@@ -128,6 +129,7 @@ body::before {
   border-radius: 0.5rem;
   border: 1px solid var(--border-strong);
   transition: all 0.2s ease;
+  cursor: pointer;
 }
 
 .btn-secondary:hover {
