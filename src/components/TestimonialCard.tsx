@@ -25,7 +25,7 @@ export function TestimonialCard({ testimonial, index = 0 }: TestimonialCardProps
         <img
           src={testimonial.avatar}
           alt={testimonial.author}
-          className="w-12 h-12 rounded-full border border-[var(--border-subtle)]"
+          className="w-12 h-12 rounded-full border border-[var(--border-subtle)] object-cover"
         />
         <div>
           <p className="font-semibold text-sm">{testimonial.author}</p>
