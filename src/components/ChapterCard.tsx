@@ -62,7 +62,7 @@ export function ChapterCard({ chapter, index = 0 }: ChapterCardProps) {
         <img
           src={chapter.lead.avatar}
           alt={chapter.lead.name}
-          className="w-10 h-10 rounded-full border-2"
+          className="w-10 h-10 rounded-full border-2 object-cover"
           style={{ borderColor: accentColor }}
         />
         <div>

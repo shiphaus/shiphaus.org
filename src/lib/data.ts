@@ -9,7 +9,7 @@ export const chapters: Chapter[] = [
     lead: {
       name: 'Alex Slobodnik',
       handle: '@AlexSlobodnik',
-      avatar: 'https://lh3.googleusercontent.com/a/ACg8ocKEO_D0dLNgqudGK_f2QZJTzU_dwWGZq3_CRWdewTFOiIchO1xw=s96-c',
+      avatar: '/avatars/slobo.jpeg',
       x: 'https://x.com/AlexSlobodnik',
     },
     color: 'chapter-ny',
@@ -131,7 +131,7 @@ export const projects: Project[] = [
     eventId: 'ny-zero-to-one',
     builder: {
       name: 'Alex Slobodnik',
-      avatar: 'https://lh3.googleusercontent.com/a/ACg8ocKEO_D0dLNgqudGK_f2QZJTzU_dwWGZq3_CRWdewTFOiIchO1xw=s96-c',
+      avatar: '/avatars/slobo.jpeg',
       uid: 'alex-slobodnik',
     },
   },
@@ -306,7 +306,7 @@ export const projects: Project[] = [
     eventId: 'ny-shiphaus-jan-2026',
     builder: {
       name: 'Alex Slobodnik',
-      avatar: 'https://lh3.googleusercontent.com/a/ACg8ocKEO_D0dLNgqudGK_f2QZJTzU_dwWGZq3_CRWdewTFOiIchO1xw=s96-c',
+      avatar: '/avatars/slobo.jpeg',
       uid: 'alex-slobodnik-2',
     },
   },

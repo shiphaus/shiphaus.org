@@ -23,7 +23,7 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
           <img
             src={project.builder.avatar}
             alt={project.builder.name}
-            className="w-10 h-10 rounded-full border border-[var(--border-subtle)]"
+            className="w-10 h-10 rounded-full border border-[var(--border-subtle)] object-cover"
           />
           <span className="text-sm font-medium text-[var(--text-secondary)]">
             {project.builder.name}
