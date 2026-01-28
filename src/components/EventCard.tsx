@@ -57,7 +57,7 @@ export function EventCard({ event, index = 0 }: EventCardProps) {
           <div className="flex items-center gap-2 text-sm">
             <Users className="w-4 h-4 text-[var(--text-muted)]" />
             <span className="text-[var(--text-secondary)]">
-              <strong>{event.attendeeCount}</strong> attendees
+              <strong>{event.builderCount}</strong> builders
             </span>
           </div>
           <div className="flex items-center gap-2 text-sm">

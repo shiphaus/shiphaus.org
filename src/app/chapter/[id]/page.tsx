@@ -2,7 +2,7 @@
 
 import { useParams } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Globe, Calendar, MapPin, Users, Layers, Camera } from 'lucide-react';
+import { ArrowLeft, Globe, Calendar, Users, Layers, Camera, Github } from 'lucide-react';
 import Link from 'next/link';
 import { getChapter, getChapterEvents, getChapterProjects, getChapterTestimonials, chapterColorMap } from '@/lib/data';
 import { ProjectCard } from '@/components/ProjectCard';
@@ -39,6 +39,15 @@ export default function ChapterPage() {
   }
 
   const accentColor = chapterColorMap[chapter.color] || '#FF6B35';
+
+  // Derive stats from actual data
+  const uniqueBuilders = new Set(projects.map(p => p.builder.uid)).size;
+
+  const stats = [
+    { value: String(projects.length), label: 'projects', icon: Layers },
+    { value: String(uniqueBuilders), label: 'builders', icon: Users },
+    { value: String(events.length), label: 'events', icon: Calendar },
+  ];
 
   return (
     <div className="min-h-screen">
@@ -82,57 +91,96 @@ export default function ChapterPage() {
               <h1 className="text-4xl md:text-5xl font-bold mb-2">{chapter.city}</h1>
               <p className="text-[var(--text-muted)] text-lg mb-6">{chapter.country}</p>
 
-              <div className="flex flex-wrap gap-6 mb-8">
-                <div className="flex items-center gap-2">
-                  <Layers className="w-5 h-5" style={{ color: accentColor }} />
-                  <span><strong>{chapter.projectCount}</strong> projects shipped</span>
+              {/* Stats grid */}
+              {stats.length > 0 && stats[0].value !== '0' && (
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+                  {stats.map((stat, i) => (
+                    <motion.div
+                      key={stat.label}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.4, delay: 0.2 + i * 0.05 }}
+                      className="bg-white rounded-xl p-4 border border-[var(--border-subtle)]"
+                    >
+                      <stat.icon className="w-4 h-4 mb-2" style={{ color: accentColor }} />
+                      <p className="text-2xl font-bold tracking-tight">{stat.value}</p>
+                      <p className="text-xs text-[var(--text-muted)]">{stat.label}</p>
+                    </motion.div>
+                  ))}
                 </div>
-                <div className="flex items-center gap-2">
-                  <Calendar className="w-5 h-5" style={{ color: accentColor }} />
-                  <span><strong>{chapter.eventCount}</strong> events held</span>
-                </div>
-              </div>
+              )}
 
-              {/* Chapter Lead Card */}
-              <div className="card p-6">
-                <p className="text-sm text-[var(--text-muted)] uppercase tracking-wide mb-4">Chapter Lead</p>
+              {/* Chapter Lead */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.4 }}
+                className="card p-5"
+              >
                 <div className="flex items-center gap-4">
                   <img
                     src={chapter.lead.avatar}
                     alt={chapter.lead.name}
-                    className="w-16 h-16 rounded-full border-2"
+                    className="w-14 h-14 rounded-full border-2 object-cover"
                     style={{ borderColor: accentColor }}
                   />
-                  <div>
-                    <h3 className="text-xl font-semibold">{chapter.lead.name}</h3>
-                    <p className="text-[var(--text-muted)]">{chapter.lead.handle}</p>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2">
+                      <h3 className="text-lg font-semibold">{chapter.lead.name}</h3>
+                      <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full" style={{ color: accentColor, backgroundColor: `${accentColor}12` }}>
+                        {chapter.lead.isFounder ? 'Founder' : 'Lead'}
+                      </span>
+                    </div>
+                    {chapter.lead.x ? (
+                      <a
+                        href={chapter.lead.x}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-sm text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors"
+                      >
+                        {chapter.lead.handle}
+                      </a>
+                    ) : (
+                      <p className="text-sm text-[var(--text-muted)]">{chapter.lead.handle}</p>
+                    )}
+                  </div>
+                  <div className="flex items-center gap-1">
+                    {chapter.lead.x && (
+                      <a
+                        href={chapter.lead.x}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-2 rounded-lg text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-secondary)] transition-colors"
+                        title="X"
+                      >
+                        <XIcon className="w-4 h-4" />
+                      </a>
+                    )}
+                    {chapter.lead.github && (
+                      <a
+                        href={chapter.lead.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-2 rounded-lg text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-secondary)] transition-colors"
+                        title="GitHub"
+                      >
+                        <Github className="w-4 h-4" />
+                      </a>
+                    )}
+                    {chapter.lead.website && (
+                      <a
+                        href={chapter.lead.website}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-2 rounded-lg text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-secondary)] transition-colors"
+                        title="Website"
+                      >
+                        <Globe className="w-4 h-4" />
+                      </a>
+                    )}
                   </div>
                 </div>
-                <div className="flex gap-3 mt-4 pt-4 border-t border-[var(--border-subtle)]">
-                  {chapter.lead.x && (
-                    <a
-                      href={chapter.lead.x}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
-                    >
-                      <XIcon className="w-4 h-4" />
-                      X
-                    </a>
-                  )}
-                  {chapter.lead.website && (
-                    <a
-                      href={chapter.lead.website}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
-                    >
-                      <Globe className="w-4 h-4" />
-                      Website
-                    </a>
-                  )}
-                </div>
-              </div>
+              </motion.div>
             </motion.div>
 
             {/* Featured Event Photo */}

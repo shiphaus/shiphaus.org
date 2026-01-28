@@ -3,7 +3,9 @@ export interface ChapterLead {
   handle: string;
   avatar: string;
   x?: string;
+  github?: string;
   website?: string;
+  isFounder?: boolean;
 }
 
 export interface Chapter {
@@ -22,7 +24,7 @@ export interface Event {
   name: string;
   date: string;
   location: string;
-  attendeeCount: number;
+  builderCount: number;
   projectCount: number;
   photos: string[];
 }
