@@ -147,9 +147,7 @@ function ValuePropsSection() {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className="text-center md:text-left"
             >
-              <div className="inline-flex p-3 mb-5 rounded-lg bg-[var(--accent-soft)]">
-                <img src={prop.icon} alt="" className="w-14 h-14 object-contain" style={{ imageRendering: 'pixelated' }} />
-              </div>
+              <img src={prop.icon} alt="" className="w-16 h-16 object-contain mb-5 rounded-xl" />
               <h3 className="text-lg font-semibold mb-2">{prop.title}</h3>
               <p className="text-[var(--text-secondary)] font-body">{prop.description}</p>
             </motion.div>
