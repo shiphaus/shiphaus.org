@@ -77,9 +77,10 @@ export function Navbar() {
         )}
       </AnimatePresence>
 
-      {/* Preload doodles - hidden render to warm browser cache */}
+      {/* Preload doodles - only on hover-capable devices where they're used */}
       <div
         aria-hidden="true"
+        className="doodle-preload"
         style={{
           position: 'absolute',
           opacity: 0,

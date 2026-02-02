@@ -199,3 +199,14 @@ body::before {
   color: var(--text-primary);
 }
 
+/* Only render doodle preloads on hover-capable devices */
+.doodle-preload {
+  display: none;
+}
+
+@media (hover: hover) {
+  .doodle-preload {
+    display: block;
+  }
+}
+
