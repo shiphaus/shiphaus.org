@@ -53,6 +53,9 @@
 
 html {
   scroll-behavior: smooth;
+  background: var(--bg-primary);
+  width: 100%;
+  overflow-x: hidden;
 }
 
 body {
@@ -61,6 +64,15 @@ body {
   font-family: var(--font-display);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+@supports (overflow: clip) {
+  html,
+  body {
+    overflow-x: clip;
+  }
 }
 
 /* Subtle grain texture overlay */
@@ -209,4 +221,3 @@ body::before {
     display: block;
   }
 }
-
