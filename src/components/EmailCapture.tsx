@@ -20,32 +20,31 @@ export function EmailCapture() {
 
     // Validate email
     if (!email || !validateEmail(email)) {
-      setError('Please enter a valid email');
+      setError('Need a valid email');
       return;
     }
 
     setIsSubmitting(true);
 
     try {
-      // TODO: Replace with your actual Tally form ID
-      // Create a form at tally.so and get the form ID from the URL
-      const TALLY_FORM_ID = 'YOUR_TALLY_FORM_ID';
-
-      const formData = new FormData();
-      formData.append('email', email);
-
-      const response = await fetch(`https://tally.so/r/${TALLY_FORM_ID}`, {
+      const response = await fetch('/api/subscribe', {
         method: 'POST',
-        body: formData,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
       });
+
+      const data = await response.json();
 
       if (response.ok) {
         setIsSuccess(true);
+        setEmail('');
       } else {
-        setError('Something went wrong. Try again?');
+        setError(data.error || "Didn't work. Try again?");
       }
     } catch (err) {
-      setError('Something went wrong. Try again?');
+      setError("Didn't work. Try again?");
     } finally {
       setIsSubmitting(false);
     }
@@ -74,12 +73,9 @@ export function EmailCapture() {
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
               >
-                <h2 className="text-2xl font-bold text-[var(--text-primary)] mb-2">
-                  Ship with us
+                <h2 className="text-2xl font-bold text-[var(--text-primary)] mb-6">
+                  Build with us
                 </h2>
-                <p className="text-base text-[var(--text-secondary)] font-body mb-6">
-                  Get notified about upcoming build days
-                </p>
 
                 <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
                   <div className="flex-1">
