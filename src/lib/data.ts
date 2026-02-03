@@ -28,7 +28,7 @@ export const chapters: Chapter[] = [
     city: 'Chicago',
     country: 'USA',
     lead: {
-      name: 'Kirill Polovey',
+      name: 'Kirill Polevoy',
       handle: '@polevoy_kirill',
       avatar: 'https://pbs.twimg.com/profile_images/1475225953563561984/7YiRwkGF_400x400.jpg',
       x: 'https://x.com/polevoy_kirill',
@@ -375,7 +375,7 @@ export const projects: Project[] = [
     chapterId: 'new-york',
     eventId: 'ny-shiphaus-jan-2026',
     builder: {
-      name: 'Kirill Polovey',
+      name: 'Kirill Polevoy',
       avatar: 'https://api.dicebear.com/7.x/notionists/svg?seed=KirillPolovey&backgroundColor=c0aede',
       uid: 'kirill-polovey',
     },
