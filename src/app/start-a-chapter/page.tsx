@@ -1,10 +1,63 @@
 'use client';
 
+import { useState, FormEvent } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 
 export default function StartAChapter() {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    city: '',
+    twitter: '',
+    linkedin: '',
+    whatYouBuild: '',
+    whyRunChapter: '',
+    whoYouWouldInvite: '',
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setError('');
+
+    try {
+      const response = await fetch('/api/lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to submit');
+      }
+
+      setIsSuccess(true);
+      setFormData({
+        name: '',
+        email: '',
+        city: '',
+        twitter: '',
+        linkedin: '',
+        whatYouBuild: '',
+        whyRunChapter: '',
+        whoYouWouldInvite: '',
+      });
+    } catch (err) {
+      setError('Something went wrong. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
   return (
     <div className="min-h-screen bg-[#0a0a0a]">
       {/* Header */}
@@ -64,6 +117,174 @@ export default function StartAChapter() {
                 </motion.li>
               ))}
             </ul>
+          </motion.div>
+
+          {/* Application Form */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+          >
+            <h2 className="text-2xl font-bold mb-6">Apply to Lead</h2>
+            {isSuccess ? (
+              <div className="p-6 bg-green-500/10 border border-green-500/20 rounded-lg">
+                <p className="text-green-400">
+                  Thanks for applying! We'll be in touch soon.
+                </p>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-6 p-6 bg-white/5 border border-white/10 rounded-lg">
+                {/* Name and Email */}
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <label htmlFor="name" className="block text-sm font-medium mb-2">
+                      Name *
+                    </label>
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      required
+                      className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                      placeholder="Your name"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="email" className="block text-sm font-medium mb-2">
+                      Email *
+                    </label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      required
+                      className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                      placeholder="your@email.com"
+                    />
+                  </div>
+                </div>
+
+                {/* City */}
+                <div>
+                  <label htmlFor="city" className="block text-sm font-medium mb-2">
+                    City *
+                  </label>
+                  <input
+                    type="text"
+                    id="city"
+                    name="city"
+                    value={formData.city}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                    placeholder="San Francisco"
+                  />
+                </div>
+
+                {/* Twitter and LinkedIn */}
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <label htmlFor="twitter" className="block text-sm font-medium mb-2">
+                      Twitter
+                    </label>
+                    <input
+                      type="text"
+                      id="twitter"
+                      name="twitter"
+                      value={formData.twitter}
+                      onChange={handleChange}
+                      className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                      placeholder="@username"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="linkedin" className="block text-sm font-medium mb-2">
+                      LinkedIn
+                    </label>
+                    <input
+                      type="text"
+                      id="linkedin"
+                      name="linkedin"
+                      value={formData.linkedin}
+                      onChange={handleChange}
+                      className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                      placeholder="linkedin.com/in/username"
+                    />
+                  </div>
+                </div>
+
+                {/* What do you build */}
+                <div>
+                  <label htmlFor="whatYouBuild" className="block text-sm font-medium mb-2">
+                    What do you build? *
+                  </label>
+                  <textarea
+                    id="whatYouBuild"
+                    name="whatYouBuild"
+                    value={formData.whatYouBuild}
+                    onChange={handleChange}
+                    required
+                    rows={2}
+                    className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 resize-none"
+                    placeholder="Tell us about what you build"
+                  />
+                </div>
+
+                {/* Why do you want to run a chapter */}
+                <div>
+                  <label htmlFor="whyRunChapter" className="block text-sm font-medium mb-2">
+                    Why do you want to run a chapter? *
+                  </label>
+                  <textarea
+                    id="whyRunChapter"
+                    name="whyRunChapter"
+                    value={formData.whyRunChapter}
+                    onChange={handleChange}
+                    required
+                    rows={3}
+                    className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 resize-none"
+                    placeholder="What motivates you to lead Shiphaus in your city?"
+                  />
+                </div>
+
+                {/* Who would you invite */}
+                <div>
+                  <label htmlFor="whoYouWouldInvite" className="block text-sm font-medium mb-2">
+                    Who would you invite? *
+                  </label>
+                  <textarea
+                    id="whoYouWouldInvite"
+                    name="whoYouWouldInvite"
+                    value={formData.whoYouWouldInvite}
+                    onChange={handleChange}
+                    required
+                    rows={2}
+                    className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 resize-none"
+                    placeholder="Who are the builders in your city?"
+                  />
+                </div>
+
+                {/* Submit Button */}
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full px-6 py-3 bg-yellow-400 text-black font-semibold rounded-lg hover:bg-yellow-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isSubmitting ? "Submitting..." : "Let's chat"}
+                </button>
+
+                {/* Error Message */}
+                {error && (
+                  <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-lg">
+                    <p className="text-red-400 text-sm">{error}</p>
+                  </div>
+                )}
+              </form>
+            )}
           </motion.div>
         </div>
       </main>
