@@ -3,7 +3,7 @@
 import { useState, FormEvent } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
-import { ArrowLeft, Rocket } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 
 export default function StartAChapter() {
   const [formData, setFormData] = useState({
