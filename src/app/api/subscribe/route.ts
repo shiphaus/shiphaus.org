@@ -1,8 +1,29 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { kv } from '@vercel/kv';
+import { Redis } from '@upstash/redis';
+import { Ratelimit } from '@upstash/ratelimit';
+
+const redis = new Redis({
+  url: process.env.UPSTASH_REDIS_REST_URL!,
+  token: process.env.UPSTASH_REDIS_REST_TOKEN!,
+});
+
+const ratelimit = new Ratelimit({
+  redis,
+  limiter: Ratelimit.slidingWindow(5, '1 h'),
+});
 
 export async function POST(request: NextRequest) {
   try {
+    // Rate limiting
+    const ip = request.headers.get('x-forwarded-for') ?? request.headers.get('x-real-ip') ?? '127.0.0.1';
+    const { success } = await ratelimit.limit(ip);
+    if (!success) {
+      return NextResponse.json(
+        { error: 'Too many requests. Please try again later.' },
+        { status: 429 }
+      );
+    }
+
     const { email } = await request.json();
 
     // Validate email
@@ -14,8 +35,11 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Sanitize email
+    const sanitizedEmail = email.toLowerCase().trim().slice(0, 254);
+
     // Check for duplicates
-    const exists = await kv.sismember('subscribers', email);
+    const exists = await redis.sismember('subscribers', sanitizedEmail);
     if (exists) {
       return NextResponse.json(
         { error: 'Already subscribed' },
@@ -23,16 +47,16 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Add subscriber to set
-    await kv.sadd('subscribers', email);
-
-    // Store timestamp
-    await kv.hset(`subscriber:${email}`, {
-      email,
+    // Store using pipeline for efficiency
+    const pipeline = redis.pipeline();
+    pipeline.sadd('subscribers', sanitizedEmail);
+    pipeline.hset(`subscriber:${sanitizedEmail}`, {
+      email: sanitizedEmail,
       timestamp: new Date().toISOString(),
     });
+    await pipeline.exec();
 
-    console.log('New subscriber:', email);
+    console.log('New subscriber:', sanitizedEmail);
 
     return NextResponse.json({ success: true });
   } catch (error) {

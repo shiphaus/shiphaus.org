@@ -1,8 +1,48 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { kv } from '@vercel/kv';
+import { Redis } from '@upstash/redis';
+import { Ratelimit } from '@upstash/ratelimit';
+
+const redis = new Redis({
+  url: process.env.UPSTASH_REDIS_REST_URL!,
+  token: process.env.UPSTASH_REDIS_REST_TOKEN!,
+});
+
+const ratelimit = new Ratelimit({
+  redis,
+  limiter: Ratelimit.slidingWindow(3, '1 h'),
+});
+
+interface LeadApplication {
+  id: string;
+  name: string;
+  email: string;
+  city: string;
+  twitter: string;
+  linkedin: string;
+  whatYouBuild: string;
+  why: string;
+  whoYouInvite: string;
+  timestamp: string;
+  [key: string]: string;
+}
+
+const sanitize = (str: string | undefined, maxLen: number = 500): string => {
+  if (!str) return '';
+  return str.trim().slice(0, maxLen);
+};
 
 export async function POST(request: NextRequest) {
   try {
+    // Rate limiting
+    const ip = request.headers.get('x-forwarded-for') ?? request.headers.get('x-real-ip') ?? '127.0.0.1';
+    const { success } = await ratelimit.limit(ip);
+    if (!success) {
+      return NextResponse.json(
+        { error: 'Too many requests. Please try again later.' },
+        { status: 429 }
+      );
+    }
+
     const body = await request.json();
     const { name, email, city, twitter, linkedin, whatYouBuild, why, whoYouInvite } = body;
 
@@ -23,27 +63,38 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Check for duplicate email
+    const isDuplicate = await redis.sismember('lead_emails', email.toLowerCase());
+    if (isDuplicate) {
+      return NextResponse.json(
+        { error: 'Email already submitted' },
+        { status: 400 }
+      );
+    }
+
     // Generate unique ID
     const id = `lead_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
-    // Store application data
-    const applicationData = {
+    // Sanitize and store application data
+    const applicationData: LeadApplication = {
       id,
-      name,
-      email,
-      city,
-      twitter: twitter || '',
-      linkedin: linkedin || '',
-      whatYouBuild,
-      why,
-      whoYouInvite: whoYouInvite || '',
+      name: sanitize(name, 100),
+      email: sanitize(email.toLowerCase(), 254),
+      city: sanitize(city, 100),
+      twitter: sanitize(twitter, 100),
+      linkedin: sanitize(linkedin, 200),
+      whatYouBuild: sanitize(whatYouBuild, 500),
+      why: sanitize(why, 1000),
+      whoYouInvite: sanitize(whoYouInvite, 500),
       timestamp: new Date().toISOString(),
     };
 
-    await kv.hset(id, applicationData);
-    await kv.rpush('lead_applications', id);
-
-    console.log('New lead application:', id);
+    // Store using pipeline for efficiency
+    const pipeline = redis.pipeline();
+    pipeline.hset(id, applicationData);
+    pipeline.rpush('lead_applications', id);
+    pipeline.sadd('lead_emails', email.toLowerCase());
+    await pipeline.exec();
 
     return NextResponse.json({ success: true, id });
   } catch (error) {
@@ -55,22 +106,34 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
+    // Authentication check
+    const authHeader = request.headers.get('authorization');
+    const expectedAuth = `Bearer ${process.env.ADMIN_API_KEY}`;
+
+    if (!process.env.ADMIN_API_KEY || authHeader !== expectedAuth) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+
     // Get all application IDs
-    const ids = await kv.lrange('lead_applications', 0, -1);
+    const ids = await redis.lrange('lead_applications', 0, -1);
 
     if (!ids || ids.length === 0) {
       return NextResponse.json({ applications: [] });
     }
 
-    // Fetch each application
-    const applications = await Promise.all(
-      ids.map(async (id) => {
-        const data = await kv.hgetall(id as string);
-        return data;
-      })
-    );
+    // Fetch all applications using pipeline (fixes N+1 problem)
+    const pipeline = redis.pipeline();
+    ids.forEach(id => pipeline.hgetall(id));
+    const results = await pipeline.exec();
+
+    const applications = results
+      .filter(result => result && typeof result === 'object')
+      .map(data => data as LeadApplication);
 
     return NextResponse.json({ applications });
   } catch (error) {
