@@ -2,15 +2,28 @@ import { NextRequest, NextResponse } from 'next/server';
 import { Redis } from '@upstash/redis';
 import { Ratelimit } from '@upstash/ratelimit';
 
-const redis = new Redis({
-  url: process.env.UPSTASH_REDIS_REST_URL!,
-  token: process.env.UPSTASH_REDIS_REST_TOKEN!,
-});
+// Check if we're in development mode (no real Upstash credentials)
+const isDevelopment =
+  !process.env.UPSTASH_REDIS_REST_URL ||
+  !process.env.UPSTASH_REDIS_REST_TOKEN ||
+  process.env.UPSTASH_REDIS_REST_URL.includes('your_url_here') ||
+  process.env.UPSTASH_REDIS_REST_TOKEN.includes('your_token_here');
 
-const ratelimit = new Ratelimit({
-  redis,
-  limiter: Ratelimit.slidingWindow(3, '1 h'),
-});
+// Only initialize Redis if we have real credentials
+let redis: Redis | null = null;
+let ratelimit: Ratelimit | null = null;
+
+if (!isDevelopment) {
+  redis = new Redis({
+    url: process.env.UPSTASH_REDIS_REST_URL!,
+    token: process.env.UPSTASH_REDIS_REST_TOKEN!,
+  });
+
+  ratelimit = new Ratelimit({
+    redis,
+    limiter: Ratelimit.slidingWindow(3, '1 h'),
+  });
+}
 
 interface LeadApplication {
   id: string;
@@ -33,14 +46,16 @@ const sanitize = (str: string | undefined, maxLen: number = 500): string => {
 
 export async function POST(request: NextRequest) {
   try {
-    // Rate limiting
-    const ip = request.headers.get('x-forwarded-for') ?? request.headers.get('x-real-ip') ?? '127.0.0.1';
-    const { success } = await ratelimit.limit(ip);
-    if (!success) {
-      return NextResponse.json(
-        { error: 'Too many requests. Please try again later.' },
-        { status: 429 }
-      );
+    // Rate limiting (skip in development)
+    if (!isDevelopment && ratelimit) {
+      const ip = request.headers.get('x-forwarded-for') ?? request.headers.get('x-real-ip') ?? '127.0.0.1';
+      const { success } = await ratelimit.limit(ip);
+      if (!success) {
+        return NextResponse.json(
+          { error: 'Too many requests. Please try again later.' },
+          { status: 429 }
+        );
+      }
     }
 
     const body = await request.json();
@@ -63,19 +78,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Check for duplicate email
-    const isDuplicate = await redis.sismember('lead_emails', email.toLowerCase());
-    if (isDuplicate) {
-      return NextResponse.json(
-        { error: 'Email already submitted' },
-        { status: 400 }
-      );
-    }
-
     // Generate unique ID
     const id = `lead_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
-    // Sanitize and store application data
+    // Sanitize application data
     const applicationData: LeadApplication = {
       id,
       name: sanitize(name, 100),
@@ -89,12 +95,28 @@ export async function POST(request: NextRequest) {
       timestamp: new Date().toISOString(),
     };
 
-    // Store using pipeline for efficiency
-    const pipeline = redis.pipeline();
-    pipeline.hset(id, applicationData);
-    pipeline.rpush('lead_applications', id);
-    pipeline.sadd('lead_emails', email.toLowerCase());
-    await pipeline.exec();
+    if (isDevelopment) {
+      // Development mode: just log to console
+      console.log('📝 [DEV MODE] Lead application received:');
+      console.log(JSON.stringify(applicationData, null, 2));
+      console.log('💡 Set up Upstash Redis credentials to enable real storage');
+    } else if (redis) {
+      // Check for duplicate email (production only)
+      const isDuplicate = await redis.sismember('lead_emails', email.toLowerCase());
+      if (isDuplicate) {
+        return NextResponse.json(
+          { error: 'Email already submitted' },
+          { status: 400 }
+        );
+      }
+
+      // Store using pipeline for efficiency
+      const pipeline = redis.pipeline();
+      pipeline.hset(id, applicationData);
+      pipeline.rpush('lead_applications', id);
+      pipeline.sadd('lead_emails', email.toLowerCase());
+      await pipeline.exec();
+    }
 
     return NextResponse.json({ success: true, id });
   } catch (error) {
@@ -117,6 +139,16 @@ export async function GET(request: NextRequest) {
         { error: 'Unauthorized' },
         { status: 401 }
       );
+    }
+
+    if (isDevelopment) {
+      // Development mode: return empty array
+      console.log('📝 [DEV MODE] No applications stored (development mode)');
+      return NextResponse.json({ applications: [], note: 'Development mode - no storage' });
+    }
+
+    if (!redis) {
+      return NextResponse.json({ applications: [] });
     }
 
     // Get all application IDs
