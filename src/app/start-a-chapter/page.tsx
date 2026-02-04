@@ -38,13 +38,13 @@ export default function StartAChapter() {
 
       if (!response.ok) {
         const data = await response.json();
-        setError(data.error || "Didn't work. Try again?");
+        setError(data.error || 'Didn\'t work. Try again?');
         return;
       }
 
       setIsSuccess(true);
-    } catch (err) {
-      setError("Didn't work. Try again?");
+    } catch {
+      setError('Didn\'t work. Try again?');
     } finally {
       setIsSubmitting(false);
     }
@@ -134,7 +134,7 @@ export default function StartAChapter() {
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-[var(--accent)]">→</span>
-                <span>You're early</span>
+                <span>You&apos;re early</span>
               </div>
             </motion.div>
           </motion.div>
@@ -349,9 +349,9 @@ export default function StartAChapter() {
                     >
                       🚀
                     </motion.div>
-                    <h2 className="text-4xl md:text-5xl font-bold mb-4">You're in!</h2>
+                    <h2 className="text-4xl md:text-5xl font-bold mb-4">You&apos;re in!</h2>
                     <p className="text-xl text-[var(--text-secondary)] font-body mb-8 max-w-lg mx-auto leading-relaxed">
-                      We'll reach out soon to chat about bringing Shiphaus to <span className="text-[var(--accent)] font-bold">{formData.city}</span>.
+                      We&apos;ll reach out soon to chat about bringing Shiphaus to <span className="text-[var(--accent)] font-bold">{formData.city}</span>.
                     </p>
                     <Link href="/" className="btn-primary inline-block text-lg">
                       ← Back to Home
