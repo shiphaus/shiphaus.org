@@ -54,3 +54,30 @@ export async function POST(request: NextRequest) {
     );
   }
 }
+
+export async function GET() {
+  try {
+    // Get all application IDs
+    const ids = await kv.lrange('lead_applications', 0, -1);
+
+    if (!ids || ids.length === 0) {
+      return NextResponse.json({ applications: [] });
+    }
+
+    // Fetch each application
+    const applications = await Promise.all(
+      ids.map(async (id) => {
+        const data = await kv.hgetall(id as string);
+        return data;
+      })
+    );
+
+    return NextResponse.json({ applications });
+  } catch (error) {
+    console.error('Error fetching applications:', error);
+    return NextResponse.json(
+      { error: 'Failed to fetch applications' },
+      { status: 500 }
+    );
+  }
+}
