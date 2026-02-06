@@ -18,7 +18,7 @@ export function ChapterCard({ chapter, index = 0 }: ChapterCardProps) {
   const isComingSoon = chapterEvents.length === 0;
 
   const CardContent = (
-    <div className={`card p-6 relative overflow-hidden ${isComingSoon ? 'opacity-75' : ''}`}>
+    <div className={`card p-6 relative overflow-hidden h-full ${isComingSoon ? 'opacity-75' : ''}`}>
       {/* Colored accent bar */}
       <div
         className="absolute top-0 left-0 right-0 h-1"
@@ -26,26 +26,23 @@ export function ChapterCard({ chapter, index = 0 }: ChapterCardProps) {
       />
 
       {/* Chapter header */}
-      <div className="flex items-start justify-between mb-4">
-        <div>
-          <div className="flex items-center gap-2">
-            <h3 className={`text-xl font-bold mb-1 ${!isComingSoon ? 'group-hover:text-[var(--accent)]' : ''} transition-colors`}>
-              {chapter.city}
-            </h3>
-            {isComingSoon && (
-              <span className="px-2 py-0.5 text-xs font-medium rounded-full bg-[var(--bg-tertiary)] text-[var(--text-muted)]">
-                Coming Soon
-              </span>
-            )}
-          </div>
+      <div className="flex items-start justify-between gap-2 mb-4">
+        <div className="min-w-0">
+          <h3 className={`text-xl font-bold truncate ${!isComingSoon ? 'group-hover:text-[var(--accent)]' : ''} transition-colors`}>
+            {chapter.city}
+          </h3>
           <div className="flex items-center gap-1 text-[var(--text-muted)] text-sm">
-            <MapPin className="w-3.5 h-3.5" />
+            <MapPin className="w-3.5 h-3.5 shrink-0" />
             <span>{chapter.country}</span>
           </div>
         </div>
-        {!isComingSoon && (
+        {isComingSoon ? (
+          <span className="px-2 py-0.5 text-xs font-medium rounded-full bg-[var(--bg-tertiary)] text-[var(--text-muted)] whitespace-nowrap shrink-0 mt-0.5">
+            Coming Soon
+          </span>
+        ) : (
           <motion.div
-            className="p-2 rounded-full bg-[var(--bg-secondary)] group-hover:bg-[var(--accent-soft)] transition-colors"
+            className="p-2 rounded-full bg-[var(--bg-secondary)] group-hover:bg-[var(--accent-soft)] transition-colors shrink-0"
             whileHover={{ x: 4 }}
           >
             <ArrowRight className="w-4 h-4 text-[var(--text-muted)] group-hover:text-[var(--accent)] transition-colors" />
@@ -72,7 +69,7 @@ export function ChapterCard({ chapter, index = 0 }: ChapterCardProps) {
               </span>
             )}
           </div>
-          <p className="text-xs text-[var(--text-muted)]">Chapter Lead</p>
+          <p className="text-xs text-[var(--text-muted)]">{chapter.lead.isFounder ? 'Founder' : 'Chapter Lead'}</p>
         </div>
       </div>
 
@@ -101,11 +98,12 @@ export function ChapterCard({ chapter, index = 0 }: ChapterCardProps) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
+      className="h-full"
     >
       {isComingSoon ? (
-        <div className="block">{CardContent}</div>
+        <div className="block h-full">{CardContent}</div>
       ) : (
-        <Link href={`/chapter/${chapter.id}`} className="block group">
+        <Link href={`/chapter/${chapter.id}`} className="block group h-full">
           {CardContent}
         </Link>
       )}

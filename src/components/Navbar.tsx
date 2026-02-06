@@ -2,7 +2,8 @@
 
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Rocket } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
+import { ShiphausLogo } from '@/components/ShiphausLogo';
 import { useState } from 'react';
 import { chapters } from '@/lib/data';
 import { NavCityLink } from './NavCityLink';
@@ -16,13 +17,8 @@ export function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 group">
-            <motion.div
-              whileHover={{ rotate: 15 }}
-              transition={{ type: 'spring', stiffness: 400 }}
-            >
-              <Rocket className="w-7 h-7 text-[var(--accent)]" />
-            </motion.div>
+          <Link href="/" className="flex items-center gap-1 group">
+            <ShiphausLogo size={56} />
             <span className="text-xl font-bold tracking-tight">Shiphaus</span>
           </Link>
 

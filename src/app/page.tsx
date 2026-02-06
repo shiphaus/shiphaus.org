@@ -1,7 +1,8 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { ArrowRight, Rocket } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
+import { ShiphausLogo } from '@/components/ShiphausLogo';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ChapterCard } from '@/components/ChapterCard';
@@ -321,7 +322,7 @@ function CTASection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <Rocket className="w-12 h-12 mx-auto mb-6 text-[var(--accent)]" />
+          <ShiphausLogo size={96} className="mx-auto mb-6" />
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Next Event: NYC February</h2>
           <p className="text-white/70 font-body text-lg mb-8 max-w-xl mx-auto">
             Details coming soon. Want to start a chapter in your city?
