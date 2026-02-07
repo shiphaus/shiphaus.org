@@ -30,7 +30,7 @@ function LoginContent() {
 
         <div className="space-y-3">
           <button
-            onClick={() => signIn('google', { callbackUrl: '/admin' })}
+            onClick={() => signIn('google', { callbackUrl: '/' })}
             className="w-full flex items-center justify-center gap-3 px-4 py-3 rounded-lg border border-[var(--border-strong)] bg-white hover:bg-[var(--bg-secondary)] transition-colors font-medium cursor-pointer"
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24">
@@ -43,7 +43,7 @@ function LoginContent() {
           </button>
 
           <button
-            onClick={() => signIn('github', { callbackUrl: '/admin' })}
+            onClick={() => signIn('github', { callbackUrl: '/' })}
             className="w-full flex items-center justify-center gap-3 px-4 py-3 rounded-lg border border-[var(--border-strong)] bg-white hover:bg-[var(--bg-secondary)] transition-colors font-medium cursor-pointer"
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">

@@ -109,7 +109,7 @@ function HeroSection() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
               </div>
               <div className="absolute -bottom-3 -left-3 bg-white rounded-xl p-3 shadow-lg border border-[var(--border-subtle)]">
-                <p className="text-sm font-semibold">Zero to One Day</p>
+                <p className="text-sm font-semibold">Shiphaus NY #1</p>
                 <p className="text-xs text-[var(--text-muted)]">14 builders. 14 products. One day.</p>
               </div>
             </div>

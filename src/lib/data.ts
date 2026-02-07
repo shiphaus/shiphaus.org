@@ -89,7 +89,7 @@ export const events: Event[] = [
 ];
 
 export const projects: Project[] = [
-  // Event 1: Zero to One Day (Jan 11, 2026)
+  // Event 1: Shiphaus NY #1 (Jan 11, 2026)
   {
     id: 'proj-kings-game',
     title: 'Kings Game',
@@ -420,8 +420,3 @@ export function getChapterEvents(chapterId: string): Event[] {
 export function getChapterProjects(chapterId: string): Project[] {
   return projects.filter(p => p.chapterId === chapterId);
 }
-
-export function getChapterTestimonials(chapterId: string): Testimonial[] {
-  return testimonials.filter(t => t.chapterId === chapterId || !t.chapterId);
-}
-
