@@ -88,6 +88,13 @@ export async function POST(request: NextRequest) {
 
     await createSubmission(submission);
 
+    // Auto-subscribe submitter
+    redis.sadd('subscribers', session.user.email).catch(() => {});
+    redis.hset(`subscriber:${session.user.email}`, {
+      email: session.user.email,
+      timestamp: new Date().toISOString(),
+    }).catch(() => {});
+
     // Auto-approve: immediately create the project
     await approveSubmission(
       submission.id,

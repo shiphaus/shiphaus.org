@@ -354,6 +354,7 @@ export default function Home() {
       <ProjectsSection />
       <TestimonialsSection />
       <CTASection />
+      <EmailCapture />
     </>
   );
 }

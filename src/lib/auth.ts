@@ -1,6 +1,7 @@
 import NextAuth from 'next-auth';
 import Google from 'next-auth/providers/google';
 import GitHub from 'next-auth/providers/github';
+import { redis } from './redis';
 
 const ADMIN_EMAILS = (process.env.ADMIN_EMAILS || '')
   .split(',')
@@ -24,8 +25,16 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     error: '/login',
   },
   callbacks: {
-    signIn({ user }) {
-      return !!user.email;
+    async signIn({ user }) {
+      if (!user.email) return false;
+      // Auto-subscribe on sign-in (fire-and-forget)
+      const email = user.email;
+      redis.sadd('subscribers', email).catch(() => {});
+      redis.hset(`subscriber:${email}`, {
+        email,
+        timestamp: new Date().toISOString(),
+      }).catch(() => {});
+      return true;
     },
     jwt({ token, user }) {
       if (user) {
