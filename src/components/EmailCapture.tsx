@@ -56,7 +56,7 @@ export function EmailCapture() {
   };
 
   return (
-    <section className="pt-2 pb-10 bg-[var(--bg-secondary)]">
+    <section className="pt-2 pb-10 bg-[#F9F9F7]">
       <div className="max-w-2xl mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
