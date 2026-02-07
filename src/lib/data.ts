@@ -71,8 +71,8 @@ export const events: Event[] = [
   {
     id: 'ny-zero-to-one',
     chapterId: 'new-york',
-    name: 'Zero to One Day',
-    date: '2026-01-11',
+    title: 'Shiphaus NY #1',
+    date: '2026-01-11T10:00:00',
     location: 'New York',
     builderCount: 14,
     projectCount: 14,
@@ -80,8 +80,8 @@ export const events: Event[] = [
   {
     id: 'ny-shiphaus-jan-2026',
     chapterId: 'new-york',
-    name: 'Shiphaus NY #2',
-    date: '2026-01-24',
+    title: 'Shiphaus NY #2',
+    date: '2026-01-24T10:00:00',
     location: 'Upstate New York',
     builderCount: 6,
     projectCount: 6,
@@ -89,7 +89,7 @@ export const events: Event[] = [
 ];
 
 export const projects: Project[] = [
-  // Event 1: Zero to One Day (Jan 11, 2026)
+  // Event 1: Shiphaus NY #1 (Jan 11, 2026)
   {
     id: 'proj-kings-game',
     title: 'Kings Game',
@@ -420,8 +420,3 @@ export function getChapterEvents(chapterId: string): Event[] {
 export function getChapterProjects(chapterId: string): Project[] {
   return projects.filter(p => p.chapterId === chapterId);
 }
-
-export function getChapterTestimonials(chapterId: string): Testimonial[] {
-  return testimonials.filter(t => t.chapterId === chapterId || !t.chapterId);
-}
-

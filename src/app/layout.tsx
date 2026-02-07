@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Instrument_Sans, Newsreader } from 'next/font/google';
 import './globals.css';
 import { Navbar } from '@/components/Navbar';
+import { Providers } from '@/components/Providers';
 
 const instrumentSans = Instrument_Sans({
   subsets: ['latin'],
@@ -35,10 +36,12 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${instrumentSans.variable} ${newsreader.variable}`}>
       <body className="min-h-screen flex flex-col">
-        <Navbar />
-        <main className="flex-1 pt-16">
-          {children}
-        </main>
+        <Providers>
+          <Navbar />
+          <main className="flex-1 pt-16">
+            {children}
+          </main>
+        </Providers>
       </body>
     </html>
   );

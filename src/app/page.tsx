@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { ShiphausLogo } from '@/components/ShiphausLogo';
@@ -7,8 +8,10 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ChapterCard } from '@/components/ChapterCard';
 import { ProjectCard } from '@/components/ProjectCard';
+import { EmailCapture } from '@/components/EmailCapture';
+import { chapters, projects as staticProjects, events, testimonials } from '@/lib/data';
+import { Project } from '@/types';
 
-import { chapters, projects, events, testimonials } from '@/lib/data';
 function HeroSection() {
   return (
     <section className="hero-pattern relative overflow-hidden">
@@ -68,7 +71,7 @@ function HeroSection() {
             {/* Stats */}
             <div className="flex flex-wrap gap-10 mt-12 pt-8 border-t border-[var(--border-strong)]">
               {[
-                { label: 'Projects Shipped', value: String(projects.length) },
+                { label: 'Projects Shipped', value: String(staticProjects.length) },
                 { label: 'Chapters', value: String(chapters.length) },
                 { label: 'Build Events', value: String(events.length) },
               ].map((stat, i) => (
@@ -106,7 +109,7 @@ function HeroSection() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
               </div>
               <div className="absolute -bottom-3 -left-3 bg-white rounded-xl p-3 shadow-lg border border-[var(--border-subtle)]">
-                <p className="text-sm font-semibold">Zero to One Day</p>
+                <p className="text-sm font-semibold">Shiphaus NY #1</p>
                 <p className="text-xs text-[var(--text-muted)]">14 builders. 14 products. One day.</p>
               </div>
             </div>
@@ -187,7 +190,16 @@ function ChaptersSection() {
 }
 
 function ProjectsSection() {
-  const featured = projects.slice(0, 6);
+  const [featured, setFeatured] = useState<Project[]>(staticProjects.slice(0, 6));
+
+  useEffect(() => {
+    fetch('/api/projects/featured')
+      .then(r => r.json())
+      .then((data: Project[]) => {
+        if (data.length > 0) setFeatured(data);
+      })
+      .catch(() => {});
+  }, []);
 
   return (
     <section className="py-20 bg-[var(--bg-secondary)]">
@@ -327,14 +339,6 @@ function CTASection() {
           <p className="text-white/70 font-body text-lg mb-8 max-w-xl mx-auto">
             Details coming soon. Want to start a chapter in your city?
           </p>
-          <a
-            href="https://x.com/gofordylan"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-white/10 text-white px-6 py-3 rounded-lg font-semibold hover:bg-white/20 transition-colors"
-          >
-            Start a Chapter
-          </a>
         </motion.div>
       </div>
     </section>
