@@ -339,14 +339,6 @@ function CTASection() {
           <p className="text-white/70 font-body text-lg mb-8 max-w-xl mx-auto">
             Details coming soon. Want to start a chapter in your city?
           </p>
-          <a
-            href="https://x.com/gofordylan"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-white/10 text-white px-6 py-3 rounded-lg font-semibold hover:bg-white/20 transition-colors"
-          >
-            Start a Chapter
-          </a>
         </motion.div>
       </div>
     </section>

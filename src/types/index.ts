@@ -21,12 +21,14 @@ export type EventStatus = 'upcoming' | 'active' | 'closed';
 export interface Event {
   id: string;
   chapterId: string;
-  name: string;
-  date: string;
+  title: string;
+  date: string; // ISO datetime string
   location: string;
   builderCount: number;
   projectCount: number;
   status?: EventStatus;
+  lumaUrl?: string;
+  imageUrl?: string;
 }
 
 export type ProjectType = 'website' | 'application' | 'devtool' | 'video' | 'other';
@@ -62,6 +64,7 @@ export interface Submission {
   deployedUrl?: string;
   githubUrl?: string;
   builderName: string;
+  submittedBy: string; // user email from session
   chapterId?: string;
   eventId?: string;
   submittedAt: string;

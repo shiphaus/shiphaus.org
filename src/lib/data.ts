@@ -71,8 +71,8 @@ export const events: Event[] = [
   {
     id: 'ny-zero-to-one',
     chapterId: 'new-york',
-    name: 'Shiphaus NY #1',
-    date: '2026-01-11',
+    title: 'Shiphaus NY #1',
+    date: '2026-01-11T10:00:00',
     location: 'New York',
     builderCount: 14,
     projectCount: 14,
@@ -80,8 +80,8 @@ export const events: Event[] = [
   {
     id: 'ny-shiphaus-jan-2026',
     chapterId: 'new-york',
-    name: 'Shiphaus NY #2',
-    date: '2026-01-24',
+    title: 'Shiphaus NY #2',
+    date: '2026-01-24T10:00:00',
     location: 'Upstate New York',
     builderCount: 6,
     projectCount: 6,

@@ -14,11 +14,11 @@ const KEYS = {
   eventsByChapter: (chapterId: string) => `shiphaus:events:chapter:${chapterId}`,
   submissions: 'shiphaus:submissions:pending',
   submission: (id: string) => `shiphaus:submission:${id}`,
+  submissionsByEvent: (eventId: string) => `shiphaus:submissions:event:${eventId}`,
+  submissionsByUser: (email: string) => `shiphaus:submissions:user:${email}`,
 };
 
 // ─── Serialization helpers ───────────────────────────────────
-// Redis hashes store flat string values, so nested objects (like builder)
-// need to be serialized/deserialized.
 
 function serializeProject(project: Project): Record<string, string> {
   return {
@@ -62,12 +62,14 @@ function serializeEvent(event: Event): Record<string, string> {
   return {
     id: event.id,
     chapterId: event.chapterId,
-    name: event.name,
+    title: event.title,
     date: event.date,
     location: event.location,
     builderCount: String(event.builderCount),
     projectCount: String(event.projectCount),
     status: event.status || 'closed',
+    lumaUrl: event.lumaUrl || '',
+    imageUrl: event.imageUrl || '',
   };
 }
 
@@ -75,12 +77,15 @@ function deserializeEvent(data: Record<string, string>): Event {
   return {
     id: data.id,
     chapterId: data.chapterId,
-    name: data.name,
+    // Backward compat: fall back to `name` if `title` missing
+    title: data.title || data.name || '',
     date: data.date,
     location: data.location,
     builderCount: parseInt(data.builderCount, 10),
     projectCount: parseInt(data.projectCount, 10),
     status: data.status || undefined,
+    lumaUrl: data.lumaUrl || undefined,
+    imageUrl: data.imageUrl || undefined,
   } as Event;
 }
 
@@ -93,6 +98,7 @@ function serializeSubmission(sub: Submission): Record<string, string> {
     deployedUrl: sub.deployedUrl || '',
     githubUrl: sub.githubUrl || '',
     builderName: sub.builderName,
+    submittedBy: sub.submittedBy || '',
     chapterId: sub.chapterId || '',
     eventId: sub.eventId || '',
     submittedAt: sub.submittedAt,
@@ -109,6 +115,7 @@ function deserializeSubmission(data: Record<string, string>): Submission {
     deployedUrl: data.deployedUrl || undefined,
     githubUrl: data.githubUrl || undefined,
     builderName: data.builderName,
+    submittedBy: data.submittedBy || '',
     chapterId: data.chapterId || undefined,
     eventId: data.eventId || undefined,
     submittedAt: data.submittedAt,
@@ -321,6 +328,12 @@ export async function createSubmission(submission: Submission): Promise<void> {
     score: new Date(submission.submittedAt).getTime(),
     member: submission.id,
   });
+  if (submission.eventId) {
+    pipeline.sadd(KEYS.submissionsByEvent(submission.eventId), submission.id);
+  }
+  if (submission.submittedBy) {
+    pipeline.sadd(KEYS.submissionsByUser(submission.submittedBy), submission.id);
+  }
   await pipeline.exec();
 }
 
@@ -343,6 +356,58 @@ export async function getSubmissionById(id: string): Promise<Submission | null> 
   const data = await redis.hgetall(KEYS.submission(id));
   if (!data || Object.keys(data).length === 0) return null;
   return deserializeSubmission(data as Record<string, string>);
+}
+
+export async function getSubmissionsByEvent(eventId: string): Promise<Submission[]> {
+  const ids = await redis.smembers(KEYS.submissionsByEvent(eventId));
+  if (!ids.length) return [];
+
+  const pipeline = redis.pipeline();
+  for (const id of ids) {
+    pipeline.hgetall(KEYS.submission(id));
+  }
+  const results = await pipeline.exec();
+  return results
+    .filter((r): r is Record<string, string> => r !== null && typeof r === 'object')
+    .map(deserializeSubmission);
+}
+
+export async function getSubmissionsByUser(email: string): Promise<Submission[]> {
+  const ids = await redis.smembers(KEYS.submissionsByUser(email));
+  if (!ids.length) return [];
+
+  const pipeline = redis.pipeline();
+  for (const id of ids) {
+    pipeline.hgetall(KEYS.submission(id));
+  }
+  const results = await pipeline.exec();
+  return results
+    .filter((r): r is Record<string, string> => r !== null && typeof r === 'object')
+    .map(deserializeSubmission);
+}
+
+export async function updateSubmission(id: string, updates: Partial<Submission>): Promise<void> {
+  const existing = await getSubmissionById(id);
+  if (!existing) throw new Error(`Submission ${id} not found`);
+
+  const updated = { ...existing, ...updates };
+  await redis.hset(KEYS.submission(id), serializeSubmission(updated));
+}
+
+export async function deleteSubmission(id: string): Promise<void> {
+  const submission = await getSubmissionById(id);
+  if (!submission) return;
+
+  const pipeline = redis.pipeline();
+  pipeline.del(KEYS.submission(id));
+  pipeline.zrem(KEYS.submissions, id);
+  if (submission.eventId) {
+    pipeline.srem(KEYS.submissionsByEvent(submission.eventId), id);
+  }
+  if (submission.submittedBy) {
+    pipeline.srem(KEYS.submissionsByUser(submission.submittedBy), id);
+  }
+  await pipeline.exec();
 }
 
 export async function approveSubmission(

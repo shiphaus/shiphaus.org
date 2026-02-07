@@ -24,7 +24,7 @@ export function EventCard({ event, index = 0 }: EventCardProps) {
       className="card overflow-hidden"
     >
       <div className="p-5">
-        <h3 className="text-lg font-semibold mb-3">{event.name}</h3>
+        <h3 className="text-lg font-semibold mb-3">{event.title}</h3>
 
         <div className="space-y-2 text-sm text-[var(--text-secondary)]">
           <div className="flex items-center gap-2">

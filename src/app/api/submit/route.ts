@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { redis } from '@/lib/redis';
+import { auth } from '@/lib/auth';
 import { createSubmission } from '@/lib/redis-data';
 import { ProjectType, Submission } from '@/types';
 
@@ -28,6 +29,12 @@ async function isRateLimited(ip: string): Promise<boolean> {
 
 export async function POST(request: NextRequest) {
   try {
+    // Require auth
+    const session = await auth();
+    if (!session?.user?.email) {
+      return NextResponse.json({ error: 'Sign in to submit a project.' }, { status: 401 });
+    }
+
     const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim()
       || request.headers.get('x-real-ip')
       || 'unknown';
@@ -72,6 +79,7 @@ export async function POST(request: NextRequest) {
       deployedUrl: deployedUrl?.trim() || undefined,
       githubUrl: githubUrl?.trim() || undefined,
       builderName: builderName.trim(),
+      submittedBy: session.user.email,
       chapterId: chapterId || undefined,
       eventId: eventId || undefined,
       submittedAt: new Date().toISOString(),

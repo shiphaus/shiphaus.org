@@ -16,7 +16,7 @@ function LoginContent() {
           <ShiphausLogo size={72} className="mx-auto mb-4" />
           <h1 className="text-2xl font-bold mb-2">Log in</h1>
           <p className="text-[var(--text-secondary)] font-body text-sm">
-            Sign in to access the admin panel.
+            Sign in to interact with events.
           </p>
         </div>
 

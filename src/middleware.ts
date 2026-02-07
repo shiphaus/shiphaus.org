@@ -2,10 +2,9 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 export async function middleware(req: NextRequest) {
-  const isAdminRoute = req.nextUrl.pathname.startsWith('/admin');
   const isAdminApi = req.nextUrl.pathname.startsWith('/api/admin');
 
-  if (!isAdminRoute && !isAdminApi) {
+  if (!isAdminApi) {
     return NextResponse.next();
   }
 
@@ -15,10 +14,7 @@ export async function middleware(req: NextRequest) {
     req.cookies.get('authjs.session-token')?.value;
 
   if (!token) {
-    if (isAdminApi) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-    return NextResponse.redirect(new URL('/login', req.url));
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   // Verify session and admin status via internal API call
@@ -34,21 +30,15 @@ export async function middleware(req: NextRequest) {
     const isAdmin = session?.user?.isAdmin === true;
 
     if (!isAdmin) {
-      if (isAdminApi) {
-        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-      }
-      return NextResponse.redirect(new URL('/', req.url));
-    }
-  } catch {
-    if (isAdminApi) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
-    return NextResponse.redirect(new URL('/login', req.url));
+  } catch {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ['/admin/:path*', '/api/admin/:path*'],
+  matcher: ['/api/admin/:path*'],
 };

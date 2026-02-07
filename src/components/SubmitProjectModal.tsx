@@ -3,12 +3,13 @@
 import { useState, FormEvent } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
-import { ProjectType } from '@/types';
+import { ProjectType, Submission } from '@/types';
 
 interface SubmitProjectModalProps {
   eventId: string;
   eventName: string;
   chapterId: string;
+  initialData?: Submission;
   onClose: () => void;
   onSubmitted: () => void;
 }
@@ -21,13 +22,14 @@ const PROJECT_TYPES: { value: ProjectType; label: string }[] = [
   { value: 'other', label: 'Other' },
 ];
 
-export function SubmitProjectModal({ eventId, eventName, chapterId, onClose, onSubmitted }: SubmitProjectModalProps) {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [type, setType] = useState<ProjectType>('website');
-  const [deployedUrl, setDeployedUrl] = useState('');
-  const [githubUrl, setGithubUrl] = useState('');
-  const [builderName, setBuilderName] = useState('');
+export function SubmitProjectModal({ eventId, eventName, chapterId, initialData, onClose, onSubmitted }: SubmitProjectModalProps) {
+  const isEdit = !!initialData;
+  const [title, setTitle] = useState(initialData?.title || '');
+  const [description, setDescription] = useState(initialData?.description || '');
+  const [type, setType] = useState<ProjectType>(initialData?.type || 'website');
+  const [deployedUrl, setDeployedUrl] = useState(initialData?.deployedUrl || '');
+  const [githubUrl, setGithubUrl] = useState(initialData?.githubUrl || '');
+  const [builderName, setBuilderName] = useState(initialData?.builderName || '');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -37,26 +39,48 @@ export function SubmitProjectModal({ eventId, eventName, chapterId, onClose, onS
     setIsSubmitting(true);
 
     try {
-      const res = await fetch('/api/submit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          title,
-          description,
-          type,
-          deployedUrl: deployedUrl || undefined,
-          githubUrl: githubUrl || undefined,
-          builderName,
-          chapterId,
-          eventId,
-        }),
-      });
+      if (isEdit) {
+        const res = await fetch(`/api/submissions/${initialData.id}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            title,
+            description,
+            type,
+            deployedUrl: deployedUrl || undefined,
+            githubUrl: githubUrl || undefined,
+            builderName,
+          }),
+        });
 
-      const data = await res.json();
-      if (res.ok) {
-        onSubmitted();
+        const data = await res.json();
+        if (res.ok) {
+          onSubmitted();
+        } else {
+          setError(data.error || 'Something went wrong.');
+        }
       } else {
-        setError(data.error || 'Something went wrong.');
+        const res = await fetch('/api/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            title,
+            description,
+            type,
+            deployedUrl: deployedUrl || undefined,
+            githubUrl: githubUrl || undefined,
+            builderName,
+            chapterId,
+            eventId,
+          }),
+        });
+
+        const data = await res.json();
+        if (res.ok) {
+          onSubmitted();
+        } else {
+          setError(data.error || 'Something went wrong.');
+        }
       }
     } catch {
       setError('Something went wrong. Try again.');
@@ -89,7 +113,7 @@ export function SubmitProjectModal({ eventId, eventName, chapterId, onClose, onS
           {/* Header */}
           <div className="sticky top-0 bg-white rounded-t-2xl border-b border-[var(--border-subtle)] px-6 py-4 flex items-center justify-between z-10">
             <div>
-              <h2 className="text-lg font-bold">Submit Your Project</h2>
+              <h2 className="text-lg font-bold">{isEdit ? 'Edit Submission' : 'Submit Your Project'}</h2>
               <p className="text-sm text-[var(--text-muted)] font-body">{eventName}</p>
             </div>
             <button
@@ -186,7 +210,7 @@ export function SubmitProjectModal({ eventId, eventName, chapterId, onClose, onS
               disabled={isSubmitting}
               className="btn-primary w-full disabled:opacity-50"
             >
-              {isSubmitting ? 'Submitting...' : 'Submit Project'}
+              {isSubmitting ? (isEdit ? 'Saving...' : 'Submitting...') : (isEdit ? 'Save Changes' : 'Submit Project')}
             </button>
           </form>
         </motion.div>

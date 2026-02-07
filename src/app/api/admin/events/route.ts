@@ -14,21 +14,23 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { name, chapterId, date, location } = body;
+    const { title, chapterId, date, location, lumaUrl, imageUrl } = body;
 
-    if (!name || !chapterId || !date || !location) {
+    if (!title || !chapterId || !date || !location) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
     const event: Event = {
       id: `evt-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
-      name,
+      title,
       chapterId,
       date,
       location,
       builderCount: 0,
       projectCount: 0,
       status: 'upcoming',
+      lumaUrl: lumaUrl || undefined,
+      imageUrl: imageUrl || undefined,
     };
 
     await createEvent(event);
