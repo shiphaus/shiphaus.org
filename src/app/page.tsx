@@ -351,10 +351,10 @@ export default function Home() {
       <HeroSection />
       <ValuePropsSection />
       <ChaptersSection />
+      <EmailCapture />
       <ProjectsSection />
       <TestimonialsSection />
       <CTASection />
-      <EmailCapture />
     </>
   );
 }
