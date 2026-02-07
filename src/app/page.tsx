@@ -350,7 +350,6 @@ export default function Home() {
     <>
       <HeroSection />
       <ValuePropsSection />
-      <EmailCapture />
       <ChaptersSection />
       <ProjectsSection />
       <TestimonialsSection />
