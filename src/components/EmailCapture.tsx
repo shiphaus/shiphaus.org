@@ -81,7 +81,7 @@ export function EmailCapture() {
                 className="max-w-lg mx-auto"
               >
                 <div
-                  className={`flex flex-col sm:flex-row gap-3 rounded-xl transition-all ${
+                  className={`flex flex-col sm:flex-row gap-3 rounded-xl transition-all outline-none ${
                     error
                       ? 'sm:bg-[#F59E0B]/[0.06] sm:ring-1 sm:ring-[#F59E0B]/30 sm:p-1.5'
                       : ''
