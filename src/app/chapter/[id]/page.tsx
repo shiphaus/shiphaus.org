@@ -338,10 +338,12 @@ function ChapterContent() {
                                   <MapPin className="w-3.5 h-3.5 text-[var(--text-muted)]" />
                                   {event.location}
                                 </span>
-                                <span className="inline-flex items-center gap-1.5">
-                                  <Layers className="w-3.5 h-3.5 text-[var(--text-muted)]" />
-                                  {eventProjects.length} project{eventProjects.length !== 1 ? 's' : ''}
-                                </span>
+                                {status === 'closed' && eventProjects.length > 0 && (
+                                  <span className="inline-flex items-center gap-1.5">
+                                    <Layers className="w-3.5 h-3.5 text-[var(--text-muted)]" />
+                                    {eventProjects.length} project{eventProjects.length !== 1 ? 's' : ''}
+                                  </span>
+                                )}
                                 {event.lumaUrl && (
                                   <a
                                     href={event.lumaUrl}
@@ -448,61 +450,52 @@ function ChapterContent() {
                                 {isSubmissionsExpanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
                               </button>
 
-                              <AnimatePresence>
-                                {isSubmissionsExpanded && (
-                                  <motion.div
-                                    initial={{ opacity: 0, height: 0 }}
-                                    animate={{ opacity: 1, height: 'auto' }}
-                                    exit={{ opacity: 0, height: 0 }}
-                                    className="overflow-hidden"
-                                  >
-                                    <div className="mt-3 space-y-2">
-                                      {eventSubs.length === 0 ? (
-                                        <p className="text-sm text-[var(--text-muted)] italic">No submissions yet</p>
-                                      ) : (
-                                        eventSubs.map(sub => (
-                                          <div key={sub.id} className="flex items-center justify-between bg-[var(--bg-secondary)] rounded-lg px-4 py-3">
-                                            <div className="flex-1 min-w-0">
-                                              <div className="flex items-center gap-2">
-                                                <span className="font-medium text-sm truncate">{sub.title}</span>
-                                                <SubmissionStatusBadge status={sub.status} />
-                                              </div>
-                                              <p className="text-xs text-[var(--text-muted)]">
-                                                {sub.builderName} &middot; {sub.submittedBy || 'unknown'}
-                                              </p>
-                                            </div>
-                                            {sub.status === 'pending' && (
-                                              <div className="flex items-center gap-1 ml-3 shrink-0">
-                                                <button
-                                                  onClick={() => handleSubmissionAction(sub.id, 'approve', event.id)}
-                                                  className="p-1.5 rounded-lg text-emerald-600 hover:bg-emerald-50 transition-colors cursor-pointer"
-                                                  title="Approve"
-                                                >
-                                                  <CheckCircle className="w-4 h-4" />
-                                                </button>
-                                                <button
-                                                  onClick={() => handleSubmissionAction(sub.id, 'reject', event.id)}
-                                                  className="p-1.5 rounded-lg text-red-500 hover:bg-red-50 transition-colors cursor-pointer"
-                                                  title="Reject"
-                                                >
-                                                  <XCircle className="w-4 h-4" />
-                                                </button>
-                                                <button
-                                                  onClick={() => handleDeleteSubmission(sub.id, event.id)}
-                                                  className="p-1.5 rounded-lg text-[var(--text-muted)] hover:text-red-500 hover:bg-white transition-colors cursor-pointer"
-                                                  title="Delete"
-                                                >
-                                                  <Trash2 className="w-3.5 h-3.5" />
-                                                </button>
-                                              </div>
-                                            )}
+                              {isSubmissionsExpanded && (
+                                <div className="mt-3 space-y-2">
+                                  {eventSubs.length === 0 ? (
+                                    <p className="text-sm text-[var(--text-muted)] italic">No submissions yet</p>
+                                  ) : (
+                                    eventSubs.map(sub => (
+                                      <div key={sub.id} className="flex items-center justify-between bg-[var(--bg-secondary)] rounded-lg px-4 py-3">
+                                        <div className="flex-1 min-w-0">
+                                          <div className="flex items-center gap-2">
+                                            <span className="font-medium text-sm truncate">{sub.title}</span>
+                                            <SubmissionStatusBadge status={sub.status} />
                                           </div>
-                                        ))
-                                      )}
-                                    </div>
-                                  </motion.div>
-                                )}
-                              </AnimatePresence>
+                                          <p className="text-xs text-[var(--text-muted)]">
+                                            {sub.builderName} &middot; {sub.submittedBy || 'unknown'}
+                                          </p>
+                                        </div>
+                                        {sub.status === 'pending' && (
+                                          <div className="flex items-center gap-1 ml-3 shrink-0">
+                                            <button
+                                              onClick={() => handleSubmissionAction(sub.id, 'approve', event.id)}
+                                              className="p-1.5 rounded-lg text-emerald-600 hover:bg-emerald-50 transition-colors cursor-pointer"
+                                              title="Approve"
+                                            >
+                                              <CheckCircle className="w-4 h-4" />
+                                            </button>
+                                            <button
+                                              onClick={() => handleSubmissionAction(sub.id, 'reject', event.id)}
+                                              className="p-1.5 rounded-lg text-red-500 hover:bg-red-50 transition-colors cursor-pointer"
+                                              title="Reject"
+                                            >
+                                              <XCircle className="w-4 h-4" />
+                                            </button>
+                                            <button
+                                              onClick={() => handleDeleteSubmission(sub.id, event.id)}
+                                              className="p-1.5 rounded-lg text-[var(--text-muted)] hover:text-red-500 hover:bg-white transition-colors cursor-pointer"
+                                              title="Delete"
+                                            >
+                                              <Trash2 className="w-3.5 h-3.5" />
+                                            </button>
+                                          </div>
+                                        )}
+                                      </div>
+                                    ))
+                                  )}
+                                </div>
+                              )}
                             </div>
                           )}
                         </>
