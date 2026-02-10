@@ -14,7 +14,7 @@ import { Project } from '@/types';
 
 function HeroSection() {
   return (
-    <section className="hero-pattern relative overflow-hidden">
+    <section className="hero-pattern relative overflow-hidden -mt-16 pt-16">
       {/* Decorative elements */}
       <div className="absolute inset-0 pointer-events-none">
         <motion.div
