@@ -60,10 +60,10 @@ function HeroSection() {
               className="flex flex-wrap gap-4"
             >
               <div className="flex flex-col gap-1">
-                <span className="text-2xl font-bold">Next Event: NYC February</span>
+                <span className="text-2xl font-bold">Next Event: Network School · Feb 13</span>
                 <span className="text-[var(--text-secondary)] font-body">
-                  Interested? Reach out to{' '}
-                  <a href="https://x.com/AlexSlobodnik" target="_blank" rel="noopener noreferrer" className="text-[var(--accent)] hover:underline">@AlexSlobodnik</a>
+                  10am–1pm at NS Library · {' '}
+                  <a href="https://lu.ma/1vaocqic" target="_blank" rel="noopener noreferrer" className="text-[var(--accent)] hover:underline">RSVP on Luma</a>
                 </span>
               </div>
             </motion.div>
@@ -335,9 +335,9 @@ function CTASection() {
           viewport={{ once: true }}
         >
           <ShiphausLogo size={96} className="mx-auto mb-6" />
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Next Event: NYC February</h2>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">Next Event: Network School · Feb 13</h2>
           <p className="text-white/70 font-body text-lg mb-8 max-w-xl mx-auto">
-            Details coming soon. Want to start a chapter in your city?
+            10am–1pm at NS Library · <a href="https://lu.ma/1vaocqic" target="_blank" rel="noopener noreferrer" className="text-white underline hover:text-white/80">RSVP on Luma</a>
           </p>
           <Link
             href="/start-a-chapter"
