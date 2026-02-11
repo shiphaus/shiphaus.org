@@ -134,7 +134,7 @@ function ValuePropsSection() {
     },
     {
       icon: '/icons/ships-icon.png',
-      title: 'Everyone Ships. No One Quits.',
+      title: 'Everyone Ships.',
       description: 'Everyone ships something. Big or small, we all get through it.',
     },
   ];
