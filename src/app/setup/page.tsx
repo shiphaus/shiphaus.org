@@ -3,13 +3,10 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  Cpu,
-  Terminal,
   Copy,
   Check,
   ChevronDown,
   Search,
-  FolderOpen,
   Sparkles,
   CreditCard,
   LogIn,
@@ -20,8 +17,8 @@ import {
 
 type Platform = 'mac' | 'windows';
 
-const CURL_COMMAND = 'curl -fsSL https://shiphaus.org/setup.sh | bash';
-const WINDOWS_COMMAND = 'irm https://shiphaus.org/setup.ps1 | iex';
+const CURL_COMMAND = 'curl -fsSL https://claude.ai/install.sh | bash';
+const WINDOWS_COMMAND = 'irm https://claude.ai/install.ps1 | iex';
 
 const kbdClass =
   'inline-block px-2 py-0.5 rounded bg-[var(--bg-tertiary)] text-sm font-mono border border-[var(--border-strong)]';
@@ -33,21 +30,6 @@ function Kbd({ children }: { children: React.ReactNode }) {
 function InlineCode({ children }: { children: React.ReactNode }) {
   return <code className={kbdClass}>{children}</code>;
 }
-
-const tools = [
-  {
-    icon: Cpu,
-    name: 'Node.js',
-    description:
-      'The engine that powers Claude Code behind the scenes. You won\'t interact with it directly, but it needs to be there.',
-  },
-  {
-    icon: Terminal,
-    name: 'Claude Code',
-    description:
-      'The AI assistant itself. Once installed, you\'ll type "claude" in your terminal and start building things through conversation.',
-  },
-];
 
 const macSteps = [
   {
@@ -64,26 +46,19 @@ const macSteps = [
   },
   {
     number: '2',
-    title: 'Paste the Setup Command',
+    title: 'Install Claude Code',
     description:
-      'Copy the command below and paste it into your terminal window. It will check what you already have and only install what\'s missing.',
+      'Copy the command below and paste it into your terminal. It downloads and installs everything automatically. It might ask for your Mac password — that\'s normal. Type it in (you won\'t see the characters) and press Enter.',
     icon: Copy,
     hasCommand: true,
   },
   {
     number: '3',
-    title: 'Let It Run',
-    description:
-      'The script will take care of everything. It might ask for your Mac password. That\'s totally normal. Just type it in (you won\'t see the characters) and press Enter.',
-    icon: FolderOpen,
-  },
-  {
-    number: '4',
     title: 'Launch Claude Code',
     description: (
       <>
-        Once everything is installed, type <InlineCode>claude</InlineCode> in
-        your terminal and press Enter. That&apos;s it, you&apos;re in!
+        Once the install finishes, type <InlineCode>claude</InlineCode> in
+        your terminal and press Enter. That&apos;s it. You&apos;re in.
       </>
     ),
     icon: Sparkles,
@@ -105,26 +80,19 @@ const windowsSteps = [
   },
   {
     number: '2',
-    title: 'Paste the Setup Command',
+    title: 'Install Claude Code',
     description:
-      'Copy the command below and paste it into PowerShell. It will check what you already have and only install what\'s missing.',
+      'Copy the command below and paste it into PowerShell. It downloads and installs everything automatically. If it asks for permission, click Yes or type Y and press Enter.',
     icon: Copy,
     hasCommand: true,
   },
   {
     number: '3',
-    title: 'Let It Run',
-    description:
-      'The script will take care of everything. If it asks for permission to install something, just click Yes or type Y and press Enter.',
-    icon: FolderOpen,
-  },
-  {
-    number: '4',
     title: 'Launch Claude Code',
     description: (
       <>
-        Once everything is installed, type <InlineCode>claude</InlineCode> in
-        your terminal and press Enter. That&apos;s it, you&apos;re in!
+        Once the install finishes, type <InlineCode>claude</InlineCode> in
+        your terminal and press Enter. That&apos;s it. You&apos;re in.
       </>
     ),
     icon: Sparkles,
@@ -187,7 +155,7 @@ const faqs = [
   {
     question: 'How long does the setup take?',
     answer:
-      'Usually about 5 to 10 minutes, depending on your internet speed. Most of that time is just waiting for things to download.',
+      'A couple minutes, tops. Most of that is just waiting for the download to finish.',
   },
   {
     question: 'Do I need to pay for Claude?',
@@ -388,49 +356,8 @@ export default function SetupPage() {
         </div>
       </section>
 
-      {/* What You'll Install */}
-      <section className="py-20">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="mb-12"
-          >
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              What You&apos;ll Install
-            </h2>
-            <p className="text-[var(--text-secondary)] font-body text-lg max-w-2xl">
-              Two things, all free, all trusted, and all taken care of by the
-              setup script.
-            </p>
-          </motion.div>
-
-          <div className="grid sm:grid-cols-2 max-w-2xl gap-6">
-            {tools.map((tool, index) => (
-              <motion.div
-                key={tool.name}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="card p-6"
-              >
-                <div className="w-12 h-12 rounded-xl bg-[var(--accent-soft)] flex items-center justify-center mb-4">
-                  <tool.icon className="w-6 h-6 text-[var(--accent)]" />
-                </div>
-                <h3 className="text-lg font-semibold mb-2">{tool.name}</h3>
-                <p className="text-[var(--text-secondary)] font-body leading-relaxed text-sm">
-                  {tool.description}
-                </p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* How to Set Up */}
-      <section className="py-20 bg-[var(--bg-secondary)]">
+      <section className="py-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -442,8 +369,7 @@ export default function SetupPage() {
               How to Set Up
             </h2>
             <p className="text-[var(--text-secondary)] font-body text-lg max-w-2xl">
-              Four quick steps and you&apos;re done. The whole thing takes about
-              5 to 10 minutes.
+              Three steps. A couple minutes. One command does the heavy lifting.
             </p>
           </motion.div>
 
@@ -482,7 +408,7 @@ export default function SetupPage() {
       </section>
 
       {/* After Setup */}
-      <section className="py-20">
+      <section className="py-20 bg-[var(--bg-secondary)]">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -524,7 +450,7 @@ export default function SetupPage() {
       </section>
 
       {/* FAQ */}
-      <section className="py-20 bg-[var(--bg-secondary)]">
+      <section className="py-20">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
