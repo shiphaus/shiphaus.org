@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  Package,
   Cpu,
   Terminal,
   Copy,
@@ -24,28 +23,18 @@ type Platform = 'mac' | 'windows';
 const CURL_COMMAND = 'curl -fsSL https://shiphaus.org/setup.sh | bash';
 const WINDOWS_COMMAND = 'irm https://shiphaus.org/setup.ps1 | iex';
 
-const macTools = [
-  {
-    icon: Package,
-    name: 'Homebrew',
-    description:
-      'A tool that helps install other tools on your Mac. Think of it like an app store for your terminal, except everything is free.',
-  },
-  {
-    icon: Cpu,
-    name: 'Node.js',
-    description:
-      'The engine that powers Claude Code behind the scenes. You won\'t interact with it directly, but it needs to be there.',
-  },
-  {
-    icon: Terminal,
-    name: 'Claude Code',
-    description:
-      'The AI assistant itself. Once installed, you\'ll type "claude" in your terminal and start building things through conversation.',
-  },
-];
+const kbdClass =
+  'inline-block px-2 py-0.5 rounded bg-[var(--bg-tertiary)] text-sm font-mono border border-[var(--border-strong)]';
 
-const windowsTools = [
+function Kbd({ children }: { children: React.ReactNode }) {
+  return <kbd className={kbdClass}>{children}</kbd>;
+}
+
+function InlineCode({ children }: { children: React.ReactNode }) {
+  return <code className={kbdClass}>{children}</code>;
+}
+
+const tools = [
   {
     icon: Cpu,
     name: 'Node.js',
@@ -66,9 +55,9 @@ const macSteps = [
     title: 'Open Terminal',
     description: (
       <>
-        Press <kbd className="inline-block px-2 py-0.5 rounded bg-[var(--bg-tertiary)] text-sm font-mono border border-[var(--border-strong)]">Cmd</kbd> + <kbd className="inline-block px-2 py-0.5 rounded bg-[var(--bg-tertiary)] text-sm font-mono border border-[var(--border-strong)]">Space</kbd> to
-        open Spotlight, then type <strong>Terminal</strong> and hit Enter. You can also find it
-        in Applications &rarr; Utilities &rarr; Terminal.
+        Press <Kbd>Cmd</Kbd> + <Kbd>Space</Kbd> to open Spotlight, then
+        type <strong>Terminal</strong> and hit Enter. You can also find it in
+        Applications &rarr; Utilities &rarr; Terminal.
       </>
     ),
     icon: Search,
@@ -93,7 +82,7 @@ const macSteps = [
     title: 'Launch Claude Code',
     description: (
       <>
-        Once everything is installed, type <code className="inline-block px-2 py-0.5 rounded bg-[var(--bg-tertiary)] text-sm font-mono border border-[var(--border-strong)]">claude</code> in
+        Once everything is installed, type <InlineCode>claude</InlineCode> in
         your terminal and press Enter. That&apos;s it, you&apos;re in!
       </>
     ),
@@ -107,8 +96,9 @@ const windowsSteps = [
     title: 'Open PowerShell',
     description: (
       <>
-        Press <kbd className="inline-block px-2 py-0.5 rounded bg-[var(--bg-tertiary)] text-sm font-mono border border-[var(--border-strong)]">Win</kbd> + <kbd className="inline-block px-2 py-0.5 rounded bg-[var(--bg-tertiary)] text-sm font-mono border border-[var(--border-strong)]">X</kbd> and
-        select <strong>Terminal</strong> or <strong>PowerShell</strong>. You can also search for &quot;PowerShell&quot; in the Start menu.
+        Press <Kbd>Win</Kbd> + <Kbd>X</Kbd> and select{' '}
+        <strong>Terminal</strong> or <strong>PowerShell</strong>. You can also
+        search for &quot;PowerShell&quot; in the Start menu.
       </>
     ),
     icon: Search,
@@ -133,7 +123,7 @@ const windowsSteps = [
     title: 'Launch Claude Code',
     description: (
       <>
-        Once everything is installed, type <code className="inline-block px-2 py-0.5 rounded bg-[var(--bg-tertiary)] text-sm font-mono border border-[var(--border-strong)]">claude</code> in
+        Once everything is installed, type <InlineCode>claude</InlineCode> in
         your terminal and press Enter. That&apos;s it, you&apos;re in!
       </>
     ),
@@ -184,11 +174,6 @@ const afterSetupItems = [
 ];
 
 const faqs = [
-  {
-    question: 'Is this safe to run?',
-    answer:
-      'Yes! These are all standard developer tools used by millions of people every day. The setup script only installs well-known, trusted software.',
-  },
   {
     question: 'What if something goes wrong?',
     answer:
@@ -318,7 +303,6 @@ function FAQItem({ question, answer, index }: { question: string; answer: string
 export default function SetupPage() {
   const [platform, setPlatform] = useState<Platform>('mac');
 
-  const tools = platform === 'mac' ? macTools : windowsTools;
   const steps = platform === 'mac' ? macSteps : windowsSteps;
   const command = platform === 'mac' ? CURL_COMMAND : WINDOWS_COMMAND;
 
@@ -417,12 +401,12 @@ export default function SetupPage() {
               What You&apos;ll Install
             </h2>
             <p className="text-[var(--text-secondary)] font-body text-lg max-w-2xl">
-              {platform === 'mac' ? 'Three things' : 'Two things'}, all free, all trusted, and all taken care of by the
+              Two things, all free, all trusted, and all taken care of by the
               setup script.
             </p>
           </motion.div>
 
-          <div className={`grid ${platform === 'mac' ? 'sm:grid-cols-3' : 'sm:grid-cols-2 max-w-2xl'} gap-6`}>
+          <div className="grid sm:grid-cols-2 max-w-2xl gap-6">
             {tools.map((tool, index) => (
               <motion.div
                 key={tool.name}
@@ -517,7 +501,7 @@ export default function SetupPage() {
           <div className="space-y-6">
             {afterSetupItems.map((item, index) => (
               <motion.div
-                key={index}
+                key={item.title}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -558,12 +542,7 @@ export default function SetupPage() {
 
           <div>
             {faqs.map((faq, index) => (
-              <FAQItem
-                key={index}
-                question={faq.question}
-                answer={faq.answer}
-                index={index}
-              />
+              <FAQItem key={faq.question} {...faq} index={index} />
             ))}
           </div>
         </div>
