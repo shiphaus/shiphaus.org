@@ -2,14 +2,14 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, MapPin } from 'lucide-react';
 import { ShiphausLogo } from '@/components/ShiphausLogo';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ChapterCard } from '@/components/ChapterCard';
 import { ProjectCard } from '@/components/ProjectCard';
 import { EmailCapture } from '@/components/EmailCapture';
-import { chapters, projects as staticProjects, events, testimonials } from '@/lib/data';
+import { chapters, projects as staticProjects, events, testimonials, getUpcomingEvents } from '@/lib/data';
 import { Project } from '@/types';
 
 function HeroSection() {
@@ -57,15 +57,89 @@ function HeroSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
-              className="flex flex-wrap gap-4"
+              className="flex flex-col gap-3"
             >
-              <div className="flex flex-col gap-1">
-                <span className="text-2xl font-bold">Next Event: Network School · Feb 13</span>
-                <span className="text-[var(--text-secondary)] font-body">
-                  10am–1pm at NS Library · {' '}
-                  <a href="https://lu.ma/1vaocqic" target="_blank" rel="noopener noreferrer" className="text-[var(--accent)] hover:underline">RSVP on Luma</a>
-                </span>
-              </div>
+              {getUpcomingEvents().map((event, index) => {
+                const d = new Date(event.date);
+                const month = d.toLocaleDateString('en-US', { month: 'short' }).toUpperCase();
+                const day = d.getDate();
+                const isNext = index === 0;
+                const chapter = chapters.find(c => c.id === event.chapterId);
+                const colorVar = chapter ? `var(--${chapter.color})` : 'var(--accent)';
+
+                return (
+                  <motion.a
+                    key={event.id}
+                    href={event.lumaUrl || '#'}
+                    target={event.lumaUrl ? '_blank' : undefined}
+                    rel={event.lumaUrl ? 'noopener noreferrer' : undefined}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5, delay: 0.4 + index * 0.15 }}
+                    whileHover={{ y: -2 }}
+                    className={`group relative flex items-center gap-4 rounded-xl border overflow-hidden transition-all duration-300 ${
+                      isNext
+                        ? 'bg-white shadow-md hover:shadow-lg border-[var(--border-strong)] p-4'
+                        : 'bg-white/70 hover:bg-white border-[var(--border-subtle)] hover:shadow-md p-3'
+                    }`}
+                  >
+                    {/* Chapter color accent bar */}
+                    <div
+                      className="absolute left-0 top-0 bottom-0 w-1"
+                      style={{ backgroundColor: colorVar }}
+                    />
+
+                    {/* Subtle glow for first event */}
+                    {isNext && (
+                      <div
+                        className="absolute -left-10 top-1/2 -translate-y-1/2 w-20 h-20 rounded-full blur-2xl opacity-20 pointer-events-none"
+                        style={{ backgroundColor: colorVar }}
+                      />
+                    )}
+
+                    {/* Date block */}
+                    <div className="shrink-0 w-12 text-center ml-2 relative">
+                      <div className="text-[10px] font-bold tracking-[0.15em] text-[var(--text-muted)]">{month}</div>
+                      <div className={`font-bold leading-none ${isNext ? 'text-3xl' : 'text-2xl'}`}>{day}</div>
+                    </div>
+
+                    {/* Vertical divider */}
+                    <div className="w-px self-stretch bg-[var(--border-subtle)]" />
+
+                    {/* Event info */}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-0.5">
+                        {isNext && (
+                          <span className="inline-flex items-center gap-1.5 text-[10px] font-bold tracking-widest uppercase text-[var(--accent)]">
+                            <span className="relative flex h-2 w-2">
+                              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--accent)] opacity-75" />
+                              <span className="relative inline-flex rounded-full h-2 w-2 bg-[var(--accent)]" />
+                            </span>
+                            Next up
+                          </span>
+                        )}
+                        <span className={`font-semibold truncate ${isNext ? 'text-base' : 'text-sm'}`}>{event.title}</span>
+                      </div>
+                      <div className="flex items-center gap-1 text-[var(--text-muted)]">
+                        <MapPin className="w-3 h-3 shrink-0" />
+                        <span className="font-body text-sm truncate">{event.location}</span>
+                      </div>
+                    </div>
+
+                    {/* RSVP */}
+                    {event.lumaUrl && (
+                      <span className={`shrink-0 inline-flex items-center gap-1.5 font-semibold rounded-lg transition-all duration-200 ${
+                        isNext
+                          ? 'bg-[var(--accent)] text-white px-4 py-2 text-sm group-hover:bg-[var(--accent-hover)] group-hover:shadow-md'
+                          : 'text-[var(--accent)] text-sm group-hover:bg-[var(--accent-soft)] px-3 py-1.5'
+                      }`}>
+                        RSVP
+                        <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                      </span>
+                    )}
+                  </motion.a>
+                );
+              })}
             </motion.div>
 
             {/* Stats */}
@@ -326,6 +400,9 @@ function TestimonialsSection() {
 }
 
 function CTASection() {
+  const upcoming = getUpcomingEvents();
+  const next = upcoming[0];
+
   return (
     <section className="py-20 bg-[#111111] text-white">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -335,10 +412,21 @@ function CTASection() {
           viewport={{ once: true }}
         >
           <ShiphausLogo size={96} className="mx-auto mb-6" />
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Next Event: Network School · Feb 13</h2>
-          <p className="text-white/70 font-body text-lg mb-8 max-w-xl mx-auto">
-            10am–1pm at NS Library · <a href="https://lu.ma/1vaocqic" target="_blank" rel="noopener noreferrer" className="text-white underline hover:text-white/80">RSVP on Luma</a>
-          </p>
+          {next ? (
+            <>
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                Next Up: {next.title} · {new Date(next.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+              </h2>
+              <p className="text-white/70 font-body text-lg mb-8 max-w-xl mx-auto">
+                {next.location}
+                {next.lumaUrl && (
+                  <> · <a href={next.lumaUrl} target="_blank" rel="noopener noreferrer" className="text-white underline hover:text-white/80">RSVP on Luma</a></>
+                )}
+              </p>
+            </>
+          ) : (
+            <h2 className="text-3xl md:text-4xl font-bold mb-8">More events coming soon.</h2>
+          )}
           <Link
             href="/start-a-chapter"
             className="bg-white/10 text-white px-6 py-3 rounded-lg font-semibold hover:bg-white/20 transition-colors inline-block"

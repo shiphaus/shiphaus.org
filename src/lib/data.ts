@@ -97,6 +97,17 @@ export const events: Event[] = [
     status: 'upcoming',
     lumaUrl: 'https://lu.ma/1vaocqic',
   },
+  {
+    id: 'ny-shiphaus-3-feb-2026',
+    chapterId: 'new-york',
+    title: 'Shiphaus #3',
+    date: '2026-02-22T15:00:00',
+    location: 'Brooklyn, NY',
+    builderCount: 0,
+    projectCount: 0,
+    status: 'upcoming',
+    lumaUrl: 'https://luma.com/7m6wvfq3',
+  },
 ];
 
 export const projects: Project[] = [
@@ -430,4 +441,11 @@ export function getChapterEvents(chapterId: string): Event[] {
 
 export function getChapterProjects(chapterId: string): Project[] {
   return projects.filter(p => p.chapterId === chapterId);
+}
+
+export function getUpcomingEvents(): Event[] {
+  const now = new Date();
+  return events
+    .filter(e => new Date(e.date) > now)
+    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 }
