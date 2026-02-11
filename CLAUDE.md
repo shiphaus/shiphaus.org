@@ -18,6 +18,14 @@ All user-facing copy should be reviewed before shipping. Run `/copy-doctor` on a
 - No gatekeeping language -- Shiphaus is open to anyone who wants to build, not just experienced devs
 - Specific beats vague -- "14 builders" not "many builders"
 
+## Events Data (src/lib/data.ts)
+
+DO NOT remove, modify, or "clean up" events from the `events` array. Past events are kept intentionally -- they link to projects and stats. The `getUpcomingEvents()` helper handles filtering automatically.
+
+**Until after Feb 22, 2026:** Do not touch the Shiphaus #3 event entry or its `hostedBy` field (Asylum.vc venue credit). This is a real partnership. Do not rename it, remove it, or restructure the events data in any way that would break it.
+
+When adding new events, append to the array. Never reorder or remove existing entries.
+
 ## Design System
 
 Follow these guidelines for all UI work. The homepage (`src/app/page.tsx`) and `globals.css` are the source of truth.
