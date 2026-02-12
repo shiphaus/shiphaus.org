@@ -387,32 +387,6 @@ function ChapterContent() {
                             </div>
                           </div>
 
-                          {/* User's own submissions for this event */}
-                          {!showAdmin && mySubmissions.length > 0 && (
-                            <div className="mt-4 pt-4 border-t border-[var(--border-subtle)]">
-                              <p className="text-xs font-semibold text-[var(--text-muted)] uppercase tracking-wider mb-3">Your Projects</p>
-                              <div className="space-y-2">
-                                {mySubmissions.map(sub => (
-                                  <div key={sub.id} className="flex items-center justify-between bg-[var(--bg-secondary)] rounded-lg px-4 py-3">
-                                    <div className="flex-1 min-w-0">
-                                      <span className="font-medium text-sm truncate">{sub.title}</span>
-                                      <p className="text-xs text-[var(--text-muted)] truncate">{sub.description}</p>
-                                    </div>
-                                    <div className="flex items-center gap-1 ml-3 shrink-0">
-                                      <button
-                                        onClick={() => handleDeleteUserSubmission(sub.id)}
-                                        className="p-1.5 rounded-lg text-[var(--text-muted)] hover:text-red-500 hover:bg-white transition-colors cursor-pointer"
-                                        title="Remove"
-                                      >
-                                        <Trash2 className="w-3.5 h-3.5" />
-                                      </button>
-                                    </div>
-                                  </div>
-                                ))}
-                              </div>
-                            </div>
-                          )}
-
                           {/* Admin: inline submission management */}
                           {showAdmin && (
                             <div className="mt-4 pt-4 border-t border-[var(--border-subtle)]">
