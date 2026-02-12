@@ -44,8 +44,10 @@ export async function GET(request: NextRequest) {
         const redisEvents = await getEventsByChapter(chapter);
         const seen = new Set(hardcodedEvents.map(e => e.id));
         const events = [...hardcodedEvents, ...redisEvents.filter(e => !seen.has(e.id))];
+        console.log('[projects] chapter=%s hardcoded=%d redis=%d total=%d', chapter, hardcodedEvents.length, redisEvents.length, events.length);
         for (const evt of events) {
           const subs = await getSubmissionsByEvent(evt.id);
+          console.log('[projects] event=%s subs=%d', evt.id, subs.length);
           for (const sub of subs) {
             const projId = `proj-${sub.id.replace('sub-', '')}`;
             if (!projects.some(p => p.id === projId)) {
@@ -53,7 +55,9 @@ export async function GET(request: NextRequest) {
             }
           }
         }
-      } catch {}
+      } catch (err) {
+        console.error('[projects] merge error:', err);
+      }
     } else if (event) {
       projects = await getProjectsByEvent(event);
 
