@@ -8,6 +8,7 @@ import { Suspense } from 'react';
 function LoginContent() {
   const searchParams = useSearchParams();
   const error = searchParams.get('error');
+  const callbackUrl = searchParams.get('callbackUrl') || '/';
 
   return (
     <div className="min-h-screen flex items-start justify-center pt-32 bg-[var(--bg-primary)]">
@@ -30,7 +31,7 @@ function LoginContent() {
 
         <div className="space-y-3">
           <button
-            onClick={() => signIn('google', { callbackUrl: '/' })}
+            onClick={() => signIn('google', { callbackUrl })}
             className="w-full flex items-center justify-center gap-3 px-4 py-3 rounded-lg border border-[var(--border-strong)] bg-white hover:bg-[var(--bg-secondary)] transition-colors font-medium cursor-pointer"
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24">
@@ -43,7 +44,7 @@ function LoginContent() {
           </button>
 
           <button
-            onClick={() => signIn('github', { callbackUrl: '/' })}
+            onClick={() => signIn('github', { callbackUrl })}
             className="w-full flex items-center justify-center gap-3 px-4 py-3 rounded-lg border border-[var(--border-strong)] bg-white hover:bg-[var(--bg-secondary)] transition-colors font-medium cursor-pointer"
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
