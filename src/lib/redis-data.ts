@@ -33,7 +33,9 @@ function serializeProject(project: Project): Record<string, string> {
   };
 }
 
-function deserializeProject(data: Record<string, string>): Project {
+function deserializeProject(data: Record<string, unknown>): Project {
+  // Upstash auto-deserializes JSON strings, so builder may be object or string
+  const builder = typeof data.builder === 'string' ? JSON.parse(data.builder) : data.builder;
   return {
     id: data.id,
     title: data.title,
@@ -43,9 +45,9 @@ function deserializeProject(data: Record<string, string>): Project {
     createdAt: data.createdAt,
     chapterId: data.chapterId,
     eventId: data.eventId || undefined,
-    builder: JSON.parse(data.builder),
+    builder,
     type: data.type || undefined,
-    featured: data.featured === '1',
+    featured: data.featured === '1' || data.featured === 1,
     submittedBy: data.submittedBy || data.approvedBy || undefined,
   } as Project;
 }
@@ -93,7 +95,7 @@ export async function getAllProjects(): Promise<Project[]> {
   }
   const results = await pipeline.exec();
   return results
-    .filter((r): r is Record<string, string> => r !== null && typeof r === 'object')
+    .filter((r): r is Record<string, unknown> => r !== null && typeof r === 'object')
     .map(deserializeProject);
 }
 
@@ -107,7 +109,7 @@ export async function getProjectsByChapter(chapterId: string): Promise<Project[]
   }
   const results = await pipeline.exec();
   return results
-    .filter((r): r is Record<string, string> => r !== null && typeof r === 'object')
+    .filter((r): r is Record<string, unknown> => r !== null && typeof r === 'object')
     .map(deserializeProject);
 }
 
@@ -121,7 +123,7 @@ export async function getProjectsByEvent(eventId: string): Promise<Project[]> {
   }
   const results = await pipeline.exec();
   return results
-    .filter((r): r is Record<string, string> => r !== null && typeof r === 'object')
+    .filter((r): r is Record<string, unknown> => r !== null && typeof r === 'object')
     .map(deserializeProject);
 }
 
@@ -135,14 +137,14 @@ export async function getFeaturedProjects(): Promise<Project[]> {
   }
   const results = await pipeline.exec();
   return results
-    .filter((r): r is Record<string, string> => r !== null && typeof r === 'object')
+    .filter((r): r is Record<string, unknown> => r !== null && typeof r === 'object')
     .map(deserializeProject);
 }
 
 export async function getProjectById(id: string): Promise<Project | null> {
   const data = await redis.hgetall(KEYS.project(id));
   if (!data || Object.keys(data).length === 0) return null;
-  return deserializeProject(data as Record<string, string>);
+  return deserializeProject(data as Record<string, unknown>);
 }
 
 export async function createProject(project: Project): Promise<void> {
