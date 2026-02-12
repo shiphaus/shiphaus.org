@@ -346,48 +346,46 @@ function ChapterContent() {
                               </div>
                             </div>
 
-                            {/* Admin controls */}
-                            {showAdmin && (
-                              <div className="flex items-center gap-1.5 shrink-0">
-                                <button
-                                  onClick={() => toggleEventStatus(event.id, event.status)}
-                                  className="text-xs px-3 py-1.5 rounded-lg border border-[var(--border-strong)] text-[var(--text-secondary)] hover:bg-[var(--bg-secondary)] transition-colors cursor-pointer"
-                                >
-                                  {status === 'upcoming' && 'Open Submissions'}
-                                  {status === 'active' && 'Close Submissions'}
-                                  {status === 'closed' && 'Reopen'}
-                                </button>
-                                <button
-                                  onClick={() => setEditingEvent(event.id)}
-                                  className="p-1.5 rounded-lg text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-secondary)] transition-colors cursor-pointer"
-                                  title="Edit event"
-                                >
-                                  <Settings className="w-4 h-4" />
-                                </button>
-                              </div>
-                            )}
-                          </div>
-
-                          {/* Submit button for open events */}
-                          {status === 'active' && (
-                            <div className="mt-4 pt-4 border-t border-[var(--border-subtle)]">
-                              {session ? (
-                                <button
-                                  onClick={() => setSubmitModal({ eventId: event.id, eventTitle: event.title })}
-                                  className="btn-primary text-sm !px-5 !py-2.5"
-                                >
-                                  Submit Your Project
-                                </button>
-                              ) : (
-                                <button
-                                  onClick={() => signIn(undefined, { callbackUrl: `/chapter/${chapterId}` })}
-                                  className="text-sm font-medium text-[var(--accent)] hover:underline cursor-pointer"
-                                >
-                                  Sign in to submit a project
-                                </button>
+                            {/* Top-right actions */}
+                            <div className="flex items-center gap-1.5 shrink-0">
+                              {showAdmin && (
+                                <>
+                                  <button
+                                    onClick={() => toggleEventStatus(event.id, event.status)}
+                                    className="text-xs px-3 py-1.5 rounded-lg border border-[var(--border-strong)] text-[var(--text-secondary)] hover:bg-[var(--bg-secondary)] transition-colors cursor-pointer"
+                                  >
+                                    {status === 'upcoming' && 'Open Submissions'}
+                                    {status === 'active' && 'Close Submissions'}
+                                    {status === 'closed' && 'Reopen'}
+                                  </button>
+                                  <button
+                                    onClick={() => setEditingEvent(event.id)}
+                                    className="p-1.5 rounded-lg text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-secondary)] transition-colors cursor-pointer"
+                                    title="Edit event"
+                                  >
+                                    <Settings className="w-4 h-4" />
+                                  </button>
+                                </>
+                              )}
+                              {status === 'active' && !showAdmin && (
+                                session ? (
+                                  <button
+                                    onClick={() => setSubmitModal({ eventId: event.id, eventTitle: event.title })}
+                                    className="btn-primary text-sm !px-5 !py-2"
+                                  >
+                                    Submit Project
+                                  </button>
+                                ) : (
+                                  <button
+                                    onClick={() => signIn('google', { callbackUrl: `/chapter/${chapterId}` })}
+                                    className="btn-primary text-sm !px-5 !py-2"
+                                  >
+                                    Submit a Project
+                                  </button>
+                                )
                               )}
                             </div>
-                          )}
+                          </div>
 
                           {/* User's own submissions for this event */}
                           {!showAdmin && mySubmissions.length > 0 && (
