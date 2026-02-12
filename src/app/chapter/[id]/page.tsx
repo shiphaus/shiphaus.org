@@ -275,6 +275,32 @@ function ChapterContent() {
               const mySubmissions = getUserSubmissionsForEvent(event.id);
               const eventSubs = submissions[event.id] || [];
               const isSubmissionsExpanded = expandedSubmissions[event.id];
+              const mySub = mySubmissions[0]; // user's submission for this event (if any)
+
+              // Build display projects: API projects + fallback from user submissions
+              const displayProjects = [...eventProjects];
+              for (const sub of mySubmissions) {
+                const projId = `proj-${sub.id.replace('sub-', '')}`;
+                if (!displayProjects.some(p => p.id === projId)) {
+                  displayProjects.push({
+                    id: projId,
+                    title: sub.title,
+                    description: sub.description,
+                    deployedUrl: sub.deployedUrl,
+                    githubUrl: sub.githubUrl,
+                    createdAt: sub.submittedAt,
+                    chapterId,
+                    eventId: sub.eventId,
+                    builder: {
+                      name: sub.builderName,
+                      avatar: sub.builderAvatar || `https://api.dicebear.com/7.x/notionists/svg?seed=${encodeURIComponent(sub.builderName)}`,
+                      uid: sub.builderName.toLowerCase().replace(/\s+/g, '-'),
+                    },
+                    type: sub.type,
+                    approvedBy: session?.user?.email || '',
+                  });
+                }
+              }
 
               return (
                 <motion.div
@@ -329,10 +355,10 @@ function ChapterContent() {
                                   <MapPin className="w-3.5 h-3.5 text-[var(--text-muted)]" />
                                   {event.location}
                                 </span>
-                                {eventProjects.length > 0 && (
+                                {displayProjects.length > 0 && (
                                   <span className="inline-flex items-center gap-1.5">
                                     <Layers className="w-3.5 h-3.5 text-[var(--text-muted)]" />
-                                    {eventProjects.length} project{eventProjects.length !== 1 ? 's' : ''}
+                                    {displayProjects.length} project{displayProjects.length !== 1 ? 's' : ''}
                                   </span>
                                 )}
                                 {event.lumaUrl && (
@@ -372,8 +398,13 @@ function ChapterContent() {
                               )}
                               {status === 'active' && !showAdmin && (
                                 session ? (
-                                  mySubmissions.length > 0 ? (
-                                    <span className="text-xs text-[var(--text-muted)] font-medium">Submitted</span>
+                                  mySub ? (
+                                    <button
+                                      onClick={() => setSubmitModal({ eventId: event.id, eventTitle: event.title, editSubmission: mySub })}
+                                      className="text-sm font-medium px-4 py-2 rounded-lg border border-[var(--border-strong)] text-[var(--text-secondary)] hover:bg-[var(--bg-secondary)] transition-colors cursor-pointer"
+                                    >
+                                      Edit Project
+                                    </button>
                                   ) : (
                                     <button
                                       onClick={() => setSubmitModal({ eventId: event.id, eventTitle: event.title })}
@@ -447,20 +478,20 @@ function ChapterContent() {
                           )}
 
                           {/* Projects section — visible to everyone */}
-                          {(status === 'active' || eventProjects.length > 0) && (
+                          {(status === 'active' || displayProjects.length > 0) && (
                             <div className="mt-4 pt-4 border-t border-[var(--border-subtle)]">
                               <button
                                 onClick={() => toggleSubmissions(event.id)}
                                 className="flex items-center gap-2 text-xs font-semibold text-[var(--text-muted)] uppercase tracking-wider hover:text-[var(--text-primary)] cursor-pointer transition-colors"
                               >
-                                Projects ({eventProjects.length})
+                                Projects ({displayProjects.length})
                                 {isSubmissionsExpanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
                               </button>
 
                               {isSubmissionsExpanded && (
-                                eventProjects.length > 0 ? (
+                                displayProjects.length > 0 ? (
                                   <div className="grid sm:grid-cols-2 gap-4 mt-3">
-                                    {eventProjects.map((project) => {
+                                    {displayProjects.map((project) => {
                                       const isOwner = session?.user?.email && project.approvedBy === session.user.email;
                                       const matchingSub = isOwner ? mySubmissions.find(s => project.id === `proj-${s.id.replace('sub-', '')}`) : undefined;
                                       return (
