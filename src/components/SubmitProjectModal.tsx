@@ -3,7 +3,7 @@
 import { useState, FormEvent } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
-import { ProjectType, Submission } from '@/types';
+import { Submission } from '@/types';
 
 interface SubmitProjectModalProps {
   eventId: string;
@@ -14,22 +14,12 @@ interface SubmitProjectModalProps {
   onSubmitted: () => void;
 }
 
-const PROJECT_TYPES: { value: ProjectType; label: string }[] = [
-  { value: 'website', label: 'Website' },
-  { value: 'application', label: 'Application' },
-  { value: 'devtool', label: 'Dev Tool' },
-  { value: 'video', label: 'Video' },
-  { value: 'other', label: 'Other' },
-];
-
 export function SubmitProjectModal({ eventId, eventName, chapterId, initialData, onClose, onSubmitted }: SubmitProjectModalProps) {
   const isEdit = !!initialData;
   const [title, setTitle] = useState(initialData?.title || '');
   const [description, setDescription] = useState(initialData?.description || '');
-  const [type, setType] = useState<ProjectType>(initialData?.type || 'website');
   const [deployedUrl, setDeployedUrl] = useState(initialData?.deployedUrl || '');
   const [githubUrl, setGithubUrl] = useState(initialData?.githubUrl || '');
-  const [builderName, setBuilderName] = useState(initialData?.builderName || '');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -46,10 +36,8 @@ export function SubmitProjectModal({ eventId, eventName, chapterId, initialData,
           body: JSON.stringify({
             title,
             description,
-            type,
-            deployedUrl: deployedUrl || undefined,
+            deployedUrl,
             githubUrl: githubUrl || undefined,
-            builderName,
           }),
         });
 
@@ -66,10 +54,8 @@ export function SubmitProjectModal({ eventId, eventName, chapterId, initialData,
           body: JSON.stringify({
             title,
             description,
-            type,
-            deployedUrl: deployedUrl || undefined,
+            deployedUrl,
             githubUrl: githubUrl || undefined,
-            builderName,
             chapterId,
             eventId,
           }),
@@ -127,18 +113,6 @@ export function SubmitProjectModal({ eventId, eventName, chapterId, initialData,
           {/* Form */}
           <form onSubmit={handleSubmit} className="p-6 space-y-5">
             <div>
-              <label className="block text-sm font-semibold mb-1.5">Your Name</label>
-              <input
-                type="text"
-                value={builderName}
-                onChange={(e) => setBuilderName(e.target.value)}
-                placeholder="Jane Doe"
-                required
-                className="w-full px-4 py-2.5 rounded-lg border border-[var(--border-strong)] bg-[var(--bg-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--accent)] font-body text-sm"
-              />
-            </div>
-
-            <div>
               <label className="block text-sm font-semibold mb-1.5">Project Name</label>
               <input
                 type="text"
@@ -163,27 +137,13 @@ export function SubmitProjectModal({ eventId, eventName, chapterId, initialData,
             </div>
 
             <div>
-              <label className="block text-sm font-semibold mb-1.5">Type</label>
-              <select
-                value={type}
-                onChange={(e) => setType(e.target.value as ProjectType)}
-                className="w-full px-4 py-2.5 rounded-lg border border-[var(--border-strong)] bg-[var(--bg-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--accent)] font-body text-sm cursor-pointer"
-              >
-                {PROJECT_TYPES.map((t) => (
-                  <option key={t.value} value={t.value}>{t.label}</option>
-                ))}
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-sm font-semibold mb-1.5">
-                Live URL <span className="font-normal text-[var(--text-muted)]">(optional)</span>
-              </label>
+              <label className="block text-sm font-semibold mb-1.5">Live URL</label>
               <input
                 type="url"
                 value={deployedUrl}
                 onChange={(e) => setDeployedUrl(e.target.value)}
                 placeholder="https://myproject.com"
+                required
                 className="w-full px-4 py-2.5 rounded-lg border border-[var(--border-strong)] bg-[var(--bg-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--accent)] font-body text-sm"
               />
             </div>

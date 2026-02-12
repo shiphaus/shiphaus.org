@@ -2,12 +2,10 @@ import { NextRequest, NextResponse } from 'next/server';
 import { redis } from '@/lib/redis';
 import { auth } from '@/lib/auth';
 import { createSubmission, approveSubmission } from '@/lib/redis-data';
-import { ProjectType, Submission } from '@/types';
+import { Submission } from '@/types';
 
 const RATE_LIMIT_WINDOW = 60;
 const RATE_LIMIT_MAX = 3;
-
-const VALID_TYPES: ProjectType[] = ['website', 'application', 'devtool', 'video', 'other'];
 
 function isValidUrl(str: string): boolean {
   try {
@@ -47,7 +45,8 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { title, description, type, deployedUrl, githubUrl, builderName, chapterId, eventId } = body;
+    const { title, description, deployedUrl, githubUrl, chapterId, eventId } = body;
+    const builderName = session.user.name || session.user.email;
 
     // Validate required fields
     if (!title || title.length < 3 || title.length > 100) {
@@ -56,17 +55,11 @@ export async function POST(request: NextRequest) {
     if (!description || description.length < 10 || description.length > 500) {
       return NextResponse.json({ error: 'Description must be 10-500 characters.' }, { status: 400 });
     }
-    if (!type || !VALID_TYPES.includes(type)) {
-      return NextResponse.json({ error: 'Invalid project type.' }, { status: 400 });
-    }
-    if (!builderName || builderName.length < 2 || builderName.length > 50) {
-      return NextResponse.json({ error: 'Name must be 2-50 characters.' }, { status: 400 });
+    if (!deployedUrl || !isValidUrl(deployedUrl)) {
+      return NextResponse.json({ error: 'A valid live URL is required.' }, { status: 400 });
     }
 
     // Validate optional URLs
-    if (deployedUrl && !isValidUrl(deployedUrl)) {
-      return NextResponse.json({ error: 'Invalid live link URL.' }, { status: 400 });
-    }
     if (githubUrl && !isValidUrl(githubUrl)) {
       return NextResponse.json({ error: 'Invalid source link URL.' }, { status: 400 });
     }
@@ -75,10 +68,10 @@ export async function POST(request: NextRequest) {
       id: `sub-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
       title: title.trim(),
       description: description.trim(),
-      type,
-      deployedUrl: deployedUrl?.trim() || undefined,
+      type: 'other',
+      deployedUrl: deployedUrl.trim(),
       githubUrl: githubUrl?.trim() || undefined,
-      builderName: builderName.trim(),
+      builderName,
       submittedBy: session.user.email,
       chapterId: chapterId || undefined,
       eventId: eventId || undefined,
