@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
-import { getSubmissionById, updateSubmission, deleteSubmission, deleteProject } from '@/lib/redis-data';
+import { getSubmissionById, updateSubmission, updateProject, deleteSubmission, deleteProject } from '@/lib/redis-data';
 
 export async function PATCH(
   request: NextRequest,
@@ -25,14 +25,22 @@ export async function PATCH(
   const body = await request.json();
   const { title, description, type, deployedUrl, githubUrl, builderName } = body;
 
-  await updateSubmission(id, {
+  const updates = {
     ...(title && { title }),
     ...(description && { description }),
     ...(type && { type }),
     ...(deployedUrl !== undefined && { deployedUrl: deployedUrl || undefined }),
     ...(githubUrl !== undefined && { githubUrl: githubUrl || undefined }),
     ...(builderName && { builderName }),
-  });
+  };
+
+  await updateSubmission(id, updates);
+
+  // Also update the auto-created project
+  const projectId = `proj-${id.replace('sub-', '')}`;
+  try {
+    await updateProject(projectId, updates);
+  } catch {}
 
   const updated = await getSubmissionById(id);
   return NextResponse.json(updated);

@@ -8,7 +8,7 @@ import {
   Calendar, MapPin, Layers, Plus,
   ExternalLink, Github, Settings, Check,
   Eye, ShieldCheck, Image as ImageIcon, Link2,
-  Trash2, ChevronDown, ChevronUp,
+  Trash2, ChevronDown, ChevronUp, Pencil,
 } from 'lucide-react';
 import Link from 'next/link';
 import { getChapter, getChapterEvents, getChapterProjects, chapterColorMap } from '@/lib/data';
@@ -372,12 +372,16 @@ function ChapterContent() {
                               )}
                               {status === 'active' && !showAdmin && (
                                 session ? (
-                                  <button
-                                    onClick={() => setSubmitModal({ eventId: event.id, eventTitle: event.title })}
-                                    className="btn-primary text-sm !px-5 !py-2"
-                                  >
-                                    Submit Project
-                                  </button>
+                                  mySubmissions.length > 0 ? (
+                                    <span className="text-xs text-[var(--text-muted)] font-medium">Submitted</span>
+                                  ) : (
+                                    <button
+                                      onClick={() => setSubmitModal({ eventId: event.id, eventTitle: event.title })}
+                                      className="btn-primary text-sm !px-5 !py-2"
+                                    >
+                                      Submit Project
+                                    </button>
+                                  )
                                 ) : (
                                   <button
                                     onClick={() => signIn('google', { callbackUrl: `/chapter/${chapterId}` })}
@@ -456,9 +460,17 @@ function ChapterContent() {
                               {isSubmissionsExpanded && (
                                 eventProjects.length > 0 ? (
                                   <div className="grid sm:grid-cols-2 gap-4 mt-3">
-                                    {eventProjects.map((project) => (
-                                      <ProjectRow key={project.id} project={project} />
-                                    ))}
+                                    {eventProjects.map((project) => {
+                                      const isOwner = session?.user?.email && project.approvedBy === session.user.email;
+                                      const matchingSub = isOwner ? mySubmissions.find(s => project.id === `proj-${s.id.replace('sub-', '')}`) : undefined;
+                                      return (
+                                        <ProjectRow
+                                          key={project.id}
+                                          project={project}
+                                          onEdit={isOwner && matchingSub && status === 'active' ? () => setSubmitModal({ eventId: event.id, eventTitle: event.title, editSubmission: matchingSub }) : undefined}
+                                        />
+                                      );
+                                    })}
                                   </div>
                                 ) : (
                                   <p className="text-sm text-[var(--text-muted)] font-body mt-3">No projects yet.</p>
@@ -575,7 +587,7 @@ function StatusBadge({ status }: { status: EventStatus }) {
   );
 }
 
-function ProjectRow({ project }: { project: Project }) {
+function ProjectRow({ project, onEdit }: { project: Project; onEdit?: () => void }) {
   return (
     <div className="bg-white rounded-xl border border-[var(--border-subtle)] p-4 hover:shadow-md transition-shadow">
       <div className="flex items-start gap-3">
@@ -585,7 +597,18 @@ function ProjectRow({ project }: { project: Project }) {
           className="w-9 h-9 rounded-full border border-[var(--border-subtle)] object-cover mt-0.5 shrink-0"
         />
         <div className="flex-1 min-w-0">
-          <h4 className="font-semibold text-sm">{project.title}</h4>
+          <div className="flex items-center justify-between gap-2">
+            <h4 className="font-semibold text-sm">{project.title}</h4>
+            {onEdit && (
+              <button
+                onClick={onEdit}
+                className="p-1 rounded text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors cursor-pointer shrink-0"
+                title="Edit project"
+              >
+                <Pencil className="w-3.5 h-3.5" />
+              </button>
+            )}
+          </div>
           <p className="text-xs text-[var(--text-muted)] mb-1">{project.builder.name}</p>
           <p className="text-sm text-[var(--text-secondary)] font-body leading-relaxed line-clamp-2">
             {project.description}
