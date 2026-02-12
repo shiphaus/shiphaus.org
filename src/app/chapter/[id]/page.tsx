@@ -68,6 +68,12 @@ function ChapterContent() {
   useEffect(() => { fetchData(); }, [fetchData]);
   useEffect(() => { fetchUserSubmissions(); }, [fetchUserSubmissions]);
 
+  // Admin: pre-fetch all submissions for each event so counts are accurate
+  useEffect(() => {
+    if (!isAdmin) return;
+    events.forEach(e => fetchEventSubmissions(e.id));
+  }, [isAdmin, events, fetchEventSubmissions]);
+
   if (!chapter) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -277,9 +283,10 @@ function ChapterContent() {
               const isSubmissionsExpanded = expandedSubmissions[event.id];
               const mySub = mySubmissions[0]; // user's submission for this event (if any)
 
-              // Build display projects: API projects + fallback from user submissions
+              // Build display projects: API projects + fallback from submissions
               const displayProjects = [...eventProjects];
-              for (const sub of mySubmissions) {
+              const allSubs = isAdmin ? [...mySubmissions, ...eventSubs.filter(s => !mySubmissions.some(ms => ms.id === s.id))] : mySubmissions;
+              for (const sub of allSubs) {
                 const projId = `proj-${sub.id.replace('sub-', '')}`;
                 if (!displayProjects.some(p => p.id === projId)) {
                   displayProjects.push({
@@ -297,7 +304,7 @@ function ChapterContent() {
                       uid: sub.builderName.toLowerCase().replace(/\s+/g, '-'),
                     },
                     type: sub.type,
-                    approvedBy: session?.user?.email || '',
+                    approvedBy: sub.submittedBy || session?.user?.email || '',
                   });
                 }
               }
@@ -449,7 +456,9 @@ function ChapterContent() {
                                   <div className="grid sm:grid-cols-2 gap-4 mt-3">
                                     {displayProjects.map((project) => {
                                       const isOwner = session?.user?.email && project.approvedBy === session.user.email;
-                                      const matchingSub = isOwner ? mySubmissions.find(s => project.id === `proj-${s.id.replace('sub-', '')}`) : undefined;
+                                      const matchingSub = isOwner
+                                        ? mySubmissions.find(s => project.id === `proj-${s.id.replace('sub-', '')}`)
+                                        : isAdmin ? eventSubs.find(s => project.id === `proj-${s.id.replace('sub-', '')}`) : undefined;
                                       const canEdit = (isOwner && matchingSub && status === 'active') || isAdmin;
                                       const canDelete = (isOwner && matchingSub) || isAdmin;
                                       const subForEdit = matchingSub || (isAdmin ? {
