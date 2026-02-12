@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAllProjects, getProjectsByChapter, getProjectsByEvent, getSubmissionsByEvent, getEventsByChapter } from '@/lib/redis-data';
+import { getChapterEvents } from '@/lib/data';
 import { Project, ProjectType } from '@/types';
 
 export const dynamic = 'force-dynamic';
 
-// Convert an approved submission to a Project for display
+// Convert a submission to a Project for display
 function submissionToProject(sub: { id: string; title: string; description: string; deployedUrl?: string; githubUrl?: string; builderName: string; builderAvatar?: string; submittedBy?: string; chapterId?: string; eventId?: string; submittedAt: string; type: string }): Project {
   return {
     id: `proj-${sub.id.replace('sub-', '')}`,
@@ -37,12 +38,15 @@ export async function GET(request: NextRequest) {
     if (chapter) {
       projects = await getProjectsByChapter(chapter);
 
-      // Also merge in approved submissions that may not have a matching project
+      // Also merge in submissions that may not have a matching project
       try {
-        const events = await getEventsByChapter(chapter);
+        const hardcodedEvents = getChapterEvents(chapter);
+        const redisEvents = await getEventsByChapter(chapter);
+        const seen = new Set(hardcodedEvents.map(e => e.id));
+        const events = [...hardcodedEvents, ...redisEvents.filter(e => !seen.has(e.id))];
         for (const evt of events) {
           const subs = await getSubmissionsByEvent(evt.id);
-          for (const sub of subs.filter(s => s.status === 'approved')) {
+          for (const sub of subs) {
             const projId = `proj-${sub.id.replace('sub-', '')}`;
             if (!projects.some(p => p.id === projId)) {
               projects.push(submissionToProject(sub));
@@ -53,10 +57,10 @@ export async function GET(request: NextRequest) {
     } else if (event) {
       projects = await getProjectsByEvent(event);
 
-      // Also merge in approved submissions for this event
+      // Also merge in submissions for this event
       try {
         const subs = await getSubmissionsByEvent(event);
-        for (const sub of subs.filter(s => s.status === 'approved')) {
+        for (const sub of subs) {
           const projId = `proj-${sub.id.replace('sub-', '')}`;
           if (!projects.some(p => p.id === projId)) {
             projects.push(submissionToProject(sub));

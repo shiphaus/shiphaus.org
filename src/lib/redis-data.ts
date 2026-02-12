@@ -138,8 +138,7 @@ export async function getAllProjects(): Promise<Project[]> {
   const results = await pipeline.exec();
   return results
     .filter((r): r is Record<string, string> => r !== null && typeof r === 'object')
-    .map(deserializeProject)
-    .filter(p => p.status === 'approved' || !p.status);
+    .map(deserializeProject);
 }
 
 export async function getProjectsByChapter(chapterId: string): Promise<Project[]> {
@@ -153,8 +152,7 @@ export async function getProjectsByChapter(chapterId: string): Promise<Project[]
   const results = await pipeline.exec();
   return results
     .filter((r): r is Record<string, string> => r !== null && typeof r === 'object')
-    .map(deserializeProject)
-    .filter(p => p.status === 'approved' || !p.status);
+    .map(deserializeProject);
 }
 
 export async function getProjectsByEvent(eventId: string): Promise<Project[]> {
@@ -168,8 +166,7 @@ export async function getProjectsByEvent(eventId: string): Promise<Project[]> {
   const results = await pipeline.exec();
   return results
     .filter((r): r is Record<string, string> => r !== null && typeof r === 'object')
-    .map(deserializeProject)
-    .filter(p => p.status === 'approved' || !p.status);
+    .map(deserializeProject);
 }
 
 export async function getFeaturedProjects(): Promise<Project[]> {
