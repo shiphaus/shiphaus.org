@@ -499,6 +499,7 @@ function ChapterContent() {
                                           key={project.id}
                                           project={project}
                                           onEdit={isOwner && matchingSub && status === 'active' ? () => setSubmitModal({ eventId: event.id, eventTitle: event.title, editSubmission: matchingSub }) : undefined}
+                                          onDelete={isOwner && matchingSub ? () => handleDeleteUserSubmission(matchingSub.id) : undefined}
                                         />
                                       );
                                     })}
@@ -618,7 +619,7 @@ function StatusBadge({ status }: { status: EventStatus }) {
   );
 }
 
-function ProjectRow({ project, onEdit }: { project: Project; onEdit?: () => void }) {
+function ProjectRow({ project, onEdit, onDelete }: { project: Project; onEdit?: () => void; onDelete?: () => void }) {
   return (
     <div className="bg-white rounded-xl border border-[var(--border-subtle)] p-4 hover:shadow-md transition-shadow">
       <div className="flex items-start gap-3">
@@ -630,14 +631,27 @@ function ProjectRow({ project, onEdit }: { project: Project; onEdit?: () => void
         <div className="flex-1 min-w-0">
           <div className="flex items-center justify-between gap-2">
             <h4 className="font-semibold text-sm">{project.title}</h4>
-            {onEdit && (
-              <button
-                onClick={onEdit}
-                className="p-1 rounded text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors cursor-pointer shrink-0"
-                title="Edit project"
-              >
-                <Pencil className="w-3.5 h-3.5" />
-              </button>
+            {(onEdit || onDelete) && (
+              <div className="flex items-center gap-0.5 shrink-0">
+                {onEdit && (
+                  <button
+                    onClick={onEdit}
+                    className="p-1 rounded text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors cursor-pointer"
+                    title="Edit project"
+                  >
+                    <Pencil className="w-3.5 h-3.5" />
+                  </button>
+                )}
+                {onDelete && (
+                  <button
+                    onClick={onDelete}
+                    className="p-1 rounded text-[var(--text-muted)] hover:text-red-500 transition-colors cursor-pointer"
+                    title="Delete project"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </button>
+                )}
+              </div>
             )}
           </div>
           <p className="text-xs text-[var(--text-muted)] mb-1">{project.builder.name}</p>
