@@ -18,6 +18,10 @@ All user-facing copy should be reviewed before shipping. Run `/copy-doctor` on a
 - No gatekeeping language -- Shiphaus is open to anyone who wants to build, not just experienced devs
 - Specific beats vague -- "14 builders" not "many builders"
 
+## Architecture
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the full architecture reference: routes, API, data layer, Redis key schema, auth flow, and how to add features. Read it before making structural changes.
+
 ## Events Data (src/lib/data.ts)
 
 DO NOT remove, modify, or "clean up" events from the `events` array. Past events are kept intentionally -- they link to projects and stats. The `getUpcomingEvents()` helper handles filtering automatically.
