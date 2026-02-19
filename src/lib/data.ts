@@ -92,9 +92,8 @@ export const events: Event[] = [
     title: 'Shiphaus NS #1',
     date: '2026-02-13T10:00:00',
     location: 'NS Library',
-    builderCount: 0,
-    projectCount: 0,
-    status: 'upcoming',
+    builderCount: 3,
+    projectCount: 3,
     lumaUrl: 'https://lu.ma/1vaocqic',
   },
   {

@@ -1,9 +1,10 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowRight, MapPin, Users, Calendar } from 'lucide-react';
-import { Chapter } from '@/types';
+import { Chapter, Project } from '@/types';
 import { chapterColorMap, getChapterEvents, getChapterProjects } from '@/lib/data';
 
 interface ChapterCardProps {
@@ -14,7 +15,21 @@ interface ChapterCardProps {
 export function ChapterCard({ chapter, index = 0 }: ChapterCardProps) {
   const accentColor = chapterColorMap[chapter.color] || '#FF6B35';
   const chapterEvents = getChapterEvents(chapter.id);
-  const chapterProjects = getChapterProjects(chapter.id);
+  const staticProjects = getChapterProjects(chapter.id);
+  const eventProjectCount = chapterEvents.reduce((sum, e) => sum + (e.projectCount || 0), 0);
+  const initialCount = Math.max(staticProjects.length, eventProjectCount);
+  const [projectCount, setProjectCount] = useState(initialCount);
+
+  useEffect(() => {
+    fetch(`/api/projects?chapter=${chapter.id}`)
+      .then(r => r.json())
+      .then((data: Project[]) => {
+        if (data.length > 0) {
+          setProjectCount(data.length);
+        }
+      })
+      .catch(() => {});
+  }, [chapter.id]);
 
   return (
     <motion.div
@@ -77,7 +92,7 @@ export function ChapterCard({ chapter, index = 0 }: ChapterCardProps) {
           <div className="flex items-center gap-6">
             <div className="flex items-center gap-2 text-sm text-[var(--text-secondary)]">
               <Users className="w-4 h-4" style={{ color: accentColor }} />
-              <span><strong>{chapterProjects.length}</strong> projects</span>
+              <span><strong>{projectCount}</strong> projects</span>
             </div>
             <div className="flex items-center gap-2 text-sm text-[var(--text-secondary)]">
               <Calendar className="w-4 h-4" style={{ color: accentColor }} />
