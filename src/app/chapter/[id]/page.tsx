@@ -13,6 +13,7 @@ import {
 import Link from 'next/link';
 import { getChapter, getChapterEvents, getChapterProjects, chapterColorMap } from '@/lib/data';
 import { SubmitProjectModal } from '@/components/SubmitProjectModal';
+import { ImageLightbox } from '@/components/ImageLightbox';
 import { buildCliPrompt } from '@/lib/cli-prompt';
 import { Project, Event, EventStatus } from '@/types';
 
@@ -627,9 +628,11 @@ function StatusBadge({ status }: { status: EventStatus }) {
 }
 
 function ProjectRow({ project, onEdit, onDelete }: { project: Project; onEdit?: () => void; onDelete?: () => void }) {
+  const [lightboxOpen, setLightboxOpen] = useState(false);
   return (
     <div className="bg-white rounded-xl border border-[var(--border-subtle)] p-4 hover:shadow-md transition-shadow">
       <div className="flex items-start gap-3">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={project.builder.avatar}
           alt={project.builder.name}
@@ -689,13 +692,28 @@ function ProjectRow({ project, onEdit, onDelete }: { project: Project; onEdit?: 
           </div>
         </div>
         {project.screenshotUrl && (
-          <img
-            src={project.screenshotUrl}
-            alt={`${project.title} screenshot`}
-            className="w-20 h-14 rounded-lg object-cover border border-[var(--border-subtle)] shrink-0 mt-0.5"
-          />
+          <button
+            type="button"
+            onClick={() => setLightboxOpen(true)}
+            className="shrink-0 mt-0.5 rounded-lg overflow-hidden border border-[var(--border-subtle)] hover:ring-2 hover:ring-[var(--accent)] hover:ring-offset-1 transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-[var(--accent)] focus:ring-offset-1"
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={project.screenshotUrl}
+              alt={`${project.title} screenshot`}
+              className="w-20 h-14 object-cover block"
+            />
+          </button>
         )}
       </div>
+      {project.screenshotUrl && (
+        <ImageLightbox
+          src={project.screenshotUrl}
+          alt={`${project.title} screenshot`}
+          open={lightboxOpen}
+          onClose={() => setLightboxOpen(false)}
+        />
+      )}
     </div>
   );
 }
