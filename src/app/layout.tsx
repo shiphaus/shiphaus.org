@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Instrument_Sans, Newsreader } from 'next/font/google';
 import './globals.css';
 import { Navbar } from '@/components/Navbar';
+import { Footer } from '@/components/Footer';
 import { Providers } from '@/components/Providers';
 
 const instrumentSans = Instrument_Sans({
@@ -46,6 +47,7 @@ export default function RootLayout({
           <main className="flex-1 pt-[calc(4rem+env(safe-area-inset-top))]">
             {children}
           </main>
+          <Footer />
         </Providers>
       </body>
     </html>
