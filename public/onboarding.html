@@ -947,9 +947,16 @@
         <span class="step-number">02</span>
         <div class="slide-content">
             <h2 class="reveal" style="margin-bottom: var(--content-gap);">Open Your<br><span style="color: var(--accent)">Terminal.</span></h2>
-            <p class="body-text reveal" style="margin-bottom: var(--content-gap); max-width: 550px;">Terminal is a text-based way to talk to your computer. It looks techy, but all you'll do is paste one command.</p>
-            <div class="dark-card reveal" style="max-width: min(90vw, 500px);">
-                <p class="body-text" style="color: var(--text-primary);"><kbd>Cmd</kbd> + <kbd>Space</kbd> → type <strong>"Terminal"</strong> → <kbd>Enter</kbd></p>
+            <p class="body-text reveal" style="margin-bottom: var(--content-gap); max-width: 550px;">Terminal is a text-based way to talk to your computer. It looks techy, but all you'll do is paste a couple of commands.</p>
+            <div class="reveal" style="max-width: min(90vw, 500px); display: flex; flex-direction: column; gap: clamp(0.5rem, 1vw, 0.75rem);">
+                <div class="dark-card" style="padding: clamp(1rem, 2vw, 1.5rem);">
+                    <span class="mono" style="color: var(--accent); font-size: var(--small-size);">Mac</span>
+                    <p class="body-text" style="color: var(--text-primary); margin-top: 0.3rem;"><kbd>Cmd</kbd> + <kbd>Space</kbd> → type <strong>"Terminal"</strong> → <kbd>Enter</kbd></p>
+                </div>
+                <div class="dark-card" style="padding: clamp(1rem, 2vw, 1.5rem);">
+                    <span class="mono" style="color: var(--accent); font-size: var(--small-size);">PC</span>
+                    <p class="body-text" style="color: var(--text-primary); margin-top: 0.3rem;">Press <kbd>Windows</kbd> key → type <strong>"PowerShell"</strong> → <kbd>Enter</kbd></p>
+                </div>
             </div>
         </div>
     </section>
@@ -962,10 +969,23 @@
         <span class="step-number">03</span>
         <div class="slide-content">
             <h2 class="reveal" style="margin-bottom: var(--content-gap);">Install<br><span style="color: var(--accent)">Claude Code.</span></h2>
-            <p class="body-text reveal" style="margin-bottom: var(--content-gap); max-width: 550px;">Copy this command, paste it into your terminal, press Enter. Takes about two minutes. Do it now — we'll wait.</p>
-            <div class="code-block reveal" style="max-width: min(90vw, 650px);">
-                <code><span class="prompt">$ </span>curl -fsSL https://claude.ai/install.sh | bash</code>
-                <button class="copy-btn" onclick="copyText(this, 'curl -fsSL https://claude.ai/install.sh | bash')">Copy</button>
+            <p class="body-text reveal" style="margin-bottom: var(--content-gap); max-width: 550px;">Copy your command, paste it into your terminal, press Enter. Takes about two minutes. Do it now — we'll wait.</p>
+            <div class="reveal" style="max-width: min(90vw, 650px); display: flex; flex-direction: column; gap: clamp(0.5rem, 1vw, 0.75rem);">
+                <div>
+                    <span class="mono" style="color: var(--accent); font-size: var(--small-size);">Mac / Linux</span>
+                    <div class="code-block" style="margin-top: 0.3rem;">
+                        <code><span class="prompt">$ </span>curl -fsSL https://claude.ai/install.sh | bash</code>
+                        <button class="copy-btn" onclick="copyText(this, 'curl -fsSL https://claude.ai/install.sh | bash')">Copy</button>
+                    </div>
+                </div>
+                <div>
+                    <span class="mono" style="color: var(--accent); font-size: var(--small-size);">PC (PowerShell)</span>
+                    <div class="code-block" style="margin-top: 0.3rem;">
+                        <code><span class="prompt">&gt; </span>npm install -g @anthropic-ai/claude-code</code>
+                        <button class="copy-btn" onclick="copyText(this, 'npm install -g @anthropic-ai/claude-code')">Copy</button>
+                    </div>
+                    <p class="body-text" style="font-size: var(--small-size); opacity: 0.5; margin-top: 0.3rem;">Need Node.js first? Get it at <a href="https://nodejs.org" target="_blank" rel="noopener" style="color: var(--accent); text-underline-offset: 3px;">nodejs.org</a></p>
+                </div>
             </div>
         </div>
     </section>
@@ -990,59 +1010,117 @@
         <span class="step-number">05</span>
         <div class="slide-content">
             <h2 class="reveal" style="margin-bottom: var(--content-gap);">Launch<br><span style="color: var(--accent)">Claude Code.</span></h2>
-            <p class="body-text reveal" style="margin-bottom: var(--content-gap); max-width: 550px;">Go back to your terminal. Paste this command — it opens Claude Code inside your new folder.</p>
-            <div class="code-block reveal" style="max-width: min(90vw, 650px);">
-                <code><span class="prompt">$ </span>cd ~/Desktop/my-site && claude</code>
-                <button class="copy-btn" onclick="copyText(this, 'cd ~/Desktop/my-site && claude')">Copy</button>
+            <p class="body-text reveal" style="margin-bottom: var(--content-gap); max-width: 550px;">Go back to your terminal. Paste your command — it opens Claude Code inside your new folder.</p>
+            <div class="reveal" style="max-width: min(90vw, 650px); display: flex; flex-direction: column; gap: clamp(0.5rem, 1vw, 0.75rem);">
+                <div>
+                    <span class="mono" style="color: var(--accent); font-size: var(--small-size);">Mac</span>
+                    <div class="code-block" style="margin-top: 0.3rem;">
+                        <code><span class="prompt">$ </span>cd ~/Desktop/my-site && claude</code>
+                        <button class="copy-btn" onclick="copyText(this, 'cd ~/Desktop/my-site && claude')">Copy</button>
+                    </div>
+                </div>
+                <div>
+                    <span class="mono" style="color: var(--accent); font-size: var(--small-size);">PC</span>
+                    <div class="code-block" style="margin-top: 0.3rem;">
+                        <code><span class="prompt">&gt; </span>cd ~\Desktop\my-site; claude</code>
+                        <button class="copy-btn" onclick="copyText(this, 'cd ~\\Desktop\\my-site; claude')">Copy</button>
+                    </div>
+                </div>
             </div>
             <p class="body-text reveal" style="margin-top: var(--content-gap); max-width: 550px; opacity: 0.6;">A browser window pops up — sign in with your Claude account. When you see a blinking cursor, you're in.</p>
         </div>
     </section>
 
     <!-- ===========================================
-         SLIDE 17: SKILLS — Now that they're set up
+         SLIDE 17: STEP 6 — SWITCH MODEL
          =========================================== -->
-    <section class="slide grid-bg" data-slide="17">
+    <section class="slide" data-slide="17">
         <span class="slide-number">18</span>
+        <span class="step-number">06</span>
         <div class="slide-content">
-            <h2 class="reveal" style="margin-bottom: var(--content-gap);">One More Thing.<br><span style="color: var(--accent)">Superpowers.</span></h2>
-            <p class="body-text reveal" style="margin-bottom: var(--content-gap); max-width: 550px;">Claude Code has built-in specialists you can call on. Just include these words in your message and Claude gets way better at that specific thing.</p>
-            <div class="skills-grid reveal">
-                <div class="skill-card">
-                    <div class="skill-command">/frontend-design</div>
-                    <div class="skill-label">Builds polished, beautiful websites</div>
-                </div>
-                <div class="skill-card">
-                    <div class="skill-command">/copy-doctor</div>
-                    <div class="skill-label">Sharpens your headlines and writing</div>
-                </div>
-                <div class="skill-card">
-                    <div class="skill-command">/plan</div>
-                    <div class="skill-label">Breaks your idea into a step-by-step plan</div>
-                </div>
+            <h2 class="reveal" style="margin-bottom: var(--content-gap);">Switch to the<br><span style="color: var(--accent)">Latest Model.</span></h2>
+            <p class="body-text reveal" style="margin-bottom: var(--content-gap); max-width: 550px;">Claude Code may default to an older model. Type this command and pick the newest one from the list.</p>
+            <div class="code-block reveal" style="max-width: min(90vw, 400px);">
+                <code>/model</code>
+                <button class="copy-btn" onclick="copyText(this, '/model')">Copy</button>
             </div>
+            <p class="body-text reveal" style="margin-top: var(--content-gap); max-width: 550px; opacity: 0.6;">Select <strong>claude-opus-4-6</strong>. Better model = better results.</p>
         </div>
     </section>
 
     <!-- ===========================================
-         SLIDE 18: BUILD YOUR SITE
+         SLIDE 18: STEP 7 — INSTALL FRONTEND DESIGN
          =========================================== -->
-    <section class="slide glow-bg" data-slide="18">
+    <section class="slide grid-bg" data-slide="18">
         <span class="slide-number">19</span>
+        <span class="step-number">07</span>
         <div class="slide-content">
-            <h2 class="reveal" style="margin-bottom: var(--content-gap);">Your LinkedIn.<br>Your Website.<br><span style="color: var(--accent)">Let's Go.</span></h2>
-            <p class="body-text reveal" style="margin-bottom: var(--content-gap); max-width: 550px;">Copy this message, paste it where the cursor is blinking, and replace the URL with your own LinkedIn. Then press Enter and watch.</p>
-            <div class="code-block reveal" style="max-width: min(90vw, 750px); white-space: normal; line-height: 1.8;">
-                <code>Use /frontend-design to build me a personal website based on my LinkedIn profile: https://linkedin.com/in/yourname. Make it modern, clean, and impressive.</code>
-                <button class="copy-btn" style="align-self: flex-start; margin-top: 0.5rem;" onclick="copyText(this, 'Use /frontend-design to build me a personal website based on my LinkedIn profile: https://linkedin.com/in/yourname. Make it modern, clean, and impressive.')">Copy</button>
+            <h2 class="reveal" style="margin-bottom: var(--content-gap);">Install<br><span style="color: var(--accent)">/frontend-design.</span></h2>
+            <p class="body-text reveal" style="margin-bottom: var(--content-gap); max-width: 550px;">This skill makes Claude way better at building beautiful websites. Paste these two commands into Claude Code, one at a time.</p>
+            <div class="reveal" style="max-width: min(90vw, 650px); display: flex; flex-direction: column; gap: clamp(0.5rem, 1vw, 0.75rem);">
+                <div>
+                    <span class="mono" style="color: var(--text-secondary); font-size: var(--small-size);">Step 1</span>
+                    <div class="code-block" style="margin-top: 0.3rem;">
+                        <code>/plugin marketplace add anthropics/claude-code</code>
+                        <button class="copy-btn" onclick="copyText(this, '/plugin marketplace add anthropics/claude-code')">Copy</button>
+                    </div>
+                </div>
+                <div>
+                    <span class="mono" style="color: var(--text-secondary); font-size: var(--small-size);">Step 2</span>
+                    <div class="code-block" style="margin-top: 0.3rem;">
+                        <code>/plugin install frontend-design@claude-code-plugins</code>
+                        <button class="copy-btn" onclick="copyText(this, '/plugin install frontend-design@claude-code-plugins')">Copy</button>
+                    </div>
+                </div>
+            </div>
+            <p class="body-text reveal" style="margin-top: var(--content-gap); opacity: 0.4; font-size: var(--small-size);">Didn't work? Try this instead:</p>
+            <div class="reveal" style="max-width: min(90vw, 650px); margin-top: clamp(0.3rem, 0.5vw, 0.5rem);">
+                <span class="mono" style="color: var(--text-secondary); font-size: var(--small-size);">Fallback</span>
+                <div class="code-block" style="margin-top: 0.3rem; white-space: normal; line-height: 1.6;">
+                    <code>Install the frontend-design skill from https://github.com/anthropics/claude-code/tree/main/plugins/frontend-design</code>
+                    <button class="copy-btn" style="align-self: flex-start;" onclick="copyText(this, 'Install the frontend-design skill from https://github.com/anthropics/claude-code/tree/main/plugins/frontend-design')">Copy</button>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- ===========================================
-         SLIDE 19: CLOSING
+         SLIDE 19: BUILD YOUR SITE
          =========================================== -->
-    <section class="slide grid-bg glow-bg" data-slide="19">
+    <section class="slide glow-bg" data-slide="19">
+        <span class="slide-number">20</span>
+        <div class="slide-content">
+            <h2 class="reveal" style="margin-bottom: var(--content-gap);">Your Name.<br>Your Website.<br><span style="color: var(--accent)">Let's Go.</span></h2>
+            <p class="body-text reveal" style="margin-bottom: var(--content-gap); max-width: 550px;">Copy this prompt, paste it into Claude Code, and replace the name with yours. Claude will Google you and build a site from what it finds.</p>
+            <div class="code-block reveal" style="max-width: min(90vw, 750px); white-space: normal; line-height: 1.8;">
+                <code>Use /frontend-design to build me a personal website. Google my name — First Last — and use what you find publicly online. Make it modern, clean, and impressive.</code>
+                <button class="copy-btn" style="align-self: flex-start; margin-top: 0.5rem;" onclick="copyText(this, 'Use /frontend-design to build me a personal website. Google my name — First Last — and use what you find publicly online. Make it modern, clean, and impressive.')">Copy</button>
+            </div>
+            <p class="body-text reveal" style="margin-top: var(--content-gap); max-width: 550px; opacity: 0.5; font-size: var(--small-size);">Tip: Claude can't access LinkedIn directly. Use your public name, portfolio, or company site instead.</p>
+        </div>
+    </section>
+
+    <!-- ===========================================
+         SLIDE 20: HOST ON NETLIFY
+         =========================================== -->
+    <section class="slide" data-slide="20">
+        <span class="slide-number">21</span>
+        <span class="step-number">08</span>
+        <div class="slide-content">
+            <h2 class="reveal" style="margin-bottom: var(--content-gap);">Put It<br><span style="color: var(--accent)">Online.</span></h2>
+            <p class="body-text reveal" style="margin-bottom: var(--content-gap); max-width: 550px;">Your site is built. Now make it live. Open this link and drag your <strong>my-site</strong> folder into the browser.</p>
+            <div class="code-block reveal" style="max-width: min(90vw, 550px);">
+                <code style="color: var(--accent);">https://app.netlify.com/drop</code>
+                <button class="copy-btn" onclick="copyText(this, 'https://app.netlify.com/drop')">Copy</button>
+            </div>
+            <p class="body-text reveal" style="margin-top: var(--content-gap); max-width: 550px; opacity: 0.6;">Drag and drop. No account needed. Your site goes live instantly with a real URL you can share.</p>
+        </div>
+    </section>
+
+    <!-- ===========================================
+         SLIDE 21: CLOSING
+         =========================================== -->
+    <section class="slide grid-bg glow-bg" data-slide="21">
         <div class="slide-content" style="align-items: center; text-align: center;">
             <h1 class="reveal">You're Ready.<br><span style="color: var(--accent)">Let's Build.</span></h1>
             <p class="body-text reveal" style="margin-top: var(--content-gap); opacity: 0.7;">If you get stuck, ask your neighbor or raise your hand. Everyone's figuring it out together.</p>
