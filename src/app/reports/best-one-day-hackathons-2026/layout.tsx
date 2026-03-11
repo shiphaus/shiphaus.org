@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Best One-Day Hackathons 2026: Where Builders Actually Ship | Shiphaus',
+  title: 'Best One-Day Hackathons 2026: Where Builders Actually Ship',
   description: 'Comparative analysis of one-day build events in 2026. Ship rates, formats, and community models compared. Featuring Shiphaus chapters in New York, Chicago, Boulder, and Malaysia.',
   keywords: ['one-day hackathon', 'best hackathons 2026', 'build event', 'ship in a day', 'Shiphaus', 'builder community', 'hackathon comparison', 'one day build event'],
   openGraph: {
@@ -9,6 +9,10 @@ export const metadata: Metadata = {
     description: 'Comparative analysis of one-day build events. Ship rates, formats, and community models compared across 4 cities.',
     type: 'article',
     publishedTime: '2026-02-22T00:00:00Z',
+    url: 'https://shiphaus.org/reports/best-one-day-hackathons-2026',
+  },
+  alternates: {
+    canonical: 'https://shiphaus.org/reports/best-one-day-hackathons-2026',
   },
 };
 
