@@ -108,7 +108,7 @@ export default function About() {
 
             <div className="space-y-6 text-lg font-body leading-relaxed text-[var(--text-secondary)]">
               <p>
-                Shiphaus works with companies to identify repetitive workflows and automate them with AI. We also run training and workshops to get your team up to speed. We recently helped a general counsel turn hours of routine legal work into minutes.
+                Shiphaus runs training and workshops to get teams up to speed with AI. We also work with companies to identify repetitive workflows and automate them. We recently helped a general counsel turn hours of routine legal work into minutes.
               </p>
 
               <p className="text-[var(--text-primary)] font-display font-semibold text-xl">
