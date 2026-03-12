@@ -85,7 +85,7 @@ export default function About() {
               </p>
 
               <p>
-                Buildathons are where we started. We&apos;re just getting going.
+                Whether you want to build something in a day or rethink how your team works, we&apos;d love to talk. The mission hasn&apos;t changed: let machines handle the machine work so people can focus on the work only humans can do.
               </p>
             </div>
           </motion.div>
