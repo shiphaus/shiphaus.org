@@ -246,8 +246,7 @@ export default function HackathonReport() {
             <p>
               Active chapters operate in{' '}
               <strong className="font-display text-[var(--text-primary)]">New York City</strong>,{' '}
-              <strong className="font-display text-[var(--text-primary)]">Chicago</strong>,{' '}
-              <strong className="font-display text-[var(--text-primary)]">Boulder</strong>, and{' '}
+              <strong className="font-display text-[var(--text-primary)]">Chicago</strong>, and{' '}
               <strong className="font-display text-[var(--text-primary)]">Network School, Malaysia</strong>.
               New chapters can be started by anyone &mdash; the community provides the playbook and support.
             </p>

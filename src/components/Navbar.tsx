@@ -7,7 +7,7 @@ import { ShiphausLogo } from '@/components/ShiphausLogo';
 import { useState } from 'react';
 import { chapters } from '@/lib/data';
 import { NavCityLink } from './NavCityLink';
-import { TaxiDoodle, WindDoodle, FlatironsDoodle, NetworkDoodle } from './doodles';
+import { TaxiDoodle, WindDoodle, NetworkDoodle } from './doodles';
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -88,7 +88,6 @@ export function Navbar() {
       >
         <TaxiDoodle />
         <WindDoodle />
-        <FlatironsDoodle />
         <NetworkDoodle />
       </div>
     </nav>

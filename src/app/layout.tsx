@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     default: 'Shiphaus | Build in a Day',
     template: '%s | Shiphaus',
   },
-  description: 'A global community of builders who come together to ship products in a single day. Join chapters in New York, Chicago, Boulder, and Malaysia.',
+  description: 'A global community of builders who come together to ship products in a single day. Join chapters in New York, Chicago, and Malaysia.',
   keywords: ['hackathon', 'builder', 'ship', 'startup', 'community', 'coding', 'one-day hackathon', 'build event'],
   openGraph: {
     title: 'Shiphaus | Build in a Day',
@@ -79,7 +79,7 @@ export default function RootLayout({
       <body className="min-h-screen flex flex-col">
         <Providers>
           <Navbar />
-          <main className="flex-1 pt-[calc(4rem+env(safe-area-inset-top))]">
+          <main className="flex-1 flex flex-col pt-[calc(4rem+env(safe-area-inset-top))]">
             {children}
           </main>
           <Footer />

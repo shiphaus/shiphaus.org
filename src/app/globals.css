@@ -18,7 +18,6 @@
   /* Chapter colors */
   --chapter-ny: #2D5BFF;
   --chapter-chicago: #8B5CF6;
-  --chapter-boulder: #10B981;
   --chapter-malaysia: #F59E0B;
 
   /* Borders and shadows */
@@ -41,7 +40,6 @@
   --color-accent-soft: var(--accent-soft);
   --color-chapter-ny: var(--chapter-ny);
   --color-chapter-chicago: var(--chapter-chicago);
-  --color-chapter-boulder: var(--chapter-boulder);
   --color-chapter-malaysia: var(--chapter-malaysia);
   --font-display: 'Instrument Sans', sans-serif;
   --font-body: 'Newsreader', Georgia, serif;
