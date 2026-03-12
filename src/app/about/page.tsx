@@ -22,7 +22,7 @@ const team = [
   {
     name: 'Kirill',
     role: 'Founder · Chicago',
-    bio: 'Senior Director of Product at Beyond Finance. Decade in fintech product management. Clearcover, OneMain Financial.',
+    bio: 'Product leader turned indie hacker. Decade running product at Series B fintech and insurtech companies. Builds and ships AI tools on the side.',
     avatar: 'https://pbs.twimg.com/profile_images/1475225953563561984/7YiRwkGF_400x400.jpg',
     x: 'https://x.com/polevoy_kirill',
     handle: '@polevoy_kirill',
