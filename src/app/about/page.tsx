@@ -22,7 +22,7 @@ const team = [
   {
     name: 'Kirill',
     role: 'Founder · Chicago',
-    bio: 'Product leader turned indie hacker. Decade running teams at Series B fintech and insurtech companies. Builds and ships AI tools on the side.',
+    bio: 'Product leader turned indie hacker. Decade running teams at early-stage fintech and insurtech companies. Builds and ships AI tools on the side.',
     avatar: 'https://pbs.twimg.com/profile_images/1475225953563561984/7YiRwkGF_400x400.jpg',
     x: 'https://x.com/polevoy_kirill',
     handle: '@polevoy_kirill',
@@ -53,12 +53,12 @@ export default function About() {
             </span>
 
             <h1 className="text-5xl md:text-6xl font-bold tracking-tight leading-[1.1] mb-6">
-              Never tell a computer something<br className="hidden md:block" />
-              it already <span className="text-[var(--accent)]">knows</span>.
+              Nobody should waste time on work<br className="hidden md:block" />
+              a machine can <span className="text-[var(--accent)]">do</span>.
             </h1>
 
             <p className="text-xl text-[var(--text-secondary)] font-body leading-relaxed max-w-2xl">
-              This is the biggest paradigm shift of our careers &mdash; and we&apos;ve seen a few. AI eliminates the drudgery that keeps people stuck. Less busywork. More time on what matters. We help people build with it. Buildathons are where we started. We&apos;re just getting going.
+              That&apos;s why we started Shiphaus.
             </p>
           </motion.div>
         </div>
