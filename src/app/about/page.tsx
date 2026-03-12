@@ -53,12 +53,12 @@ export default function About() {
             </span>
 
             <h1 className="text-5xl md:text-6xl font-bold tracking-tight leading-[1.1] mb-6">
-              Three cities. One rule.<br />
-              Everyone <span className="text-[var(--accent)]">ships</span>.
+              AI gave everyone the tools.<br />
+              We give them the <span className="text-[var(--accent)]">push</span>.
             </h1>
 
             <p className="text-xl text-[var(--text-secondary)] font-body leading-relaxed max-w-2xl">
-              Shiphaus runs one-day buildathons. Walk in with an idea. Walk out with a live product. AI handles the grunt work. The room handles the rest.
+              The hardest part isn&apos;t code. It&apos;s starting. Shiphaus puts you in a room with a deadline and gets the snowball rolling. AI is changing everything. We want everyone building.
             </p>
           </motion.div>
         </div>
