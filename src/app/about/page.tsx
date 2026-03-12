@@ -84,6 +84,10 @@ export default function About() {
                 So we started holding free build days. We wanted to spread the word and get a community of builders and non-builders together. Oh, and pizza.
               </p>
 
+              <p>
+                Then people started asking: &ldquo;Can you help us do this at work?&rdquo;
+              </p>
+
             </div>
           </motion.div>
         </div>
@@ -104,11 +108,7 @@ export default function About() {
 
             <div className="space-y-6 text-lg font-body leading-relaxed text-[var(--text-secondary)]">
               <p>
-                Once in a while someone walks out of a build day and says &ldquo;okay but can you help us do this at work?&rdquo;
-              </p>
-
-              <p>
-                Turns out years of running teams across fintech, ecommerce, and SaaS is useful here too. We recently helped a general counsel turn hours of routine legal work into minutes.
+                Shiphaus works with companies to identify repetitive workflows and automate them with AI. We recently helped a general counsel turn hours of routine legal work into minutes.
               </p>
 
               <p className="text-[var(--text-primary)] font-display font-semibold text-xl">
