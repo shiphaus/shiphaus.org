@@ -68,7 +68,7 @@ export default function About() {
               </p>
 
               <p>
-                Salespeople weren&apos;t just building apps. They were deploying them. The creativity it unleashed was something we&apos;d never seen before. They saw the light.
+                Salespeople weren&apos;t just building apps. They were deploying them. The creativity it unlocked was unlike anything we&apos;d seen. They saw the light.
               </p>
             </div>
 
