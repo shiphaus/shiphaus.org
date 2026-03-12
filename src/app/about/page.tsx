@@ -150,10 +150,6 @@ export default function About() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <p className="text-lg text-white/60 font-body mb-12">
-              We also help teams ship AI tools. Same energy. Different timeline.
-            </p>
-
             <h2 className="text-3xl md:text-4xl font-bold mb-8">Say Hi</h2>
 
             <div className="flex flex-wrap justify-center gap-6">
