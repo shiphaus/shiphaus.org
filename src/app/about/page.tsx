@@ -81,7 +81,7 @@ export default function About() {
               </p>
 
               <p>
-                Sometimes the problems go deeper than a build day can fix. Decades of running teams taught us where the real bottlenecks hide &mdash; workflow automation, process design, the boring stuff that costs the most. Recently we helped a general counsel cut routine legal work from hours to minutes. No SaaS vendor. No data leaving the building. Just pure wins.
+                Once in a while someone walks out of a build day and says &ldquo;okay but can you help us do this at work.&rdquo; Turns out years of running teams across fintech, ecommerce, and SaaS is useful here too. We recently helped a general counsel turn hours of routine legal work into minutes.
               </p>
 
               <p>
