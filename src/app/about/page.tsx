@@ -53,12 +53,12 @@ export default function About() {
             </span>
 
             <h1 className="text-5xl md:text-6xl font-bold tracking-tight leading-[1.1] mb-6">
-              AI gave everyone the tools.<br />
-              We give them the <span className="text-[var(--accent)]">push</span>.
+              Never tell a computer something<br className="hidden md:block" />
+              it already <span className="text-[var(--accent)]">knows</span>.
             </h1>
 
             <p className="text-xl text-[var(--text-secondary)] font-body leading-relaxed max-w-2xl">
-              The hardest part isn&apos;t code. It&apos;s starting. Shiphaus puts you in a room with a deadline and gets the snowball rolling. AI is changing everything. We want everyone building.
+              This is the biggest paradigm shift of our careers &mdash; and we&apos;ve seen a few. AI eliminates the drudgery that keeps people stuck. Less busywork. More time on what matters. We help people build with it. Buildathons are where we started. We&apos;re just getting going.
             </p>
           </motion.div>
         </div>
