@@ -11,7 +11,7 @@ export function Footer() {
           </div>
           <nav className="flex items-center gap-6">
             <Link href="/about" className="hover:text-white/70 transition-colors">
-              About
+              Our Story
             </Link>
             <Link href="/reports/best-one-day-hackathons-2026" className="hover:text-white/70 transition-colors">
               2026 Hackathon Report

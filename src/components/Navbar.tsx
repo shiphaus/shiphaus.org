@@ -40,7 +40,7 @@ export function Navbar() {
               href="/about"
               className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors text-sm font-medium"
             >
-              About
+              Our Story
             </Link>
           </div>
 
@@ -79,7 +79,7 @@ export function Navbar() {
                 onClick={() => setIsOpen(false)}
                 className="block py-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors font-medium"
               >
-                About
+                Our Story
               </Link>
             </div>
           </motion.div>

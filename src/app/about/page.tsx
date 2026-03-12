@@ -1,8 +1,6 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
-import Link from 'next/link';
 
 const XLogo = ({ className }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="currentColor">
@@ -40,7 +38,7 @@ const team = [
 export default function About() {
   return (
     <div className="min-h-screen bg-[var(--bg-primary)]">
-      {/* Mission */}
+      {/* Hero */}
       <section className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <motion.div
@@ -49,7 +47,7 @@ export default function About() {
             transition={{ duration: 0.6 }}
           >
             <span className="inline-block px-3 py-1 mb-4 text-xs font-bold tracking-widest uppercase bg-[var(--text-primary)] text-white rounded-lg">
-              About
+              Our Story
             </span>
 
             <h1 className="text-5xl md:text-6xl font-bold tracking-tight leading-[1.1] mb-6">
@@ -60,6 +58,53 @@ export default function About() {
             <p className="text-xl text-[var(--text-secondary)] font-body leading-relaxed max-w-2xl">
               That&apos;s why we started Shiphaus.
             </p>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Story */}
+      <section className="py-20 bg-[var(--text-primary)] text-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="space-y-6 text-lg md:text-xl font-body leading-relaxed text-white/80">
+              <p>
+                Between us &mdash; fifteen years in fintech, product, governance, and fraud prevention. We&apos;ve watched plenty of &ldquo;next big things&rdquo; come and go.
+              </p>
+
+              <p className="text-white font-display font-bold text-2xl md:text-3xl !leading-tight">
+                AI is different.
+              </p>
+
+              <p>
+                Not because it&apos;s flashy. Because it&apos;s useful. Every hour someone spends on work a machine could handle is an hour stolen from the work that actually matters.
+              </p>
+            </div>
+
+            {/* Pull quote */}
+            <div className="my-12 py-8 border-y border-white/10 text-center">
+              <p className="font-body italic text-2xl md:text-3xl text-white/90">
+                &ldquo;Never tell a computer something it already knows.&rdquo;
+              </p>
+            </div>
+
+            <div className="space-y-6 text-lg md:text-xl font-body leading-relaxed text-white/80">
+              <p>
+                We saw smart people stuck. Not for lack of ideas &mdash; because starting is hard. The first steps are always grunt work. AI dissolves that.
+              </p>
+
+              <p>
+                So we got a room. Set a deadline. Invited builders. Everyone shipped.
+              </p>
+
+              <p>
+                That was Shiphaus #1. Five events and three cities later, the thesis holds. Buildathons are where we started. We&apos;re just getting going.
+              </p>
+            </div>
           </motion.div>
         </div>
       </section>
@@ -113,8 +158,8 @@ export default function About() {
         </div>
       </section>
 
-      {/* Consulting signal + Contact */}
-      <section className="py-20 bg-[var(--text-primary)] text-white">
+      {/* Contact */}
+      <section className="py-20 bg-[#111111] text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -126,7 +171,7 @@ export default function About() {
               We also help teams ship AI tools. Same energy. Different timeline.
             </p>
 
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Say Hi</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-8">Say Hi</h2>
 
             <div className="flex flex-wrap justify-center gap-6">
               {team.map((person) => (
