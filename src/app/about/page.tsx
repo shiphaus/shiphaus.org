@@ -22,7 +22,7 @@ const team = [
   {
     name: 'Kirill',
     role: 'Founder · Chicago',
-    bio: 'Product leader turned indie hacker. Decade running product at Series B fintech and insurtech companies. Builds and ships AI tools on the side.',
+    bio: 'Product leader turned indie hacker. Decade running teams at Series B fintech and insurtech companies. Builds and ships AI tools on the side.',
     avatar: 'https://pbs.twimg.com/profile_images/1475225953563561984/7YiRwkGF_400x400.jpg',
     x: 'https://x.com/polevoy_kirill',
     handle: '@polevoy_kirill',
