@@ -50,9 +50,13 @@ export default function About() {
               Our Story
             </span>
 
-            <h1 className="text-3xl md:text-4xl font-bold tracking-tight leading-tight mb-10">
-              We started Shiphaus because nobody should waste time on work a machine can do.
+            <h1 className="text-3xl md:text-4xl font-bold tracking-tight leading-tight mb-4">
+              Nobody should waste time on work a machine can do.
             </h1>
+
+            <p className="text-xl text-[var(--text-secondary)] font-body leading-relaxed mb-10">
+              That&apos;s why we started Shiphaus.
+            </p>
 
             <div className="space-y-6 text-lg font-body leading-relaxed text-[var(--text-secondary)]">
               <p>
