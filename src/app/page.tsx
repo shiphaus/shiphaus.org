@@ -53,7 +53,7 @@ function HeroSection() {
               transition={{ duration: 0.6 }}
               className="text-5xl md:text-6xl font-bold tracking-tight mb-6 leading-[1.1]"
             >
-              One room. One day.<br />
+              Come build.<br />
               Everyone <span className="text-[var(--accent)]">ships</span>.
             </motion.h1>
 
@@ -63,7 +63,7 @@ function HeroSection() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="text-xl text-[var(--text-secondary)] font-body leading-relaxed mb-8 max-w-xl"
             >
-              Show up at 10. Ship by 5. Walk out with something live.
+              Free build days where anyone can harness the power of AI.
             </motion.p>
 
             <motion.div
