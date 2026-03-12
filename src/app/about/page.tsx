@@ -50,7 +50,7 @@ export default function About() {
               Our Story
             </span>
 
-            <h1 className="text-3xl md:text-4xl font-bold tracking-tight leading-tight mb-4">
+            <h1 className="text-3xl md:text-4xl font-body leading-tight mb-4">
               Nobody should waste time on work a machine can do.
             </h1>
 
@@ -60,11 +60,11 @@ export default function About() {
 
             <div className="space-y-6 text-lg font-body leading-relaxed text-[var(--text-secondary)]">
               <p>
-                We&apos;ve all been using AI since 2022. It was a nice tool. A better Google. Then 2025 happened.
+                We&apos;ve all been using AI since 2022. It was a nice tool. A better Google. Then Claude Code happened.
               </p>
 
               <p>
-                AI stopped being a helper and started making things possible that weren&apos;t even conceivable before. It went from answering questions to doing the work.
+                AI stopped being a helper and started making things possible that weren&apos;t even conceivable before. It went from answering questions to doing the work. Salespeople started building and deploying apps.
               </p>
             </div>
 
