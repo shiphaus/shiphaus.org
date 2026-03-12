@@ -81,7 +81,7 @@ export default function About() {
 
             <div className="space-y-6 text-lg font-body leading-relaxed text-[var(--text-secondary)]">
               <p>
-                So we started holding free build days to show people the light. Also, we like pizza and hanging out with builders. Mostly the pizza.
+                So we started holding free build days. Partly to spread the word. Partly because we like pizza and hanging out with builders. Mostly the pizza.
               </p>
 
               <p>
