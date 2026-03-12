@@ -1,10 +1,17 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { Globe } from 'lucide-react';
 
 const XLogo = ({ className }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="currentColor">
     <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+  </svg>
+);
+
+const LinkedInLogo = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
   </svg>
 );
 
@@ -16,6 +23,8 @@ const team = [
     avatar: '/avatars/slobo.jpeg',
     x: 'https://x.com/AlexSlobodnik',
     handle: '@AlexSlobodnik',
+    linkedin: 'https://www.linkedin.com/in/alex-slobodnik-b412762/',
+    site: 'https://justslobo.com/',
   },
   {
     name: 'Kirill',
@@ -24,6 +33,8 @@ const team = [
     avatar: 'https://pbs.twimg.com/profile_images/1475225953563561984/7YiRwkGF_400x400.jpg',
     x: 'https://x.com/polevoy_kirill',
     handle: '@polevoy_kirill',
+    linkedin: 'https://www.linkedin.com/in/kirill-polevoy/',
+    site: 'https://www.kirillpolevoy.com/',
   },
   {
     name: 'Dylan',
@@ -32,6 +43,8 @@ const team = [
     avatar: 'https://lh3.googleusercontent.com/a/ACg8ocIqSddDDj3zpXMWiIHz7It2SXAf3baAv2nWspKsbMo4l2fkFiJ9qA=s96-c',
     x: 'https://x.com/gofordylan',
     handle: '@gofordylan',
+    linkedin: 'https://www.linkedin.com/in/dylanbrodeur/',
+    site: 'https://dylanbrodeur.org/',
   },
 ];
 
@@ -116,7 +129,7 @@ export default function About() {
               </p>
 
               <p>
-                If that sounds interesting, reach out.
+                Let&apos;s talk.
               </p>
 
               <a
@@ -164,49 +177,38 @@ export default function About() {
                   </div>
                 </div>
                 <p className="text-[var(--text-secondary)] font-body mb-4">{person.bio}</p>
-                <a
-                  href={person.x}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-sm text-[var(--accent)] font-medium hover:gap-2.5 transition-all"
-                >
-                  <XLogo className="w-3.5 h-3.5" />
-                  {person.handle}
-                </a>
+                <div className="flex items-center gap-4">
+                  <a
+                    href={person.x}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors"
+                  >
+                    <XLogo className="w-3.5 h-3.5" />
+                  </a>
+                  <a
+                    href={person.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors"
+                  >
+                    <LinkedInLogo className="w-4 h-4" />
+                  </a>
+                  <a
+                    href={person.site}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors"
+                  >
+                    <Globe className="w-4 h-4" />
+                  </a>
+                </div>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Contact */}
-      <section className="py-20 bg-[#111111] text-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <h2 className="text-3xl md:text-4xl font-bold mb-8">Say Hi</h2>
-
-            <div className="flex flex-wrap justify-center gap-6">
-              {team.map((person) => (
-                <a
-                  key={person.handle}
-                  href={person.x}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex items-center gap-2 text-white/50 hover:text-[var(--accent)] transition-colors"
-                >
-                  <XLogo className="w-4 h-4" />
-                  <span className="text-sm font-medium">{person.handle}</span>
-                </a>
-              ))}
-            </div>
-          </motion.div>
-        </div>
-      </section>
     </div>
   );
 }
