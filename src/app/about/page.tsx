@@ -14,7 +14,7 @@ const team = [
   {
     name: 'Slobo',
     role: 'Founder · New York',
-    bio: 'Coinbase Ventures-backed founder. Led ecosystem strategy at ENS, Ethereum\u2019s naming protocol. Built naming infrastructure used by wallet companies in production.',
+    bio: 'Ex-founder, backed by Coinbase Ventures. 15 years across fintech, marketing, and fraud prevention. Built infrastructure used by wallet companies in production.',
     avatar: '/avatars/slobo.jpeg',
     x: 'https://x.com/AlexSlobodnik',
     handle: '@AlexSlobodnik',
