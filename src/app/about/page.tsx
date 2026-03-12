@@ -64,7 +64,11 @@ export default function About() {
               </p>
 
               <p>
-                AI stopped being a helper and started making things possible that weren&apos;t even conceivable before. It went from answering questions to doing the work. Salespeople started building and deploying apps.
+                AI stopped being a helper and started making things possible that weren&apos;t even conceivable before. It went from answering questions to doing the work.
+              </p>
+
+              <p>
+                Salespeople weren&apos;t just building apps. They were deploying them. The creativity it unleashed was something we&apos;d never seen before. They saw the light.
               </p>
             </div>
 
