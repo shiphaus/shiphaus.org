@@ -77,15 +77,11 @@ export default function About() {
 
             <div className="space-y-6 text-lg font-body leading-relaxed text-[var(--text-secondary)]">
               <p>
-                We had to tell people. Not in a &ldquo;the future is here&rdquo; way. In a &ldquo;you need to try this right now&rdquo; way.
+                So we started holding free build days to show people the light. Also, we like pizza and hanging out with builders. Mostly the pizza.
               </p>
 
               <p>
-                So we started holding free build days. A room, a deadline, and AI to handle the grunt work. We say it&apos;s for the community. Really, we just like hanging out with builders.
-              </p>
-
-              <p>
-                And the use cases are real. Slobo helped a lawyer cut repetitive legal work from days and thousands of dollars down to hours. That&apos;s not a demo. That&apos;s someone&apos;s Tuesday.
+                Sometimes the problems go deeper than a build day can fix. Decades of running teams taught us where the real bottlenecks hide &mdash; workflow automation, process design, the boring stuff that costs the most. Recently we helped a general counsel cut routine legal work from hours to minutes. No SaaS vendor. No data leaving the building. Just pure wins.
               </p>
 
               <p>
