@@ -7,7 +7,7 @@ import { ShiphausLogo } from '@/components/ShiphausLogo';
 import { useState } from 'react';
 import { chapters } from '@/lib/data';
 import { NavCityLink } from './NavCityLink';
-import { TaxiDoodle, WindDoodle, FlatironsDoodle, NetworkDoodle } from './doodles';
+import { TaxiDoodle, WindDoodle, NetworkDoodle } from './doodles';
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -36,6 +36,12 @@ export function Navbar() {
                 </NavCityLink>
               ))}
             </div>
+            <Link
+              href="/about"
+              className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors text-sm font-medium"
+            >
+              Our Story
+            </Link>
           </div>
 
           {/* Mobile menu button */}
@@ -68,6 +74,13 @@ export function Navbar() {
                   {chapter.city}
                 </Link>
               ))}
+              <Link
+                href="/about"
+                onClick={() => setIsOpen(false)}
+                className="block py-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors font-medium"
+              >
+                Our Story
+              </Link>
             </div>
           </motion.div>
         )}
@@ -88,7 +101,6 @@ export function Navbar() {
       >
         <TaxiDoodle />
         <WindDoodle />
-        <FlatironsDoodle />
         <NetworkDoodle />
       </div>
     </nav>

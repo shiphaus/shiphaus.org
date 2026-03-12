@@ -199,7 +199,7 @@ function ChapterContent() {
   }
 
   return (
-    <div className="min-h-screen">
+    <div className="flex-1 flex flex-col bg-[var(--bg-secondary)]">
 
       {/* Success toast */}
       <AnimatePresence>
@@ -233,7 +233,7 @@ function ChapterContent() {
       )}
 
       {/* Events Section */}
-      <section className="pt-16 pb-16 bg-[var(--bg-secondary)]">
+      <section className="pt-16 pb-16 flex-1 bg-[var(--bg-secondary)]">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-end justify-between mb-10">
             <motion.div
@@ -389,7 +389,7 @@ function ChapterContent() {
                                     {displayProjects.length} project{displayProjects.length !== 1 ? 's' : ''}
                                   </span>
                                 )}
-                                {event.lumaUrl && (
+                                {event.lumaUrl && status !== 'closed' && (
                                   <a
                                     href={event.lumaUrl}
                                     target="_blank"

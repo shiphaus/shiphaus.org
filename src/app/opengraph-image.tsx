@@ -47,7 +47,7 @@ export default async function Image() {
             marginTop: 24,
           }}
         >
-          New York &middot; Chicago &middot; Boulder &middot; Malaysia
+          New York &middot; Chicago &middot; Malaysia
         </div>
       </div>
     ),

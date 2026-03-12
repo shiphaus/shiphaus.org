@@ -44,7 +44,22 @@ function EventContent() {
         eventsRes.json() as Promise<Event[]>,
       ]);
       if (signal?.aborted) return;
-      if (projectsData.length > 0) setProjects(projectsData);
+
+      // If no projects found by static event ID, try matching Redis event by date
+      if (projectsData.length > 0) {
+        setProjects(projectsData);
+      } else if (staticEvent && eventsData.length > 0) {
+        const staticDate = new Date(staticEvent.date).toDateString();
+        const matchingEvent = eventsData.find(
+          (e) => e.id !== eventId && new Date(e.date).toDateString() === staticDate
+        );
+        if (matchingEvent) {
+          const fallbackRes = await fetch(`/api/projects?event=${matchingEvent.id}&t=${Date.now()}`, opts);
+          const fallbackData = await fallbackRes.json() as Project[];
+          if (fallbackData.length > 0) setProjects(fallbackData);
+        }
+      }
+
       const apiEvent = eventsData.find((e) => e.id === eventId);
       if (apiEvent && staticEvent) {
         setEvent({ ...staticEvent, ...apiEvent, hostedBy: staticEvent.hostedBy ?? apiEvent.hostedBy });
@@ -198,7 +213,7 @@ function EventContent() {
                       <Layers className="w-3.5 h-3.5 text-[var(--text-muted)]" />
                       {projects.length} project{projects.length !== 1 ? 's' : ''}
                     </span>
-                    {event.lumaUrl && (
+                    {event.lumaUrl && status !== 'closed' && (
                       <a
                         href={event.lumaUrl}
                         target="_blank"

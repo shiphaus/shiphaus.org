@@ -53,7 +53,8 @@ function HeroSection() {
               transition={{ duration: 0.6 }}
               className="text-5xl md:text-6xl font-bold tracking-tight mb-6 leading-[1.1]"
             >
-              Ideate, Plan, and <span className="text-[var(--accent)]">Ship</span>, all in one day.
+              One room. One day.<br />
+              Everyone <span className="text-[var(--accent)]">ships</span>.
             </motion.h1>
 
             <motion.p
@@ -62,7 +63,7 @@ function HeroSection() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="text-xl text-[var(--text-secondary)] font-body leading-relaxed mb-8 max-w-xl"
             >
-              Builders will help you along the way.
+              Show up at 10. Ship by 5. Walk out with something live.
             </motion.p>
 
             <motion.div
@@ -431,6 +432,49 @@ function CTASection() {
   );
 }
 
+function TeamTeaserSection() {
+  const founders = [
+    { name: 'Slobo', avatar: '/avatars/slobo.jpeg' },
+    { name: 'Kirill', avatar: 'https://pbs.twimg.com/profile_images/1475225953563561984/7YiRwkGF_400x400.jpg' },
+    { name: 'Dylan', avatar: 'https://lh3.googleusercontent.com/a/ACg8ocIqSddDDj3zpXMWiIHz7It2SXAf3baAv2nWspKsbMo4l2fkFiJ9qA=s96-c' },
+  ];
+
+  return (
+    <section className="py-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+        >
+          <div className="flex justify-center -space-x-3 mb-6">
+            {founders.map((f) => (
+              <img
+                key={f.name}
+                src={f.avatar}
+                alt={f.name}
+                className="w-12 h-12 rounded-full border-2 border-[var(--bg-primary)] object-cover"
+              />
+            ))}
+          </div>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">Three Builders. Three Cities.</h2>
+          <p className="text-[var(--text-secondary)] font-body text-lg mb-8 max-w-xl mx-auto">
+            Run by people who ship. New York. Chicago. Malaysia.
+          </p>
+          <Link
+            href="/about"
+            className="inline-flex items-center gap-2 text-[var(--accent)] font-medium hover:gap-3 transition-all"
+          >
+            Meet the team
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
 export default function Home() {
   return (
     <>
@@ -440,6 +484,7 @@ export default function Home() {
       <EmailCapture />
       <ProjectsSection />
       <TestimonialsSection />
+      <TeamTeaserSection />
       <CTASection />
     </>
   );

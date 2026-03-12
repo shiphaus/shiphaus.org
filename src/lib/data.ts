@@ -3,7 +3,6 @@ import { Chapter, Event, Project, Testimonial } from '@/types';
 export const chapterColorMap: Record<string, string> = {
   'chapter-ny': '#2D5BFF',
   'chapter-chicago': '#8B5CF6',
-  'chapter-boulder': '#10B981',
   'chapter-malaysia': '#F59E0B',
 };
 
@@ -36,20 +35,6 @@ export const chapters: Chapter[] = [
       isFounder: true,
     },
     color: 'chapter-chicago',
-  },
-  {
-    id: 'boulder',
-    city: 'Boulder',
-    country: 'USA',
-    lead: {
-      name: 'Dawson Botsford',
-      handle: '@DawsonBotsford',
-      avatar: 'https://pbs.twimg.com/profile_images/1557792534734069760/MS04axwE_400x400.png',
-      x: 'https://x.com/DawsonBotsford',
-      github: 'https://github.com/dawsbot',
-      website: 'https://dawsonbotsford.com',
-    },
-    color: 'chapter-boulder',
   },
   {
     id: 'malaysia',
@@ -103,9 +88,9 @@ export const events: Event[] = [
     title: 'Shiphaus #3',
     date: '2026-02-22T15:00:00',
     location: 'Brooklyn, NY',
-    builderCount: 0,
-    projectCount: 0,
-    status: 'upcoming',
+    builderCount: 13,
+    projectCount: 13,
+    status: 'closed',
     lumaUrl: 'https://luma.com/7m6wvfq3',
     hostedBy: {
       name: 'Asylum.vc',
@@ -119,9 +104,9 @@ export const events: Event[] = [
     title: 'Shiphaus CHI #1',
     date: '2026-02-28T10:00:00',
     location: 'Chicago, IL',
-    builderCount: 0,
-    projectCount: 0,
-    status: 'upcoming',
+    builderCount: 8,
+    projectCount: 8,
+    status: 'closed',
     lumaUrl: 'https://luma.com/7ycej8br',
     hostedBy: {
       name: 'Portal Innovations',
