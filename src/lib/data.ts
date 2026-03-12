@@ -33,6 +33,7 @@ export const chapters: Chapter[] = [
       avatar: 'https://pbs.twimg.com/profile_images/1475225953563561984/7YiRwkGF_400x400.jpg',
       x: 'https://x.com/polevoy_kirill',
       github: 'https://github.com/kirillpolevoy',
+      isFounder: true,
     },
     color: 'chapter-chicago',
   },
