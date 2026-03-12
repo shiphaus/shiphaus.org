@@ -38,45 +38,28 @@ const team = [
 export default function About() {
   return (
     <div className="min-h-screen bg-[var(--bg-primary)]">
-      {/* Hero */}
+      {/* Story */}
       <section className="py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-3xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <span className="inline-block px-3 py-1 mb-4 text-xs font-bold tracking-widest uppercase bg-[var(--text-primary)] text-white rounded-lg">
+            <span className="inline-block px-3 py-1 mb-6 text-xs font-bold tracking-widest uppercase bg-[var(--text-primary)] text-white rounded-lg">
               Our Story
             </span>
 
-            <h1 className="text-5xl md:text-6xl font-bold tracking-tight leading-[1.1] mb-6">
-              Nobody should waste time on work<br className="hidden md:block" />
-              a machine can <span className="text-[var(--accent)]">do</span>.
+            <h1 className="text-3xl md:text-4xl font-bold tracking-tight leading-tight mb-10">
+              We started Shiphaus because nobody should waste time on work a machine can do.
             </h1>
 
-            <p className="text-xl text-[var(--text-secondary)] font-body leading-relaxed max-w-2xl">
-              That&apos;s why we started Shiphaus.
-            </p>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Story */}
-      <section className="py-20 bg-[var(--text-primary)] text-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <div className="space-y-6 text-lg md:text-xl font-body leading-relaxed text-white/80">
+            <div className="space-y-6 text-lg font-body leading-relaxed text-[var(--text-secondary)]">
               <p>
                 Between us &mdash; fifteen years in fintech, product, governance, and fraud prevention. We&apos;ve watched plenty of &ldquo;next big things&rdquo; come and go.
               </p>
 
-              <p className="text-white font-display font-bold text-2xl md:text-3xl !leading-tight">
+              <p className="text-[var(--text-primary)] font-display font-bold text-xl md:text-2xl !leading-tight">
                 AI is different.
               </p>
 
@@ -86,13 +69,13 @@ export default function About() {
             </div>
 
             {/* Pull quote */}
-            <div className="my-12 py-8 border-y border-white/10 text-center">
-              <p className="font-body italic text-2xl md:text-3xl text-white/90">
+            <div className="my-10 py-8 border-y border-[var(--border-strong)] text-center">
+              <p className="font-body italic text-xl md:text-2xl text-[var(--text-primary)]">
                 &ldquo;Never tell a computer something it already knows.&rdquo;
               </p>
             </div>
 
-            <div className="space-y-6 text-lg md:text-xl font-body leading-relaxed text-white/80">
+            <div className="space-y-6 text-lg font-body leading-relaxed text-[var(--text-secondary)]">
               <p>
                 We saw smart people stuck. Not for lack of ideas &mdash; because starting is hard. The first steps are always grunt work. AI dissolves that.
               </p>
