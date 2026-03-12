@@ -14,7 +14,7 @@ const team = [
   {
     name: 'Slobo',
     role: 'Founder · New York',
-    bio: 'Ex-founder. ENS / Ethereum Foundation. Runs the New York chapter.',
+    bio: 'Coinbase Ventures-backed founder. Led ecosystem strategy at ENS, Ethereum\u2019s naming protocol. Built naming infrastructure used by wallet companies in production.',
     avatar: '/avatars/slobo.jpeg',
     x: 'https://x.com/AlexSlobodnik',
     handle: '@AlexSlobodnik',
@@ -22,7 +22,7 @@ const team = [
   {
     name: 'Kirill',
     role: 'Founder · Chicago',
-    bio: 'Founder. Runs the Chicago chapter.',
+    bio: 'Senior Director of Product at Beyond Finance. Decade in fintech product management. Clearcover, OneMain Financial.',
     avatar: 'https://pbs.twimg.com/profile_images/1475225953563561984/7YiRwkGF_400x400.jpg',
     x: 'https://x.com/polevoy_kirill',
     handle: '@polevoy_kirill',
@@ -30,7 +30,7 @@ const team = [
   {
     name: 'Dylan',
     role: 'Founder · Network School',
-    bio: 'Founder. Runs Shiphaus at Network School in Malaysia.',
+    bio: 'CPA turned web3 builder. Three-time ENS DAO Steward. Built governance tools used by ENS, Uniswap, and Optimism. Currently at Balaji\u2019s Network School.',
     avatar: 'https://lh3.googleusercontent.com/a/ACg8ocIqSddDDj3zpXMWiIHz7It2SXAf3baAv2nWspKsbMo4l2fkFiJ9qA=s96-c',
     x: 'https://x.com/gofordylan',
     handle: '@gofordylan',
@@ -127,13 +127,6 @@ export default function About() {
             </p>
 
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Say Hi</h2>
-
-            <a
-              href="mailto:hello@shiphaus.org"
-              className="inline-block text-[var(--accent)] font-body text-lg hover:text-white transition-colors mb-10"
-            >
-              hello@shiphaus.org
-            </a>
 
             <div className="flex flex-wrap justify-center gap-6">
               {team.map((person) => (
