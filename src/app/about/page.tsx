@@ -84,20 +84,52 @@ export default function About() {
                 So we started holding free build days. We wanted to spread the word and get a community of builders and non-builders together. Oh, and pizza.
               </p>
 
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* What We Offer */}
+      <section className="py-20 bg-[var(--bg-secondary)]">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <h2 className="text-2xl md:text-3xl font-bold mb-8">What We Offer</h2>
+
+            <div className="space-y-6 text-lg font-body leading-relaxed text-[var(--text-secondary)]">
               <p>
-                Once in a while someone walks out of a build day and says &ldquo;okay but can you help us do this at work.&rdquo; Turns out years of running teams across fintech, ecommerce, and SaaS is useful here too. We recently helped a general counsel turn hours of routine legal work into minutes.
+                Once in a while someone walks out of a build day and says &ldquo;okay but can you help us do this at work?&rdquo;
               </p>
 
               <p>
-                Whether you want to build something in a day or rethink how your team works, we&apos;d love to talk. Machines should do the machine work. People should do the rest.
+                Turns out years of running teams across fintech, ecommerce, and SaaS is useful here too. We recently helped a general counsel turn hours of routine legal work into minutes.
               </p>
+
+              <p className="text-[var(--text-primary)] font-display font-semibold text-xl">
+                We know how to make the machines do the work so your team can focus on growing your business.
+              </p>
+
+              <p>
+                If that sounds interesting, reach out.
+              </p>
+
+              <a
+                href="mailto:slobo@shiphaus.org"
+                className="inline-block text-[var(--accent)] font-display font-semibold text-lg hover:text-[var(--accent-hover)] transition-colors"
+              >
+                slobo@shiphaus.org
+              </a>
             </div>
           </motion.div>
         </div>
       </section>
 
       {/* Team */}
-      <section className="py-20 bg-[var(--bg-secondary)]">
+      <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
