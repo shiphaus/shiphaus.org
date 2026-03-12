@@ -60,36 +60,36 @@ export default function About() {
 
             <div className="space-y-6 text-lg font-body leading-relaxed text-[var(--text-secondary)]">
               <p>
-                Between us &mdash; fifteen years in fintech, product, governance, and fraud prevention. We&apos;ve watched plenty of &ldquo;next big things&rdquo; come and go.
-              </p>
-
-              <p className="text-[var(--text-primary)] font-display font-bold text-xl md:text-2xl !leading-tight">
-                AI is different.
+                We&apos;ve all been using AI since 2022. It was a nice tool. A better Google. Then 2025 happened.
               </p>
 
               <p>
-                Not because it&apos;s flashy. Because it&apos;s useful. Every hour someone spends on work a machine could handle is an hour stolen from the work that actually matters.
+                AI stopped being a helper and started making things possible that weren&apos;t even conceivable before. It went from answering questions to doing the work.
               </p>
             </div>
 
             {/* Pull quote */}
             <div className="my-10 py-8 border-y border-[var(--border-strong)] text-center">
               <p className="font-body italic text-xl md:text-2xl text-[var(--text-primary)]">
-                &ldquo;Never tell a computer something it already knows.&rdquo;
+                We joke it was our baptism. BC and AC &mdash; Before Claude, After Claude.
               </p>
             </div>
 
             <div className="space-y-6 text-lg font-body leading-relaxed text-[var(--text-secondary)]">
               <p>
-                We saw smart people stuck. Not for lack of ideas &mdash; because starting is hard. The first steps are always grunt work. AI dissolves that.
+                We had to tell people. Not in a &ldquo;the future is here&rdquo; way. In a &ldquo;you need to try this right now&rdquo; way.
               </p>
 
               <p>
-                So we got a room. Set a deadline. Invited builders. Everyone shipped.
+                So we started holding free build days. A room, a deadline, and AI to handle the grunt work. We say it&apos;s for the community. Really, we just like hanging out with builders.
               </p>
 
               <p>
-                That was Shiphaus #1. Five events and three cities later, the thesis holds. Buildathons are where we started. We&apos;re just getting going.
+                And the use cases are real. Slobo helped a lawyer cut repetitive legal work from days and thousands of dollars down to hours. That&apos;s not a demo. That&apos;s someone&apos;s Tuesday.
+              </p>
+
+              <p>
+                Buildathons are where we started. We&apos;re just getting going.
               </p>
             </div>
           </motion.div>
