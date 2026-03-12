@@ -14,6 +14,16 @@ import { Project } from '@/types';
 
 function HeroSection() {
   const upcoming = getUpcomingEvents();
+  const [projectCount, setProjectCount] = useState(staticProjects.length);
+
+  useEffect(() => {
+    fetch('/api/projects')
+      .then(r => r.json())
+      .then((data: Project[]) => {
+        if (data.length > 0) setProjectCount(data.length);
+      })
+      .catch(() => {});
+  }, []);
 
   return (
     <section className="hero-pattern relative overflow-hidden -mt-16 pt-16">
@@ -127,7 +137,7 @@ function HeroSection() {
             {/* Stats */}
             <div className="flex flex-wrap gap-10 mt-12 pt-8 border-t border-[var(--border-strong)]">
               {[
-                { label: 'Projects Shipped', value: String(staticProjects.length) },
+                { label: 'Projects Shipped', value: String(projectCount) },
                 { label: 'Chapters', value: String(chapters.length) },
                 { label: 'Build Events', value: String(events.length) },
               ].map((stat, i) => (
