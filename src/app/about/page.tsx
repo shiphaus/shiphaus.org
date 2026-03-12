@@ -14,7 +14,7 @@ const team = [
   {
     name: 'Slobo',
     role: 'Founder · New York',
-    bio: 'Ex-founder, backed by Coinbase Ventures. 15 years across fintech, marketing, and fraud prevention. Built infrastructure used by wallet companies in production.',
+    bio: '15 years across fintech, marketing, and fraud prevention. Built infrastructure used by wallet companies in production. Ex-founder, backed by Coinbase Ventures.',
     avatar: '/avatars/slobo.jpeg',
     x: 'https://x.com/AlexSlobodnik',
     handle: '@AlexSlobodnik',
