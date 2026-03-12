@@ -10,6 +10,9 @@ export function Footer() {
             <span>&copy; 2026 Shiphaus</span>
           </div>
           <nav className="flex items-center gap-6">
+            <Link href="/about" className="hover:text-white/70 transition-colors">
+              About
+            </Link>
             <Link href="/reports/best-one-day-hackathons-2026" className="hover:text-white/70 transition-colors">
               2026 Hackathon Report
             </Link>

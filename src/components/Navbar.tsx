@@ -36,6 +36,12 @@ export function Navbar() {
                 </NavCityLink>
               ))}
             </div>
+            <Link
+              href="/about"
+              className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors text-sm font-medium"
+            >
+              About
+            </Link>
           </div>
 
           {/* Mobile menu button */}
@@ -68,6 +74,13 @@ export function Navbar() {
                   {chapter.city}
                 </Link>
               ))}
+              <Link
+                href="/about"
+                onClick={() => setIsOpen(false)}
+                className="block py-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors font-medium"
+              >
+                About
+              </Link>
             </div>
           </motion.div>
         )}
