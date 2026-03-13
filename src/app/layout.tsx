@@ -66,7 +66,7 @@ export default function RootLayout({
               '@type': 'Organization',
               name: 'Shiphaus',
               url: 'https://shiphaus.org',
-              logo: 'https://shiphaus.org/shiphaus_logo_new.png',
+              logo: 'https://shiphaus.org/orange_logo.png',
               description: 'A global community of builders who come together to ship products in a single day.',
               sameAs: [
                 'https://x.com/gofordylan',

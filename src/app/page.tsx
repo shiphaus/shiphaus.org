@@ -404,7 +404,7 @@ function CTASection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <ShiphausLogo size={96} className="mx-auto mb-6" />
+          <ShiphausLogo size={96} className="mx-auto mb-6" variant="dark" />
           {next ? (
             <>
               <h2 className="text-3xl md:text-4xl font-bold mb-4">

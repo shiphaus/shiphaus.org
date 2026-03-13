@@ -6,9 +6,15 @@ import { motion } from 'framer-motion';
 interface ShiphausLogoProps {
   size?: number;
   className?: string;
+  variant?: 'light' | 'dark';
 }
 
-export function ShiphausLogo({ size = 40, className = '' }: ShiphausLogoProps) {
+const logoSrc = {
+  light: '/white_logo.png',
+  dark: '/black_logo.png',
+} as const;
+
+export function ShiphausLogo({ size = 40, className = '', variant = 'light' }: ShiphausLogoProps) {
   return (
     <motion.div
       className={`inline-flex items-center justify-center flex-shrink-0 ${className}`}
@@ -17,7 +23,7 @@ export function ShiphausLogo({ size = 40, className = '' }: ShiphausLogoProps) {
       transition={{ type: 'spring', stiffness: 400, damping: 15 }}
     >
       <Image
-        src="/shiphaus_logo_new.png"
+        src={logoSrc[variant]}
         alt="Shiphaus"
         width={size}
         height={size}
