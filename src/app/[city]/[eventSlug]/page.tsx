@@ -10,7 +10,7 @@ import {
   ChevronLeft, Check, Pencil, Trash2,
 } from 'lucide-react';
 import Link from 'next/link';
-import { getChapter, getEvent, getEventBySlug, getProjectsByEvent } from '@/lib/data';
+import { getChapter, getEventBySlug, getProjectsByEvent } from '@/lib/data';
 import { SubmitProjectModal } from '@/components/SubmitProjectModal';
 import { ImageLightbox } from '@/components/ImageLightbox';
 import { buildCliPrompt } from '@/lib/cli-prompt';
