@@ -80,7 +80,17 @@ function ChapterContent() {
       ]);
       if (signal?.aborted) return;
       if (projectsData.length > 0) setProjects(projectsData);
-      if (eventsData.length > 0) setEvents(eventsData);
+      if (eventsData.length > 0) {
+        // Merge: static events enriched with Redis data + Redis-only events
+        const redisById = new Map(eventsData.map(e => [e.id, e]));
+        const merged = staticEvents.map(se => {
+          const re = redisById.get(se.id);
+          return re ? { ...se, ...re, hostedBy: se.hostedBy ?? re.hostedBy } : se;
+        });
+        const staticIds = new Set(staticEvents.map(e => e.id));
+        const redisOnly = eventsData.filter(e => !staticIds.has(e.id));
+        setEvents([...merged, ...redisOnly]);
+      }
     } catch (err) {
       if ((err as Error).name !== 'AbortError') {
         // Silent fail; static data already shown
