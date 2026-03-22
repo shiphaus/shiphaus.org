@@ -46,7 +46,7 @@ subscriber:{email}                 # hash - subscriber metadata
 All in `src/types/index.ts`:
 
 - **Chapter** -- a city (new-york, chicago, boulder, malaysia). Has a lead, color.
-- **Event** -- a build day. Belongs to a chapter. Has status (upcoming/active/closed), optional Luma RSVP link.
+- **Event** -- a build day. Belongs to a chapter (`chapterId`). Has status (upcoming/active/closed), optional Luma RSVP link. Key fields: `slug` (URL-safe identifier, falls back to `id`), `isFriends` (marks partner/friends events), `organizer` (external organizer name for friends events).
 - **Project** -- something someone built. Belongs to a chapter + event. Has a builder (name, avatar, uid).
 - **Testimonial** -- a quote from a participant.
 
@@ -76,6 +76,17 @@ All in `src/types/index.ts`:
 | PATCH | `/api/admin/projects/[id]/feature` | Toggle featured. |
 | GET | `/api/admin/stats` | Counts (projects, featured, events). |
 | GET | `/api/admin/subscribers` | All email subscribers. |
+
+## URL structure
+
+| Pattern | Example | Route file |
+|---------|---------|------------|
+| `/[city]` | `/new-york` | `src/app/[city]/page.tsx` |
+| `/[city]/[eventSlug]` | `/new-york/shiphaus-3` | `src/app/[city]/[eventSlug]/page.tsx` |
+
+City pages map to chapter IDs (e.g. `new-york`, `chicago`). Event pages use `event.slug`; if a slug is not set the event `id` is used as fallback. Use `getEventBySlug(city, slug)` from `src/lib/data.ts` to resolve an event from URL params.
+
+Old paths (`/chapter/[id]` and `/chapter/[id]/event/[eventId]`) are no longer used.
 
 ## How to add a new page
 
