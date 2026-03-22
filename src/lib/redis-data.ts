@@ -59,29 +59,38 @@ function serializeEvent(event: Event): Record<string, string> {
     id: event.id,
     chapterId: event.chapterId,
     title: event.title,
+    slug: event.slug || '',
     date: event.date,
     location: event.location,
-    builderCount: String(event.builderCount),
-    projectCount: String(event.projectCount),
+    builderCount: String(event.builderCount ?? 0),
+    projectCount: String(event.projectCount ?? 0),
     status: event.status || 'closed',
     lumaUrl: event.lumaUrl || '',
     imageUrl: event.imageUrl || '',
+    isFriends: event.isFriends ? '1' : '0',
+    organizer: event.organizer ? JSON.stringify(event.organizer) : '',
   };
 }
 
 function deserializeEvent(data: Record<string, string>): Event {
+  const organizer = data.organizer
+    ? (typeof data.organizer === 'string' ? JSON.parse(data.organizer) : data.organizer)
+    : undefined;
   return {
     id: data.id,
     chapterId: data.chapterId,
     // Backward compat: fall back to `name` if `title` missing
     title: data.title || data.name || '',
+    slug: data.slug || undefined,
     date: data.date,
     location: data.location,
-    builderCount: parseInt(data.builderCount, 10),
-    projectCount: parseInt(data.projectCount, 10),
+    builderCount: parseInt(data.builderCount, 10) || 0,
+    projectCount: parseInt(data.projectCount, 10) || 0,
     status: data.status || undefined,
     lumaUrl: data.lumaUrl || undefined,
     imageUrl: data.imageUrl || undefined,
+    isFriends: data.isFriends === '1',
+    organizer: organizer || undefined,
   } as Event;
 }
 

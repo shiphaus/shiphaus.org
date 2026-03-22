@@ -57,6 +57,7 @@ export const events: Event[] = [
   {
     id: 'ny-zero-to-one',
     chapterId: 'new-york',
+    slug: 'shiphaus-1',
     title: 'Shiphaus NY #1',
     date: '2026-01-11T10:00:00',
     location: 'New York',
@@ -66,6 +67,7 @@ export const events: Event[] = [
   {
     id: 'ny-shiphaus-jan-2026',
     chapterId: 'new-york',
+    slug: 'shiphaus-2',
     title: 'Shiphaus NY #2',
     date: '2026-01-24T10:00:00',
     location: 'Upstate New York',
@@ -75,6 +77,7 @@ export const events: Event[] = [
   {
     id: 'ns-shiphaus-feb-2026',
     chapterId: 'malaysia',
+    slug: 'shiphaus-1',
     title: 'Shiphaus NS #1',
     date: '2026-02-13T10:00:00',
     location: 'NS Library',
@@ -85,6 +88,7 @@ export const events: Event[] = [
   {
     id: 'ny-shiphaus-3-feb-2026',
     chapterId: 'new-york',
+    slug: 'shiphaus-3',
     title: 'Shiphaus #3',
     date: '2026-02-22T15:00:00',
     location: 'Brooklyn, NY',
@@ -101,6 +105,7 @@ export const events: Event[] = [
   {
     id: 'chicago-shiphaus-1-feb-2026',
     chapterId: 'chicago',
+    slug: 'shiphaus-1',
     title: 'Shiphaus CHI #1',
     date: '2026-02-28T10:00:00',
     location: 'Chicago, IL',
@@ -116,6 +121,7 @@ export const events: Event[] = [
   {
     id: 'chicago-shiphaus-2-apr-2026',
     chapterId: 'chicago',
+    slug: 'shiphaus-2',
     title: 'Shiphaus CHI #2',
     date: '2026-04-04T10:30:00',
     location: 'Chicago, IL',
@@ -123,6 +129,21 @@ export const events: Event[] = [
     hostedBy: {
       name: 'Wildman BT',
       url: 'https://www.wildmanbt.com/',
+    },
+  },
+  {
+    id: 'ny-silly-hacks-2026',
+    chapterId: 'new-york',
+    slug: 'silly-hacks-2026',
+    title: 'Silly Hacks 2026',
+    date: '2026-03-28T10:00:00',
+    location: 'New York, NY',
+    status: 'active',
+    lumaUrl: 'https://luma.com/2kmjexb1',
+    isFriends: true,
+    organizer: {
+      name: 'Bobby Thakkar',
+      url: 'https://dino.rest',
     },
   },
 ];
@@ -473,4 +494,9 @@ export function getUpcomingEvents(): Event[] {
   return events
     .filter(e => new Date(e.date) > now)
     .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+}
+
+export function getEventBySlug(chapterId: string, slug: string): Event | undefined {
+  return events.find(e => e.chapterId === chapterId && e.slug === slug)
+      || events.find(e => e.chapterId === chapterId && e.id === slug);
 }
