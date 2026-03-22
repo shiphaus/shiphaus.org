@@ -63,6 +63,7 @@ export const events: Event[] = [
     location: 'New York',
     builderCount: 14,
     projectCount: 14,
+    organizer: { name: 'Dylan', url: 'https://dylanbrodeur.org' },
   },
   {
     id: 'ny-shiphaus-jan-2026',
@@ -73,6 +74,7 @@ export const events: Event[] = [
     location: 'Upstate New York',
     builderCount: 6,
     projectCount: 6,
+    organizer: { name: 'Slobo', url: 'https://justslobo.com' },
   },
   {
     id: 'ns-shiphaus-feb-2026',
@@ -84,6 +86,7 @@ export const events: Event[] = [
     builderCount: 3,
     projectCount: 3,
     lumaUrl: 'https://lu.ma/1vaocqic',
+    organizer: { name: 'Dylan', url: 'https://dylanbrodeur.org' },
   },
   {
     id: 'ny-shiphaus-3-feb-2026',
@@ -101,6 +104,7 @@ export const events: Event[] = [
       url: 'https://www.asylum.vc/',
       tagline: 'artists, not assets',
     },
+    organizer: { name: 'Slobo', url: 'https://justslobo.com' },
   },
   {
     id: 'chicago-shiphaus-1-feb-2026',
@@ -117,6 +121,7 @@ export const events: Event[] = [
       name: 'Portal Innovations',
       url: 'https://www.portalinnovations.com/',
     },
+    organizer: { name: 'Kirill Polevoy', url: 'https://x.com/polevoy_kirill' },
   },
   {
     id: 'chicago-shiphaus-2-apr-2026',
@@ -130,6 +135,7 @@ export const events: Event[] = [
       name: 'Wildman BT',
       url: 'https://www.wildmanbt.com/',
     },
+    organizer: { name: 'Kirill Polevoy', url: 'https://x.com/polevoy_kirill' },
   },
   {
     id: 'ny-silly-hacks-2026',

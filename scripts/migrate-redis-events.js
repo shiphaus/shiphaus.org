@@ -26,6 +26,7 @@ const STATIC_EVENTS = [
     location: 'New York',
     builderCount: 14,
     projectCount: 14,
+    organizer: { name: 'Dylan', url: 'https://dylanbrodeur.org' },
   },
   {
     id: 'ny-shiphaus-jan-2026',
@@ -36,6 +37,7 @@ const STATIC_EVENTS = [
     location: 'Upstate New York',
     builderCount: 6,
     projectCount: 6,
+    organizer: { name: 'Slobo', url: 'https://justslobo.com' },
   },
   {
     id: 'ns-shiphaus-feb-2026',
@@ -47,6 +49,7 @@ const STATIC_EVENTS = [
     builderCount: 3,
     projectCount: 3,
     lumaUrl: 'https://lu.ma/1vaocqic',
+    organizer: { name: 'Dylan', url: 'https://dylanbrodeur.org' },
   },
   {
     id: 'ny-shiphaus-3-feb-2026',
@@ -60,6 +63,7 @@ const STATIC_EVENTS = [
     status: 'closed',
     lumaUrl: 'https://luma.com/7m6wvfq3',
     hostedBy: { name: 'Asylum.vc', url: 'https://www.asylum.vc/', tagline: 'artists, not assets' },
+    organizer: { name: 'Slobo', url: 'https://justslobo.com' },
   },
   {
     id: 'chicago-shiphaus-1-feb-2026',
@@ -73,6 +77,7 @@ const STATIC_EVENTS = [
     status: 'closed',
     lumaUrl: 'https://luma.com/7ycej8br',
     hostedBy: { name: 'Portal Innovations', url: 'https://www.portalinnovations.com/' },
+    organizer: { name: 'Kirill Polevoy', url: 'https://x.com/polevoy_kirill' },
   },
   {
     id: 'chicago-shiphaus-2-apr-2026',
@@ -83,6 +88,7 @@ const STATIC_EVENTS = [
     location: 'Chicago, IL',
     lumaUrl: 'https://luma.com/m8qkn2w3',
     hostedBy: { name: 'Wildman BT', url: 'https://www.wildmanbt.com/' },
+    organizer: { name: 'Kirill Polevoy', url: 'https://x.com/polevoy_kirill' },
   },
   {
     id: 'ny-silly-hacks-2026',
