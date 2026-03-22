@@ -372,6 +372,11 @@ function ChapterContent() {
                             <div className="flex-1">
                               <div className="flex items-center gap-3 mb-2">
                                 <h3 className="text-xl font-bold">{event.title}</h3>
+                                {event.isFriends && (
+                                  <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-200">
+                                    Friends
+                                  </span>
+                                )}
                                 <StatusBadge status={status} />
                               </div>
                               <div className="flex flex-wrap items-center gap-4 text-sm text-[var(--text-secondary)]">
@@ -402,6 +407,20 @@ function ChapterContent() {
                                   </a>
                                 )}
                               </div>
+                              {event.organizer && (
+                                <p className="mt-2 text-sm text-[var(--text-muted)] font-body">
+                                  Organized by{' '}
+                                  {event.organizer.url ? (
+                                    <a href={event.organizer.url} target="_blank" rel="noopener noreferrer"
+                                       className="text-[var(--accent)] hover:underline font-medium"
+                                       onClick={(e) => e.stopPropagation()}>
+                                      {event.organizer.name}
+                                    </a>
+                                  ) : (
+                                    <span className="font-medium">{event.organizer.name}</span>
+                                  )}
+                                </p>
+                              )}
                             </div>
 
                             {/* Top-right actions */}
