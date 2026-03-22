@@ -403,6 +403,19 @@ function ChapterContent() {
                                   </a>
                                 )}
                               </div>
+                              {event.hostedBy && (
+                                <p className="mt-2 text-sm text-[var(--text-muted)] font-body">
+                                  Hosted at{' '}
+                                  <a href={event.hostedBy.url} target="_blank" rel="noopener noreferrer"
+                                     className="text-[var(--accent)] hover:underline font-medium"
+                                     onClick={(e) => e.stopPropagation()}>
+                                    {event.hostedBy.name}
+                                  </a>
+                                  {event.hostedBy.tagline && (
+                                    <span className="italic"> — {event.hostedBy.tagline}</span>
+                                  )}
+                                </p>
+                              )}
                               {event.organizer && (
                                 <p className="mt-2 text-sm text-[var(--text-muted)] font-body">
                                   Organized by{' '}
