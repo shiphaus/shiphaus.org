@@ -279,16 +279,18 @@ function EventContent() {
                           <>
                             <button
                               onClick={() => setSubmitModal({ eventId: event.id, eventTitle: event.title })}
-                              className="btn-primary text-sm !px-5 !py-2"
+                              className="btn-primary text-sm !px-5 !py-2 flex flex-col items-center leading-tight"
                             >
-                              Submit Project
+                              <span>Submit Project</span>
+                              <span className="text-[10px] opacity-75 font-normal">manually</span>
                             </button>
                             <button
                               onClick={handleCopyCliPrompt}
-                              className="text-sm px-4 py-2 rounded-lg border border-[var(--border-strong)] text-[var(--text-secondary)] hover:bg-[var(--bg-secondary)] transition-colors cursor-pointer"
+                              className="text-sm px-4 py-2 rounded-lg border border-[var(--border-strong)] text-[var(--text-secondary)] hover:bg-[var(--bg-secondary)] transition-colors cursor-pointer flex flex-col items-center leading-tight"
                               title="Copy a prompt to paste into Claude Code"
                             >
-                              {cliCopied ? 'Copied!' : 'Claude Code'}
+                              <span>{cliCopied ? 'Copied!' : 'Claude Code'}</span>
+                              <span className="text-[10px] text-[var(--text-muted)] font-normal">via agent</span>
                             </button>
                           </>
                         )}
