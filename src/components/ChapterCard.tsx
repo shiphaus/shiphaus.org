@@ -38,7 +38,7 @@ export function ChapterCard({ chapter, index = 0 }: ChapterCardProps) {
       transition={{ duration: 0.5, delay: index * 0.1 }}
       className="h-full"
     >
-      <Link href={`/chapter/${chapter.id}`} className="block group h-full">
+      <Link href={`/${chapter.id}`} className="block group h-full">
         <div className="card p-6 relative overflow-hidden h-full">
           {/* Colored accent bar */}
           <div

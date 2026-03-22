@@ -28,7 +28,7 @@ export function Navbar() {
               {chapters.map((chapter) => (
                 <NavCityLink
                   key={chapter.id}
-                  href={`/chapter/${chapter.id}`}
+                  href={`/${chapter.id}`}
                   chapterId={chapter.id}
                   chapterColor={chapter.color}
                 >
@@ -67,7 +67,7 @@ export function Navbar() {
               {chapters.map((chapter) => (
                 <Link
                   key={chapter.id}
-                  href={`/chapter/${chapter.id}`}
+                  href={`/${chapter.id}`}
                   onClick={() => setIsOpen(false)}
                   className="block py-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors font-medium"
                 >
