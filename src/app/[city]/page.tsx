@@ -20,7 +20,7 @@ import { Project, Event, EventStatus } from '@/types';
 function ChapterContent() {
   const params = useParams();
   const router = useRouter();
-  const chapterId = params.id as string;
+  const chapterId = params.city as string;
   const chapter = getChapter(chapterId);
   const staticEvents = getChapterEvents(chapterId);
   const staticProjects = getChapterProjects(chapterId);
@@ -276,7 +276,7 @@ function ChapterContent() {
                         <p className="text-xs font-medium text-[var(--text-primary)] truncate">{session.user?.name}</p>
                       </div>
                       <button
-                        onClick={() => signOut({ callbackUrl: `/chapter/${chapterId}` })}
+                        onClick={() => signOut({ callbackUrl: `/${chapterId}` })}
                         className="w-full text-left px-3 py-2 text-sm text-[var(--text-secondary)] hover:bg-[var(--bg-secondary)] transition-colors cursor-pointer flex items-center gap-2"
                       >
                         <LogOut className="w-3.5 h-3.5" />
@@ -287,7 +287,7 @@ function ChapterContent() {
                 </div>
               ) : (
                 <button
-                  onClick={() => signIn('google', { callbackUrl: `/chapter/${chapterId}` })}
+                  onClick={() => signIn('google', { callbackUrl: `/${chapterId}` })}
                   className="text-sm px-4 py-1.5 rounded-lg border border-[var(--border-strong)] text-[var(--text-secondary)] hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors cursor-pointer"
                 >
                   Login
@@ -318,7 +318,8 @@ function ChapterContent() {
           <div className="space-y-10">
             {sortedEvents.map((event, index) => {
               const displayProjects = getEventProjects(event.id);
-              const status = event.status || 'closed';
+              const isFuture = new Date(event.date) > new Date();
+              const status = event.status === 'active' ? 'active' : (isFuture ? 'upcoming' : 'closed');
               const isSubmissionsExpanded = expandedSubmissions[event.id];
               const myProject = displayProjects.find(p => p.submittedBy === session?.user?.email);
 
@@ -333,8 +334,8 @@ function ChapterContent() {
                   <div
                     role="button"
                     tabIndex={0}
-                    onClick={() => router.push(`/chapter/${chapterId}/event/${event.id}`)}
-                    onKeyDown={(e) => e.key === 'Enter' && router.push(`/chapter/${chapterId}/event/${event.id}`)}
+                    onClick={() => router.push(`/${chapterId}/${event.slug || event.id}`)}
+                    onKeyDown={(e) => e.key === 'Enter' && router.push(`/${chapterId}/${event.slug || event.id}`)}
                     className="bg-white rounded-2xl border border-[var(--border-subtle)] overflow-hidden cursor-pointer hover:shadow-md transition-shadow"
                   >
                     {/* Event image */}
@@ -402,6 +403,33 @@ function ChapterContent() {
                                   </a>
                                 )}
                               </div>
+                              {event.hostedBy && (
+                                <p className="mt-2 text-sm text-[var(--text-muted)] font-body">
+                                  Hosted at{' '}
+                                  <a href={event.hostedBy.url} target="_blank" rel="noopener noreferrer"
+                                     className="text-[var(--accent)] hover:underline font-medium"
+                                     onClick={(e) => e.stopPropagation()}>
+                                    {event.hostedBy.name}
+                                  </a>
+                                  {event.hostedBy.tagline && (
+                                    <span className="italic"> — {event.hostedBy.tagline}</span>
+                                  )}
+                                </p>
+                              )}
+                              {event.organizer && (
+                                <p className="mt-2 text-sm text-[var(--text-muted)] font-body">
+                                  Organized by{' '}
+                                  {event.organizer.url ? (
+                                    <a href={event.organizer.url} target="_blank" rel="noopener noreferrer"
+                                       className="text-[var(--accent)] hover:underline font-medium"
+                                       onClick={(e) => e.stopPropagation()}>
+                                      {event.organizer.name}
+                                    </a>
+                                  ) : (
+                                    <span className="font-medium">{event.organizer.name}</span>
+                                  )}
+                                </p>
+                              )}
                             </div>
 
                             {/* Top-right actions */}
@@ -474,7 +502,7 @@ function ChapterContent() {
                                   </div>
                                 ) : (
                                   <button
-                                    onClick={(e) => { e.stopPropagation(); signIn('google', { callbackUrl: `/chapter/${chapterId}` }); }}
+                                    onClick={(e) => { e.stopPropagation(); signIn('google', { callbackUrl: `/${chapterId}` }); }}
                                     className="btn-primary text-sm !px-5 !py-2"
                                   >
                                     Submit a Project
@@ -484,7 +512,7 @@ function ChapterContent() {
                             </div>
                           </div>
 
-                          {/* Projects section — visible to everyone */}
+                          {/* Projects section -- visible to everyone */}
                           {(status === 'active' || displayProjects.length > 0) && (
                             <div className="mt-4 pt-4 border-t border-[var(--border-subtle)]" onClick={(e) => e.stopPropagation()}>
                               <button
@@ -610,18 +638,18 @@ function ChapterContent() {
   );
 }
 
-/* ─── Subcomponents ────────────────────────────────────────── */
+/* --- Subcomponents ------------------------------------------------ */
 
 function StatusBadge({ status }: { status: EventStatus }) {
+  if (status === 'closed') return null;
   const config = {
-    upcoming: { label: 'Upcoming', bg: 'bg-gray-100', text: 'text-gray-600' },
-    active: { label: 'Open for Submissions', bg: 'bg-emerald-50', text: 'text-emerald-700' },
-    closed: { label: 'Closed', bg: 'bg-[var(--bg-secondary)]', text: 'text-[var(--text-muted)]' },
+    upcoming: { label: 'Upcoming', bg: 'bg-blue-50', text: 'text-blue-700', border: 'border border-blue-200' },
+    active: { label: 'Open for Submissions', bg: 'bg-emerald-50', text: 'text-emerald-700', border: 'border border-emerald-200' },
   };
-  const c = config[status] || config.closed;
+  const c = config[status] || config.upcoming;
 
   return (
-    <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${c.bg} ${c.text}`}>
+    <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${c.bg} ${c.text} ${c.border}`}>
       {c.label}
     </span>
   );
@@ -637,6 +665,7 @@ function ProjectRow({ project, onEdit, onDelete }: { project: Project; onEdit?: 
           src={project.builder.avatar}
           alt={project.builder.name}
           className="w-9 h-9 rounded-full border border-[var(--border-subtle)] object-cover mt-0.5 shrink-0"
+          onError={(e) => { (e.target as HTMLImageElement).src = `https://api.dicebear.com/7.x/notionists/svg?seed=${encodeURIComponent(project.builder.name)}&backgroundColor=c0aede`; }}
         />
         <div className="flex-1 min-w-0">
           <div className="flex items-center justify-between gap-2">
@@ -849,7 +878,7 @@ function EventForm({
   );
 }
 
-/* ─── Page wrapper with SessionProvider ────────────────────── */
+/* --- Page wrapper with SessionProvider ----------------------------- */
 
 export default function ChapterPage() {
   return (

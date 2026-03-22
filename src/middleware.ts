@@ -2,7 +2,23 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 export async function middleware(req: NextRequest) {
-  const isAdminApi = req.nextUrl.pathname.startsWith('/api/admin');
+  const path = req.nextUrl.pathname;
+
+  // Redirect old /chapter/ URLs to new flat structure
+  const chapterEventMatch = path.match(/^\/chapter\/([^/]+)\/event\/([^/]+)$/);
+  if (chapterEventMatch) {
+    const [, chapterId, eventId] = chapterEventMatch;
+    return NextResponse.redirect(new URL(`/${chapterId}/${eventId}`, req.url), 301);
+  }
+
+  const chapterMatch = path.match(/^\/chapter\/([^/]+)$/);
+  if (chapterMatch) {
+    const [, chapterId] = chapterMatch;
+    return NextResponse.redirect(new URL(`/${chapterId}`, req.url), 301);
+  }
+
+  // Existing admin middleware below...
+  const isAdminApi = path.startsWith('/api/admin');
 
   if (!isAdminApi) {
     return NextResponse.next();
@@ -40,5 +56,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/api/admin/:path*'],
+  matcher: ['/api/admin/:path*', '/chapter/:path*'],
 };

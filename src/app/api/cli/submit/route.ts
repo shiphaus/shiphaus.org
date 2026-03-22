@@ -103,7 +103,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       project,
-      url: `https://shiphaus.org/chapter/${project.chapterId}`,
+      url: `https://shiphaus.org/${project.chapterId}`,
     });
   } catch (error) {
     console.error('CLI submission error:', error);

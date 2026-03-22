@@ -108,7 +108,9 @@ function HeroSection() {
 
                     {/* Event info */}
                     <div className="flex-1 min-w-0">
-                      <span className="font-semibold text-sm truncate block mb-0.5">{event.title}</span>
+                      <span className="font-semibold text-sm truncate block mb-0.5">
+                        {event.title}
+                      </span>
                       <div className="flex items-center gap-1 text-[var(--text-muted)]">
                         <MapPin className="w-3 h-3 shrink-0" />
                         <span className="font-body text-sm truncate">{event.location}</span>

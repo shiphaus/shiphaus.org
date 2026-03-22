@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useParams } from 'next/navigation';
+import { notFound } from 'next/navigation';
 import { SessionProvider, useSession, signIn } from 'next-auth/react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -9,7 +10,7 @@ import {
   ChevronLeft, Check, Pencil, Trash2,
 } from 'lucide-react';
 import Link from 'next/link';
-import { getChapter, getEvent, getProjectsByEvent } from '@/lib/data';
+import { getChapter, getEventBySlug, getProjectsByEvent } from '@/lib/data';
 import { SubmitProjectModal } from '@/components/SubmitProjectModal';
 import { ImageLightbox } from '@/components/ImageLightbox';
 import { buildCliPrompt } from '@/lib/cli-prompt';
@@ -17,10 +18,11 @@ import { Project, Event, EventStatus } from '@/types';
 
 function EventContent() {
   const params = useParams();
-  const chapterId = params.id as string;
-  const eventId = params.eventId as string;
+  const chapterId = params.city as string;
+  const eventSlug = params.eventSlug as string;
   const chapter = getChapter(chapterId);
-  const staticEvent = getEvent(eventId);
+  const staticEvent = getEventBySlug(chapterId, eventSlug);
+  const eventId = staticEvent?.id || eventSlug;
   const staticProjects = getProjectsByEvent(eventId);
   const { data: session } = useSession();
   const isAdmin = (session?.user as Record<string, unknown> | undefined)?.isAdmin === true;
@@ -31,6 +33,10 @@ function EventContent() {
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [cliCopied, setCliCopied] = useState(false);
   const refreshRef = useRef<() => void>(() => {});
+
+  if (!chapter) {
+    notFound();
+  }
 
   const loadData = useCallback(async (signal?: AbortSignal) => {
     const opts = signal ? { signal } : {};
@@ -124,12 +130,12 @@ function EventContent() {
     return d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
   }
 
-  if (!chapter || !event) {
+  if (!event) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold mb-4">Event not found</h1>
-          <Link href={`/chapter/${chapterId}`} className="text-[var(--accent)] hover:underline">
+          <Link href={`/${chapterId}`} className="text-[var(--accent)] hover:underline">
             Back to {chapter?.city || 'chapter'}
           </Link>
         </div>
@@ -137,7 +143,8 @@ function EventContent() {
     );
   }
 
-  const status = event.status || 'closed';
+  const isFuture = new Date(event.date) > new Date();
+  const status = event.status === 'active' ? 'active' : (isFuture ? 'upcoming' : 'closed');
   const myProject = projects.find(p => p.submittedBy === session?.user?.email);
 
   return (
@@ -166,7 +173,7 @@ function EventContent() {
             className="mb-8"
           >
             <Link
-              href={`/chapter/${chapterId}`}
+              href={`/${chapterId}`}
               className="inline-flex items-center gap-2 text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors font-medium text-sm"
             >
               <ChevronLeft className="w-4 h-4" />
@@ -241,6 +248,19 @@ function EventContent() {
                       )}
                     </p>
                   )}
+                  {event.organizer && (
+                    <p className="mt-2 text-sm text-[var(--text-muted)] font-body">
+                      Organized by{' '}
+                      {event.organizer.url ? (
+                        <a href={event.organizer.url} target="_blank" rel="noopener noreferrer"
+                           className="text-[var(--accent)] hover:underline font-medium">
+                          {event.organizer.name}
+                        </a>
+                      ) : (
+                        <span className="font-medium">{event.organizer.name}</span>
+                      )}
+                    </p>
+                  )}
                 </div>
 
                 {/* Actions */}
@@ -275,7 +295,7 @@ function EventContent() {
                       </div>
                     ) : (
                       <button
-                        onClick={() => signIn('google', { callbackUrl: `/chapter/${chapterId}/event/${eventId}` })}
+                        onClick={() => signIn('google', { callbackUrl: `/${chapterId}/${eventSlug}` })}
                         className="btn-primary text-sm !px-5 !py-2"
                       >
                         Submit a Project
@@ -330,14 +350,14 @@ function EventContent() {
 }
 
 function StatusBadge({ status }: { status: EventStatus }) {
+  if (status === 'closed') return null;
   const config = {
-    upcoming: { label: 'Upcoming', bg: 'bg-gray-100', text: 'text-gray-600' },
-    active: { label: 'Open for Submissions', bg: 'bg-emerald-50', text: 'text-emerald-700' },
-    closed: { label: 'Closed', bg: 'bg-[var(--bg-secondary)]', text: 'text-[var(--text-muted)]' },
+    upcoming: { label: 'Upcoming', bg: 'bg-blue-50', text: 'text-blue-700', border: 'border border-blue-200' },
+    active: { label: 'Open for Submissions', bg: 'bg-emerald-50', text: 'text-emerald-700', border: 'border border-emerald-200' },
   };
-  const c = config[status] || config.closed;
+  const c = config[status] || config.upcoming;
   return (
-    <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${c.bg} ${c.text}`}>
+    <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${c.bg} ${c.text} ${c.border}`}>
       {c.label}
     </span>
   );
@@ -353,6 +373,7 @@ function ProjectRow({ project, onEdit, onDelete }: { project: Project; onEdit?: 
           src={project.builder.avatar}
           alt={project.builder.name}
           className="w-9 h-9 rounded-full border border-[var(--border-subtle)] object-cover mt-0.5 shrink-0"
+          onError={(e) => { (e.target as HTMLImageElement).src = `https://api.dicebear.com/7.x/notionists/svg?seed=${encodeURIComponent(project.builder.name)}&backgroundColor=c0aede`; }}
         />
         <div className="flex-1 min-w-0">
           <div className="flex items-center justify-between gap-2">

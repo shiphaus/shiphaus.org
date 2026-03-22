@@ -29,6 +29,13 @@ export interface Event {
   status?: EventStatus;
   lumaUrl?: string;
   imageUrl?: string;
+  slug?: string;          // URL slug — falls back to id if not set
+  isFriends?: boolean;    // true = Shiphaus Friends event (external organizer)
+  organizer?: {
+    name: string;
+    url?: string;
+    avatar?: string;
+  };
   hostedBy?: {
     name: string;
     url: string;
