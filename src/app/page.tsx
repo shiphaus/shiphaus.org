@@ -110,11 +110,6 @@ function HeroSection() {
                     <div className="flex-1 min-w-0">
                       <span className="font-semibold text-sm truncate block mb-0.5">
                         {event.title}
-                        {event.isFriends && (
-                          <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-amber-50 text-amber-700 border border-amber-200 ml-1.5">
-                            Friends
-                          </span>
-                        )}
                       </span>
                       <div className="flex items-center gap-1 text-[var(--text-muted)]">
                         <MapPin className="w-3 h-3 shrink-0" />
