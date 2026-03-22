@@ -113,6 +113,18 @@ export const events: Event[] = [
       url: 'https://www.portalinnovations.com/',
     },
   },
+  {
+    id: 'chicago-shiphaus-2-apr-2026',
+    chapterId: 'chicago',
+    title: 'Shiphaus CHI #2',
+    date: '2026-04-04T10:30:00',
+    location: 'Chicago, IL',
+    lumaUrl: 'https://luma.com/m8qkn2w3',
+    hostedBy: {
+      name: 'Wildman BT',
+      url: 'https://www.wildmanbt.com/',
+    },
+  },
 ];
 
 export const projects: Project[] = [
