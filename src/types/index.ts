@@ -24,8 +24,8 @@ export interface Event {
   title: string;
   date: string; // ISO datetime string
   location: string;
-  builderCount: number;
-  projectCount: number;
+  builderCount?: number;
+  projectCount?: number;
   status?: EventStatus;
   lumaUrl?: string;
   imageUrl?: string;
