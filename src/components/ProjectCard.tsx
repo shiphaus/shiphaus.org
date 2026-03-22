@@ -24,6 +24,7 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
             src={project.builder.avatar}
             alt={project.builder.name}
             className="w-10 h-10 rounded-full border border-[var(--border-subtle)] object-cover"
+            onError={(e) => { (e.target as HTMLImageElement).src = `https://api.dicebear.com/7.x/notionists/svg?seed=${encodeURIComponent(project.builder.name)}&backgroundColor=c0aede`; }}
           />
           <span className="text-sm font-medium text-[var(--text-secondary)]">
             {project.builder.name}

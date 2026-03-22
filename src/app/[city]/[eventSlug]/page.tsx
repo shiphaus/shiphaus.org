@@ -372,6 +372,7 @@ function ProjectRow({ project, onEdit, onDelete }: { project: Project; onEdit?: 
           src={project.builder.avatar}
           alt={project.builder.name}
           className="w-9 h-9 rounded-full border border-[var(--border-subtle)] object-cover mt-0.5 shrink-0"
+          onError={(e) => { (e.target as HTMLImageElement).src = `https://api.dicebear.com/7.x/notionists/svg?seed=${encodeURIComponent(project.builder.name)}&backgroundColor=c0aede`; }}
         />
         <div className="flex-1 min-w-0">
           <div className="flex items-center justify-between gap-2">
