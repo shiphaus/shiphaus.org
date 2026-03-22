@@ -80,21 +80,7 @@ function ChapterContent() {
       ]);
       if (signal?.aborted) return;
       if (projectsData.length > 0) setProjects(projectsData);
-      if (eventsData.length > 0) {
-        // Redis events are authoritative (projects reference their IDs).
-        // Enrich with static metadata (slugs, hostedBy) matched by closest date.
-        const DAY = 86400000;
-        const findStaticMatch = (re: Event) =>
-          staticEvents.find(se => Math.abs(new Date(se.date).getTime() - new Date(re.date).getTime()) < 2 * DAY);
-        const enriched = eventsData.map(re => {
-          const se = findStaticMatch(re);
-          return se ? { ...re, slug: se.slug, hostedBy: re.hostedBy ?? se.hostedBy, isFriends: se.isFriends, organizer: se.organizer } : re;
-        });
-        // Add static-only events with no Redis counterpart (e.g. Silly Hacks)
-        const matchedStatic = new Set(eventsData.map(re => findStaticMatch(re)?.id).filter(Boolean));
-        const staticOnly = staticEvents.filter(se => !matchedStatic.has(se.id));
-        setEvents([...enriched, ...staticOnly]);
-      }
+      if (eventsData.length > 0) setEvents(eventsData);
     } catch (err) {
       if ((err as Error).name !== 'AbortError') {
         // Silent fail; static data already shown
