@@ -82,13 +82,15 @@ function ChapterContent() {
       if (projectsData.length > 0) setProjects(projectsData);
       if (eventsData.length > 0) {
         // Merge: static events enriched with Redis data + Redis-only events
-        const redisById = new Map(eventsData.map(e => [e.id, e]));
+        // Match by ID first, then by date (Redis events have auto-generated IDs)
+        const redisUsed = new Set<string>();
         const merged = staticEvents.map(se => {
-          const re = redisById.get(se.id);
+          const re = eventsData.find(e => e.id === se.id)
+                  || eventsData.find(e => new Date(e.date).toDateString() === new Date(se.date).toDateString());
+          if (re) redisUsed.add(re.id);
           return re ? { ...se, ...re, hostedBy: se.hostedBy ?? re.hostedBy } : se;
         });
-        const staticIds = new Set(staticEvents.map(e => e.id));
-        const redisOnly = eventsData.filter(e => !staticIds.has(e.id));
+        const redisOnly = eventsData.filter(e => !redisUsed.has(e.id));
         setEvents([...merged, ...redisOnly]);
       }
     } catch (err) {
