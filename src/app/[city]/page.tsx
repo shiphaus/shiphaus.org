@@ -164,6 +164,7 @@ function ChapterContent() {
   }
 
   async function handleDeleteProject(projectId: string) {
+    if (!confirm('Remove this project?')) return;
     try {
       await fetch(`/api/projects/${projectId}`, { method: 'DELETE' });
       setProjects(prev => prev.filter(p => p.id !== projectId));
