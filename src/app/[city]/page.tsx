@@ -81,17 +81,19 @@ function ChapterContent() {
       if (signal?.aborted) return;
       if (projectsData.length > 0) setProjects(projectsData);
       if (eventsData.length > 0) {
-        // Merge: static events enriched with Redis data + Redis-only events
-        // Match by ID first, then by date (Redis events have auto-generated IDs)
-        const redisUsed = new Set<string>();
-        const merged = staticEvents.map(se => {
-          const re = eventsData.find(e => e.id === se.id)
-                  || eventsData.find(e => new Date(e.date).toDateString() === new Date(se.date).toDateString());
-          if (re) redisUsed.add(re.id);
-          return re ? { ...se, ...re, hostedBy: se.hostedBy ?? re.hostedBy } : se;
+        // Redis events are authoritative (projects reference Redis IDs).
+        // Enrich them with static display metadata (slugs, hostedBy, organizer).
+        const staticByTitle = new Map(staticEvents.map(se => [se.title, se]));
+        const enriched = eventsData.map(re => {
+          const se = staticByTitle.get(re.title);
+          return se
+            ? { ...re, slug: se.slug, hostedBy: re.hostedBy ?? se.hostedBy, isFriends: se.isFriends, organizer: se.organizer }
+            : re;
         });
-        const redisOnly = eventsData.filter(e => !redisUsed.has(e.id));
-        setEvents([...merged, ...redisOnly]);
+        // Add static-only events not yet in Redis (e.g. Silly Hacks)
+        const redisTitles = new Set(eventsData.map(e => e.title));
+        const staticOnly = staticEvents.filter(se => !redisTitles.has(se.title));
+        setEvents([...enriched, ...staticOnly]);
       }
     } catch (err) {
       if ((err as Error).name !== 'AbortError') {
