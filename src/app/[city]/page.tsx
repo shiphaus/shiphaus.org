@@ -81,18 +81,18 @@ function ChapterContent() {
       if (signal?.aborted) return;
       if (projectsData.length > 0) setProjects(projectsData);
       if (eventsData.length > 0) {
-        // Redis events are authoritative (projects reference Redis IDs).
-        // Enrich them with static display metadata (slugs, hostedBy, organizer).
-        const staticByTitle = new Map(staticEvents.map(se => [se.title, se]));
+        // Redis events are authoritative (projects reference their IDs).
+        // Enrich with static metadata (slugs, hostedBy) matched by closest date.
+        const DAY = 86400000;
+        const findStaticMatch = (re: Event) =>
+          staticEvents.find(se => Math.abs(new Date(se.date).getTime() - new Date(re.date).getTime()) < 2 * DAY);
         const enriched = eventsData.map(re => {
-          const se = staticByTitle.get(re.title);
-          return se
-            ? { ...re, slug: se.slug, hostedBy: re.hostedBy ?? se.hostedBy, isFriends: se.isFriends, organizer: se.organizer }
-            : re;
+          const se = findStaticMatch(re);
+          return se ? { ...re, slug: se.slug, hostedBy: re.hostedBy ?? se.hostedBy, isFriends: se.isFriends, organizer: se.organizer } : re;
         });
-        // Add static-only events not yet in Redis (e.g. Silly Hacks)
-        const redisTitles = new Set(eventsData.map(e => e.title));
-        const staticOnly = staticEvents.filter(se => !redisTitles.has(se.title));
+        // Add static-only events with no Redis counterpart (e.g. Silly Hacks)
+        const matchedStatic = new Set(eventsData.map(re => findStaticMatch(re)?.id).filter(Boolean));
+        const staticOnly = staticEvents.filter(se => !matchedStatic.has(se.id));
         setEvents([...enriched, ...staticOnly]);
       }
     } catch (err) {
