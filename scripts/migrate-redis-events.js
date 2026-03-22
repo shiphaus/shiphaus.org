@@ -131,7 +131,7 @@ async function migrate(dryRun) {
     const updates = {};
     if (se.slug && re.slug !== se.slug) updates.slug = se.slug;
     if (se.hostedBy && !re.hostedBy) updates.hostedBy = JSON.stringify(se.hostedBy);
-    if (se.isFriends && re.isFriends !== '1') updates.isFriends = '1';
+    if (se.isFriends && re.isFriends !== '1' && re.isFriends !== 1 && re.isFriends !== true) updates.isFriends = '1';
     if (se.organizer && !re.organizer) updates.organizer = JSON.stringify(se.organizer);
 
     if (Object.keys(updates).length === 0) {
