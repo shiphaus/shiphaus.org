@@ -123,10 +123,10 @@ async function migrate(dryRun) {
     }
 
     const updates = {};
-    if (!re.slug && se.slug) updates.slug = se.slug;
+    if (se.slug && re.slug !== se.slug) updates.slug = se.slug;
     if (se.hostedBy && !re.hostedBy) updates.hostedBy = JSON.stringify(se.hostedBy);
-    if (se.isFriends) updates.isFriends = '1';
-    if (se.organizer) updates.organizer = JSON.stringify(se.organizer);
+    if (se.isFriends && re.isFriends !== '1') updates.isFriends = '1';
+    if (se.organizer && !re.organizer) updates.organizer = JSON.stringify(se.organizer);
 
     if (Object.keys(updates).length === 0) {
       console.log(`OK    ${re.id} (${re.title}) — already up to date`);
@@ -162,6 +162,7 @@ async function migrate(dryRun) {
       imageUrl: '',
       isFriends: se.isFriends ? '1' : '0',
       organizer: se.organizer ? JSON.stringify(se.organizer) : '',
+      hostedBy: se.hostedBy ? JSON.stringify(se.hostedBy) : '',
     };
 
     console.log(`SEED  ${se.id} (${se.title})`);

@@ -318,7 +318,8 @@ function ChapterContent() {
           <div className="space-y-10">
             {sortedEvents.map((event, index) => {
               const displayProjects = getEventProjects(event.id);
-              const status = event.status || 'closed';
+              const isFuture = new Date(event.date) > new Date();
+              const status = event.status === 'active' ? 'active' : (isFuture ? 'upcoming' : 'closed');
               const isSubmissionsExpanded = expandedSubmissions[event.id];
               const myProject = displayProjects.find(p => p.submittedBy === session?.user?.email);
 
@@ -627,15 +628,15 @@ function ChapterContent() {
 /* --- Subcomponents ------------------------------------------------ */
 
 function StatusBadge({ status }: { status: EventStatus }) {
+  if (status === 'closed') return null;
   const config = {
-    upcoming: { label: 'Upcoming', bg: 'bg-gray-100', text: 'text-gray-600' },
-    active: { label: 'Open for Submissions', bg: 'bg-emerald-50', text: 'text-emerald-700' },
-    closed: { label: 'Closed', bg: 'bg-[var(--bg-secondary)]', text: 'text-[var(--text-muted)]' },
+    upcoming: { label: 'Upcoming', bg: 'bg-blue-50', text: 'text-blue-700', border: 'border border-blue-200' },
+    active: { label: 'Open for Submissions', bg: 'bg-emerald-50', text: 'text-emerald-700', border: 'border border-emerald-200' },
   };
-  const c = config[status] || config.closed;
+  const c = config[status] || config.upcoming;
 
   return (
-    <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${c.bg} ${c.text}`}>
+    <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${c.bg} ${c.text} ${c.border}`}>
       {c.label}
     </span>
   );

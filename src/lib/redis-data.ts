@@ -69,12 +69,16 @@ function serializeEvent(event: Event): Record<string, string> {
     imageUrl: event.imageUrl || '',
     isFriends: event.isFriends ? '1' : '0',
     organizer: event.organizer ? JSON.stringify(event.organizer) : '',
+    hostedBy: event.hostedBy ? JSON.stringify(event.hostedBy) : '',
   };
 }
 
 function deserializeEvent(data: Record<string, string>): Event {
   const organizer = data.organizer
     ? (typeof data.organizer === 'string' ? JSON.parse(data.organizer) : data.organizer)
+    : undefined;
+  const hostedBy = data.hostedBy
+    ? (typeof data.hostedBy === 'string' ? JSON.parse(data.hostedBy) : data.hostedBy)
     : undefined;
   return {
     id: data.id,
@@ -91,6 +95,7 @@ function deserializeEvent(data: Record<string, string>): Event {
     imageUrl: data.imageUrl || undefined,
     isFriends: data.isFriends === '1',
     organizer: organizer || undefined,
+    hostedBy: hostedBy || undefined,
   } as Event;
 }
 
