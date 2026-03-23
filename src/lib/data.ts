@@ -122,7 +122,7 @@ export const events: Event[] = [
     builderCount: 0,
     projectCount: 0,
     status: 'upcoming',
-    lumaUrl: 'https://luma.com/silly-hacks-2026',
+    lumaUrl: 'https://luma.com/2kmjexb1',
   },
   {
     id: 'chicago-shiphaus-2-apr-2026',
@@ -133,7 +133,7 @@ export const events: Event[] = [
     builderCount: 0,
     projectCount: 0,
     status: 'upcoming',
-    lumaUrl: 'https://luma.com/chicago-shiphaus-2',
+    lumaUrl: 'https://luma.com/m8qkn2w3',
     hostedBy: {
       name: 'Wildman BT',
       url: 'https://wildmanbt.com',
