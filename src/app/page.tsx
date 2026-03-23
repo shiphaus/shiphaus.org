@@ -53,8 +53,7 @@ function HeroSection() {
               transition={{ duration: 0.6 }}
               className="text-5xl md:text-6xl font-bold tracking-tight mb-6 leading-[1.1]"
             >
-              Come build.<br />
-              Everyone <span className="text-[var(--accent)]">ships</span>.
+              Learn to build with <span className="text-[var(--accent)]">Claude Code</span>.
             </motion.h1>
 
             <motion.p
@@ -63,7 +62,7 @@ function HeroSection() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="text-xl text-[var(--text-secondary)] font-body leading-relaxed mb-8 max-w-xl"
             >
-              Free build days where anyone can harness the power of AI.
+              Ship a real project in just 1 day of hands-on help at Shiphaus.
             </motion.p>
 
             <motion.div
