@@ -145,7 +145,7 @@ export const events: Event[] = [
     date: '2026-03-28T10:00:00',
     location: 'New York, NY',
     status: 'active',
-    lumaUrl: 'https://luma.com/2kmjexb1',
+    lumaUrl: 'https://luma.com/fools',
     isFriends: true,
     organizer: {
       name: 'Bobby Thakkar',
