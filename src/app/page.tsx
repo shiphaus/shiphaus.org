@@ -27,8 +27,8 @@ function HeroSection() {
 
   return (
     <section className="hero-pattern relative overflow-hidden -mt-16 pt-16">
-      {/* Decorative elements */}
-      <div className="absolute inset-0 pointer-events-none">
+      {/* Decorative elements - hidden on mobile to avoid Safari compositing artifacts */}
+      <div className="absolute inset-0 pointer-events-none hidden md:block">
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.5 }}
