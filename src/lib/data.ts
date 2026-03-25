@@ -154,6 +154,7 @@ export const events: Event[] = [
   },
   {
     id: 'ns-shiphaus-2-mar-2026',
+    slug: 'shiphaus-ns-2',
     chapterId: 'malaysia',
     title: 'Shiphaus NS #2',
     date: '2026-03-27T12:00:00',
