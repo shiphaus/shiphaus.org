@@ -152,6 +152,43 @@ export const events: Event[] = [
       url: 'https://dino.rest',
     },
   },
+  {
+    id: 'ny-silly-hacks-mar-2026',
+    chapterId: 'new-york',
+    title: 'Silly Hacks 2026',
+    date: '2026-03-28T10:00:00',
+    location: 'New York, NY',
+    builderCount: 0,
+    projectCount: 0,
+    status: 'upcoming',
+    lumaUrl: 'https://luma.com/2kmjexb1',
+  },
+  {
+    id: 'chicago-shiphaus-2-apr-2026',
+    chapterId: 'chicago',
+    title: 'Shiphaus CHI #2',
+    date: '2026-04-04T10:00:00',
+    location: 'Chicago, IL',
+    builderCount: 0,
+    projectCount: 0,
+    status: 'upcoming',
+    lumaUrl: 'https://luma.com/m8qkn2w3',
+    hostedBy: {
+      name: 'Wildman BT',
+      url: 'https://wildmanbt.com',
+    },
+  },
+  {
+    id: 'ns-shiphaus-2-mar-2026',
+    chapterId: 'malaysia',
+    title: 'Shiphaus NS #2',
+    date: '2026-03-27T12:00:00',
+    location: 'Forest City, Malaysia',
+    builderCount: 0,
+    projectCount: 0,
+    status: 'upcoming',
+    lumaUrl: 'https://luma.com/rv7x48mb',
+  },
 ];
 
 export const projects: Project[] = [
