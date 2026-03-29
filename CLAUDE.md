@@ -22,6 +22,12 @@ All user-facing copy should be reviewed before shipping. Run `/copy-doctor` on a
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for the full architecture reference: routes, API, data layer, Redis key schema, auth flow, and how to add features. Read it before making structural changes.
 
+## Redis (Upstash)
+
+`.env.local` has dev Upstash credentials by default. Prod credentials may be commented out below them -- check before assuming which instance you're hitting.
+
+Event pages hydrate from `data.ts` then **override with Redis data** via `/api/events`. This means changes to `data.ts` alone won't fix live data -- you must also update prod Redis. When modifying event data (URLs, titles, status), always update prod Redis directly. Verify by checking the live site, not just the code.
+
 ## Events Data (src/lib/data.ts)
 
 DO NOT remove, modify, or "clean up" events from the `events` array. Past events are kept intentionally -- they link to projects and stats. The `getUpcomingEvents()` helper handles filtering automatically.
