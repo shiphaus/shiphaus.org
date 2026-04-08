@@ -4,6 +4,7 @@ export const chapterColorMap: Record<string, string> = {
   'chapter-ny': '#2D5BFF',
   'chapter-chicago': '#8B5CF6',
   'chapter-malaysia': '#F59E0B',
+  'chapter-minneapolis': '#10B981',
 };
 
 export const chapters: Chapter[] = [
@@ -50,6 +51,20 @@ export const chapters: Chapter[] = [
       isFounder: true,
     },
     color: 'chapter-malaysia',
+  },
+  {
+    id: 'minneapolis',
+    city: 'Minneapolis',
+    country: 'USA',
+    lead: {
+      name: 'Jake Moroshek',
+      handle: '@moroshek',
+      avatar: '/avatars/moroshek.jpg',
+      x: 'https://x.com/moroshek',
+      github: 'https://github.com/moroshek',
+      website: 'https://moroshek.com',
+    },
+    color: 'chapter-minneapolis',
   },
 ];
 
