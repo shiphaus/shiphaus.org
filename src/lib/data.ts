@@ -179,6 +179,20 @@ export const events: Event[] = [
     status: 'upcoming',
     lumaUrl: 'https://luma.com/rv7x48mb',
   },
+  {
+    id: 'chicago-shiphaus-3-may-2026',
+    chapterId: 'chicago',
+    slug: 'shiphaus-3',
+    title: 'Shiphaus CHI #3',
+    date: '2026-05-16T10:30:00',
+    location: 'Chicago, IL',
+    status: 'upcoming',
+    hostedBy: {
+      name: 'Wildman BT',
+      url: 'https://www.wildmanbt.com/',
+    },
+    organizer: { name: 'Kirill Polevoy', url: 'https://x.com/polevoy_kirill' },
+  },
 ];
 
 export const projects: Project[] = [
@@ -499,6 +513,14 @@ export const testimonials: Testimonial[] = [
     role: 'Founder, Slingshot',
     avatar: 'https://lh3.googleusercontent.com/a/ACg8ocLw1SkzwZnMSs9IVER_3LkEUNAtpAnaeErDTYvwiZXqXDTI-qNrog=s96-c',
     chapterId: 'new-york',
+  },
+  {
+    id: 'test-4',
+    quote: "We all shipped something. It was awesome.",
+    author: 'Omar Husain',
+    role: 'LotRoll',
+    avatar: 'https://media.licdn.com/dms/image/v2/C4E03AQG-5FWnYp0mrQ/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1661315698042?e=2147483647&v=beta&t=zEkByucHmPjZIk4PM7mwf4QGD-Gf0Uspe6gD0Jxi9T8',
+    chapterId: 'chicago',
   },
 ];
 
