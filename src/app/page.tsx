@@ -53,7 +53,7 @@ function HeroSection() {
               transition={{ duration: 0.6 }}
               className="text-5xl md:text-6xl font-bold tracking-tight mb-6 leading-[1.1]"
             >
-              Learn to build with <span className="text-[var(--accent)]">Claude Code</span>.
+              Come build. Everyone <span className="text-[var(--accent)]">ships.</span>
             </motion.h1>
 
             <motion.p
@@ -62,7 +62,7 @@ function HeroSection() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="text-xl text-[var(--text-secondary)] font-body leading-relaxed mb-8 max-w-xl"
             >
-              Ship a real project in just 1 day of hands-on help at Shiphaus.
+              Free community events. Turn an idea into a real project.
             </motion.p>
 
             <motion.div
@@ -365,15 +365,39 @@ function TestimonialsSection() {
         {/* Divider */}
         <div className="w-12 h-px bg-white/10 mx-auto mb-12" />
 
-        {/* Supporting quotes */}
-        <div className="flex flex-col md:flex-row justify-center gap-8 md:gap-16">
-          {supporting.map((t, i) => (
+        {/* Supporting quotes - top row */}
+        <div className="flex flex-col md:flex-row justify-center gap-8 md:gap-16 mb-8">
+          {supporting.slice(0, 2).map((t, i) => (
             <motion.div
               key={t.id}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.2 + i * 0.1 }}
+              className="flex items-center gap-3"
+            >
+              <img
+                src={t.avatar}
+                alt={t.author}
+                className="w-9 h-9 rounded-full border border-white/10 object-cover shrink-0"
+              />
+              <p className="text-white/60 font-body italic text-base">
+                &ldquo;{t.quote}&rdquo;{' '}
+                <span className="text-white/30 not-italic text-sm">&mdash; {t.author}</span>
+              </p>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Supporting quotes - bottom row */}
+        <div className="flex justify-center">
+          {supporting.slice(2).map((t, i) => (
+            <motion.div
+              key={t.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.4 + i * 0.1 }}
               className="flex items-center gap-3"
             >
               <img
