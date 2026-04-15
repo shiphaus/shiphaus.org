@@ -46,6 +46,16 @@ const team = [
     linkedin: 'https://www.linkedin.com/in/dylanbrodeur/',
     site: 'https://dylanbrodeur.org/',
   },
+  {
+    name: 'Jake',
+    role: 'Chapter Lead · Minneapolis',
+    bio: 'Healthcare veteran turned AI builder. Founded BuildAI. Helps companies ship internal tools that cut operational overhead.',
+    avatar: '/avatars/moroshek.jpg',
+    x: 'https://x.com/moroshek',
+    handle: '@moroshek',
+    linkedin: 'https://www.linkedin.com/in/moroshek/',
+    site: 'https://moroshek.com',
+  },
 ];
 
 export default function About() {
@@ -155,7 +165,7 @@ export default function About() {
             <h2 className="text-3xl md:text-4xl font-bold">The Team</h2>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {team.map((person, index) => (
               <motion.div
                 key={person.name}

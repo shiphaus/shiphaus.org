@@ -187,6 +187,7 @@ export const events: Event[] = [
     date: '2026-05-16T10:30:00',
     location: 'Chicago, IL',
     status: 'upcoming',
+    lumaUrl: 'https://luma.com/y3oii4ke',
     hostedBy: {
       name: 'Wildman BT',
       url: 'https://www.wildmanbt.com/',

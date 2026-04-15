@@ -462,6 +462,7 @@ function TeamTeaserSection() {
     { name: 'Slobo', avatar: '/avatars/slobo.jpeg' },
     { name: 'Kirill', avatar: 'https://pbs.twimg.com/profile_images/1475225953563561984/7YiRwkGF_400x400.jpg' },
     { name: 'Dylan', avatar: 'https://lh3.googleusercontent.com/a/ACg8ocIqSddDDj3zpXMWiIHz7It2SXAf3baAv2nWspKsbMo4l2fkFiJ9qA=s96-c' },
+    { name: 'Jake', avatar: '/avatars/moroshek.jpg' },
   ];
 
   return (
@@ -483,9 +484,9 @@ function TeamTeaserSection() {
               />
             ))}
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Three Builders. Three Cities.</h2>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">Four Builders. Four Cities.</h2>
           <p className="text-[var(--text-secondary)] font-body text-lg mb-8 max-w-xl mx-auto">
-            Run by people who ship. New York. Chicago. Malaysia.
+            Run by people who ship. New York. Chicago. Minneapolis. Malaysia.
           </p>
           <Link
             href="/about"
