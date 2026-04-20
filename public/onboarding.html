@@ -1,0 +1,1775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHI Shiphaus #1 — Get Set Up</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23FF6B35'/><g transform='translate(16,15) scale(0.85)' fill='white'><path d='M0-10 L-3-4 L-8-4 L-8 2 L8 2 L8-4 L3-4Z'/><path d='M-10 3.5 L10 3.5 L7 8 L-7 8Z'/></g></svg>">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="CHI Shiphaus #1 — Get Set Up">
+    <meta property="og:description" content="Describe it. Claude Code builds it. Websites, apps, tools, dashboards — all from plain English.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://chicago.shiphaus.org/onboarding">
+    <meta property="og:image" content="https://chicago.shiphaus.org/og-onboarding.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="CHI Shiphaus #1 — Get Set Up">
+    <meta name="twitter:description" content="Describe it. Claude Code builds it. Websites, apps, tools, dashboards — all from plain English.">
+    <meta name="twitter:image" content="https://chicago.shiphaus.org/og-onboarding.png">
+
+    <!-- Fonts: Archivo Black (display) + Space Grotesk (body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+        /* ===========================================
+           THEME — Shiphaus Orange on Dark
+           Based on Bold Signal preset, customized
+           for Shiphaus brand identity.
+           =========================================== */
+        :root {
+            --bg-primary: #0f0f0f;
+            --bg-card: #1a1a1a;
+            --bg-accent-card: #FF6B35;
+            --text-primary: #ffffff;
+            --text-secondary: #9a9a9a;
+            --text-on-accent: #ffffff;
+            --accent: #FF6B35;
+            --accent-glow: rgba(255, 107, 53, 0.25);
+            --accent-soft: rgba(255, 107, 53, 0.08);
+
+            --font-display: 'Archivo Black', sans-serif;
+            --font-body: 'Space Grotesk', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+
+            --title-size: clamp(2rem, 6vw, 4.5rem);
+            --h2-size: clamp(1.5rem, 4vw, 3rem);
+            --body-size: clamp(0.875rem, 1.8vw, 1.25rem);
+            --small-size: clamp(0.7rem, 1.2vw, 0.9rem);
+            --mono-size: clamp(0.65rem, 1.1vw, 0.85rem);
+
+            --slide-padding: clamp(1.5rem, 5vw, 5rem);
+            --content-gap: clamp(0.75rem, 2vw, 2rem);
+
+            --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+            --duration: 0.6s;
+        }
+
+        /* ===========================================
+           RESET & BASE
+           =========================================== */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            height: 100%;
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            height: 100%;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ===========================================
+           SLIDE CONTAINER
+           Each slide = exactly one viewport height.
+           No scrolling within slides. Ever.
+           =========================================== */
+        .slide {
+            width: 100vw;
+            height: 100vh;
+            height: 100dvh;
+            overflow: hidden;
+            scroll-snap-align: start;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            padding: var(--slide-padding);
+        }
+
+        .slide-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            max-height: 100%;
+            overflow: hidden;
+        }
+
+        /* ===========================================
+           TYPOGRAPHY
+           =========================================== */
+        h1 {
+            font-family: var(--font-display);
+            font-size: var(--title-size);
+            line-height: 1.05;
+            letter-spacing: -0.02em;
+            text-transform: uppercase;
+        }
+
+        h2 {
+            font-family: var(--font-display);
+            font-size: var(--h2-size);
+            line-height: 1.1;
+            letter-spacing: -0.01em;
+            text-transform: uppercase;
+        }
+
+        .body-text {
+            font-family: var(--font-body);
+            font-size: var(--body-size);
+            line-height: 1.5;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        .mono {
+            font-family: var(--font-mono);
+            font-size: var(--mono-size);
+        }
+
+        /* ===========================================
+           SLIDE SECTION NUMBER
+           Large number in top-left corner
+           =========================================== */
+        .slide-number {
+            position: absolute;
+            top: var(--slide-padding);
+            left: var(--slide-padding);
+            font-family: var(--font-display);
+            font-size: clamp(0.7rem, 1.2vw, 0.9rem);
+            color: var(--text-secondary);
+            opacity: 0.4;
+            letter-spacing: 0.1em;
+        }
+
+        /* ===========================================
+           ACCENT CARD
+           Colored block that draws focus
+           =========================================== */
+        .accent-card {
+            background: var(--bg-accent-card);
+            border-radius: clamp(8px, 1.5vw, 16px);
+            padding: clamp(1.5rem, 3vw, 3rem);
+            color: var(--text-on-accent);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .accent-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -30%;
+            width: 60%;
+            height: 200%;
+            background: rgba(255,255,255,0.06);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .accent-card h2 {
+            color: var(--text-on-accent);
+        }
+
+        .accent-card .body-text {
+            color: rgba(255,255,255,0.85);
+        }
+
+        /* ===========================================
+           DARK CARD
+           Raised surface on dark bg
+           =========================================== */
+        .dark-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: clamp(8px, 1.5vw, 16px);
+            padding: clamp(1.5rem, 3vw, 3rem);
+        }
+
+        /* ===========================================
+           CODE BLOCK
+           Terminal-style command display
+           =========================================== */
+        .code-block {
+            background: #0a0a0a;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: clamp(6px, 1vw, 12px);
+            padding: clamp(0.75rem, 2vw, 1.5rem);
+            font-family: var(--font-mono);
+            font-size: var(--mono-size);
+            color: #4ade80;
+            overflow-x: auto;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .copy-btn {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 6px;
+            padding: 0.4em 0.8em;
+            color: var(--text-secondary);
+            font-family: var(--font-body);
+            font-size: var(--small-size);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .copy-btn:hover {
+            background: rgba(255,255,255,0.15);
+            color: var(--text-primary);
+        }
+
+        .copy-btn.copied {
+            color: #4ade80;
+            border-color: rgba(74, 222, 128, 0.3);
+        }
+
+        .code-block .prompt {
+            color: var(--text-secondary);
+            user-select: none;
+        }
+
+        /* ===========================================
+           VS LAYOUT
+           Side-by-side comparison
+           =========================================== */
+        .vs-layout {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: clamp(0.75rem, 2vw, 2rem);
+            align-items: center;
+            max-width: min(90vw, 900px);
+        }
+
+        .vs-divider {
+            font-family: var(--font-display);
+            font-size: clamp(0.75rem, 1.5vw, 1rem);
+            color: var(--text-secondary);
+            opacity: 0.3;
+        }
+
+        .vs-side {
+            padding: clamp(1rem, 2vw, 2rem);
+            border-radius: clamp(6px, 1vw, 12px);
+        }
+
+        .vs-left {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .vs-right {
+            background: var(--accent-soft);
+            border: 1px solid rgba(255, 107, 53, 0.2);
+        }
+
+        .vs-label {
+            font-family: var(--font-body);
+            font-size: var(--small-size);
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin-bottom: clamp(0.3rem, 0.8vw, 0.75rem);
+            color: var(--text-secondary);
+        }
+
+        .vs-right .vs-label {
+            color: var(--accent);
+        }
+
+        .vs-quote {
+            font-family: var(--font-body);
+            font-size: var(--body-size);
+            color: var(--text-primary);
+            font-style: italic;
+        }
+
+        /* ===========================================
+           SKILLS GRID
+           Feature cards in a row
+           =========================================== */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+            gap: clamp(0.5rem, 1.5vw, 1rem);
+        }
+
+        .skill-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: clamp(6px, 1vw, 12px);
+            padding: clamp(0.75rem, 2vw, 1.5rem);
+            transition: border-color 0.3s ease;
+        }
+
+        .skill-card:hover {
+            border-color: rgba(255, 107, 53, 0.3);
+        }
+
+        .skill-command {
+            font-family: var(--font-mono);
+            font-size: var(--small-size);
+            color: var(--accent);
+            margin-bottom: clamp(0.2rem, 0.5vw, 0.5rem);
+        }
+
+        .skill-label {
+            font-size: var(--small-size);
+            color: var(--text-secondary);
+        }
+
+        /* ===========================================
+           TOOL PILLS
+           Inline tool name badges
+           =========================================== */
+        .tool-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: clamp(0.3rem, 0.8vw, 0.75rem);
+            margin-top: clamp(0.5rem, 1.5vw, 1.5rem);
+        }
+
+        .tool-pill {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 100px;
+            padding: clamp(0.3rem, 0.6vw, 0.5rem) clamp(0.6rem, 1.2vw, 1rem);
+            font-size: var(--small-size);
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* ===========================================
+           STEP INDICATOR
+           Large step number with accent color
+           =========================================== */
+        .step-number {
+            font-family: var(--font-display);
+            font-size: clamp(3rem, 8vw, 7rem);
+            color: var(--accent);
+            opacity: 0.15;
+            line-height: 1;
+            position: absolute;
+            top: var(--slide-padding);
+            right: var(--slide-padding);
+        }
+
+        /* ===========================================
+           KBD — Keyboard key styling
+           =========================================== */
+        kbd {
+            display: inline-block;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 4px;
+            padding: 0.1em 0.4em;
+            font-family: var(--font-body);
+            font-size: 0.9em;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        /* ===========================================
+           ANIMATIONS
+           Reveal on scroll via Intersection Observer
+           =========================================== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity var(--duration) var(--ease-out-expo),
+                        transform var(--duration) var(--ease-out-expo);
+        }
+
+        .slide.visible .reveal {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal:nth-child(2) { transition-delay: 0.1s; }
+        .reveal:nth-child(3) { transition-delay: 0.2s; }
+        .reveal:nth-child(4) { transition-delay: 0.3s; }
+
+        /* ===========================================
+           DATA POINTS — Progressive load animation
+           Each stat fades in and slides up with stagger
+           =========================================== */
+        .data-points {
+            display: flex;
+            flex-direction: column;
+            gap: clamp(0.6rem, 1.5vh, 1.25rem);
+            max-width: min(90vw, 600px);
+        }
+
+        .data-point {
+            display: flex;
+            align-items: baseline;
+            gap: clamp(0.5rem, 1.5vw, 1.25rem);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s var(--ease-out-expo),
+                        transform 0.5s var(--ease-out-expo);
+        }
+
+        .slide.visible .data-point {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .slide.visible .data-point:nth-child(1) { transition-delay: 0.3s; }
+        .slide.visible .data-point:nth-child(2) { transition-delay: 0.8s; }
+        .slide.visible .data-point:nth-child(3) { transition-delay: 1.3s; }
+        .slide.visible .data-point:nth-child(4) { transition-delay: 1.8s; }
+        .slide.visible .data-point:nth-child(5) { transition-delay: 2.3s; }
+
+        .data-value {
+            font-family: var(--font-display);
+            font-size: clamp(1.5rem, 4vw, 3rem);
+            color: var(--accent);
+            white-space: nowrap;
+            min-width: clamp(3rem, 8vw, 6rem);
+        }
+
+        .data-label {
+            font-family: var(--font-body);
+            font-size: var(--body-size);
+            color: var(--text-secondary);
+            line-height: 1.3;
+        }
+
+        .data-punchline {
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+            transition: opacity 0.8s var(--ease-out-expo),
+                        transform 0.8s var(--ease-out-expo);
+        }
+
+        .slide.visible .data-punchline {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            transition-delay: 2.8s;
+        }
+
+        /* ===========================================
+           SHIP LIST — Progressive item reveal
+           =========================================== */
+        .ship-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: clamp(0.3rem, 0.8vh, 0.6rem);
+            max-width: min(90vw, 550px);
+        }
+
+        .ship-item {
+            font-family: var(--font-body);
+            font-size: clamp(0.95rem, 1.8vw, 1.2rem);
+            color: var(--text-secondary);
+            opacity: 0;
+            transform: translateX(-15px);
+            transition: opacity 0.4s var(--ease-out-expo),
+                        transform 0.4s var(--ease-out-expo);
+            padding-left: 1.2em;
+            position: relative;
+        }
+
+        .ship-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.55em;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent);
+            opacity: 0.6;
+        }
+
+        .slide.visible .ship-item {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .slide.visible .ship-item:nth-child(1) { transition-delay: 0.3s; }
+        .slide.visible .ship-item:nth-child(2) { transition-delay: 0.6s; }
+        .slide.visible .ship-item:nth-child(3) { transition-delay: 0.9s; }
+        .slide.visible .ship-item:nth-child(4) { transition-delay: 1.2s; }
+        .slide.visible .ship-item:nth-child(5) { transition-delay: 1.5s; }
+        .slide.visible .ship-item:nth-child(6) { transition-delay: 1.8s; }
+
+        .ship-punchline {
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.6s var(--ease-out-expo),
+                        transform 0.6s var(--ease-out-expo);
+        }
+
+        .slide.visible .ship-punchline {
+            opacity: 1;
+            transform: translateY(0);
+            transition-delay: 2.2s;
+        }
+
+        /* ===========================================
+           PROGRESS BAR
+           Thin accent line at top of viewport
+           =========================================== */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--accent);
+            z-index: 100;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+
+        /* ===========================================
+           NAV DOTS
+           Slide indicator on right edge
+           =========================================== */
+        .nav-dots {
+            position: fixed;
+            right: clamp(0.75rem, 2vw, 1.5rem);
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            z-index: 100;
+        }
+
+        .nav-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.15);
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 0;
+        }
+
+        .nav-dot.active {
+            background: var(--accent);
+            box-shadow: 0 0 8px var(--accent-glow);
+        }
+
+        .nav-dot:hover {
+            background: rgba(255,255,255,0.4);
+        }
+
+        /* ===========================================
+           KEYBOARD HINT
+           Bottom-center navigation hint
+           =========================================== */
+        .keyboard-hint {
+            position: fixed;
+            bottom: clamp(0.75rem, 2vw, 1.5rem);
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: var(--small-size);
+            color: var(--text-secondary);
+            opacity: 0.3;
+            z-index: 100;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+
+        /* ===========================================
+           BACKGROUND GRID
+           Subtle grid pattern on dark bg
+           =========================================== */
+        .grid-bg::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+        }
+
+        /* ===========================================
+           GRADIENT GLOW
+           Soft radial accent glow
+           =========================================== */
+        .glow-bg::after {
+            content: '';
+            position: absolute;
+            top: -20%;
+            right: -10%;
+            width: 50%;
+            height: 80%;
+            background: radial-gradient(ellipse, var(--accent-glow) 0%, transparent 70%);
+            pointer-events: none;
+            opacity: 0.5;
+        }
+
+        /* ===========================================
+           RESPONSIVE — Height breakpoints
+           =========================================== */
+        @media (max-height: 700px) {
+            :root {
+                --slide-padding: clamp(1rem, 3vw, 2.5rem);
+                --content-gap: clamp(0.5rem, 1.5vw, 1rem);
+                --title-size: clamp(1.5rem, 5vw, 3rem);
+                --h2-size: clamp(1.25rem, 3.5vw, 2rem);
+            }
+        }
+
+        @media (max-height: 600px) {
+            :root {
+                --slide-padding: clamp(0.75rem, 2.5vw, 1.5rem);
+                --title-size: clamp(1.25rem, 4.5vw, 2.5rem);
+                --body-size: clamp(0.75rem, 1.3vw, 1rem);
+            }
+
+            .nav-dots, .keyboard-hint, .step-number {
+                display: none;
+            }
+        }
+
+        @media (max-height: 500px) {
+            :root {
+                --slide-padding: clamp(0.5rem, 2vw, 1rem);
+                --title-size: clamp(1rem, 4vw, 1.75rem);
+                --body-size: clamp(0.7rem, 1.1vw, 0.9rem);
+            }
+        }
+
+        @media (max-width: 600px) {
+            :root {
+                --title-size: clamp(1.5rem, 8vw, 3rem);
+            }
+
+            .vs-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .vs-divider {
+                text-align: center;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.2s !important;
+            }
+            html {
+                scroll-behavior: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Progress bar -->
+    <div class="progress-bar" id="progress"></div>
+
+    <!-- Navigation dots -->
+    <nav class="nav-dots" id="navDots" aria-label="Slide navigation"></nav>
+
+    <!-- Keyboard hint -->
+    <div class="keyboard-hint" id="keyHint">↓ scroll or press arrows</div>
+
+    <!-- ===========================================
+         INTRO SLIDE 1: EVENT TITLE
+         =========================================== -->
+    <section class="slide grid-bg glow-bg" data-slide="0">
+        <div class="slide-content" style="align-items: center; text-align: center;">
+            <h1 class="reveal" style="font-size: clamp(1.75rem, 5vw, 3.5rem);">CHI <span style="color: var(--accent)">Shiphaus</span> #1</h1>
+            <p class="body-text reveal" style="margin-top: var(--content-gap); font-size: clamp(1rem, 2.5vw, 1.5rem); color: var(--text-primary); opacity: 0.8;">Chicago · February 28, 2026</p>
+            <p class="body-text reveal" style="margin-top: clamp(0.3rem, 0.5vw, 0.5rem); opacity: 0.5;">Portal Innovations</p>
+            <p class="body-text reveal" style="margin-top: var(--content-gap); opacity: 0.4; font-size: var(--small-size);">Hosted by Kirill, Chicago Chapter Lead</p>
+        </div>
+    </section>
+
+    <!-- ===========================================
+         INTRO SLIDE 2: WHO AM I
+         =========================================== -->
+    <section class="slide" data-slide="1">
+        <div class="slide-content" style="align-items: center; text-align: center;">
+            <h2 class="reveal" style="margin-bottom: var(--content-gap); font-size: clamp(2.5rem, 6vw, 5rem);">Kirill <span style="color: var(--accent)">Polevoy</span></h2>
+            <p class="body-text reveal" style="font-size: clamp(1rem, 2vw, 1.35rem); opacity: 0.6;">Chicago Lead</p>
+        </div>
+    </section>
+
+    <!-- ===========================================
+         INTRO SLIDE 3: WHAT IS SHIPHAUS
+         =========================================== -->
+    <section class="slide grid-bg" data-slide="2">
+        <div class="slide-content">
+            <h2 class="reveal" style="margin-bottom: var(--content-gap);">What Is<br><span style="color: var(--accent)">Shiphaus?</span></h2>
+            <p class="body-text reveal" style="max-width: 550px; font-size: clamp(1rem, 2vw, 1.35rem); margin-bottom: var(--content-gap);">An event where everyone ships something.</p>
+            <ul class="ship-list">
+                <li class="ship-item">A personal website from your LinkedIn</li>
+                <li class="ship-item">A landing page for your side project</li>
+                <li class="ship-item">A tool that saves your team hours every week</li>
+                <li class="ship-item">An app you've been thinking about for months</li>
+                <li class="ship-item">A dashboard for data you already have</li>
+            </ul>
+            <p class="body-text ship-punchline" style="max-width: 550px; margin-top: var(--content-gap); opacity: 0.5;">No coding experience needed. Just a laptop and an idea.</p>
+        </div>
+    </section>
+
+    <!-- ===========================================
+         INTRO SLIDE 4: YOU'RE EARLY
+         Progressive data points showing how early
+         this room is to AI-powered building.
+         =========================================== -->
+    <section class="slide" data-slide="3" id="circleSlide">
+        <div class="slide-content" style="padding: 0; position: relative; justify-content: stretch;">
+            <canvas id="circleCanvas" style="position: absolute; inset: 0; width: 100%; height: 100%;"></canvas>
+            <!-- Punchline overlay -->
+            <div id="circlePunchline" style="
+                position: absolute;
+                bottom: clamp(2.5rem, 8vh, 6rem);
+                left: clamp(2rem, 6vw, 6rem);
+                z-index: 2;
+                opacity: 0;
+                transform: translateY(30px);
+                transition: opacity 1s ease, transform 1.2s var(--ease-out-expo);
+                pointer-events: none;
+            ">
+                <div style="
+                    font-family: var(--font-display);
+                    font-size: clamp(2rem, 7vw, 5.5rem);
+                    text-transform: uppercase;
+                    line-height: 0.95;
+                    letter-spacing: -0.02em;
+                    text-shadow: 0 0 40px rgba(255, 107, 53, 0.3), 0 0 80px rgba(255, 107, 53, 0.1);
+                ">
+                    YOU'RE <span style="color: #FF6B35;">0.04%.</span>
+                </div>
+                <div style="
+                    font-family: var(--font-display);
+                    font-size: clamp(2rem, 7vw, 5.5rem);
+                    text-transform: uppercase;
+                    line-height: 0.95;
+                    letter-spacing: -0.02em;
+                    margin-top: 0.1em;
+                    text-shadow: 0 0 40px rgba(255, 107, 53, 0.3), 0 0 80px rgba(255, 107, 53, 0.1);
+                ">
+                    YOU'RE <span style="color: #FF6B35;">EARLY.</span>
+                </div>
+            </div>
+            <!-- Screen flash overlay -->
+            <div id="circleFlash" style="
+                position: absolute;
+                inset: 0;
+                background: white;
+                opacity: 0;
+                pointer-events: none;
+                z-index: 3;
+            "></div>
+        </div>
+    </section>
+
+    <!-- ===========================================
+         INTRO SLIDE 5: SCHEDULE
+         =========================================== -->
+    <section class="slide" data-slide="4">
+        <div class="slide-content">
+            <h2 class="reveal" style="margin-bottom: var(--content-gap);">Today's<br><span style="color: var(--accent)">Schedule.</span></h2>
+            <div class="dark-card reveal" style="max-width: min(90vw, 550px);">
+                <div style="display: flex; flex-direction: column; gap: clamp(0.4rem, 1vh, 0.75rem);">
+                    <div style="display: flex; justify-content: space-between; align-items: baseline;">
+                        <span class="body-text" style="color: var(--text-primary); font-weight: 600;">10:00</span>
+                        <span class="body-text">Arrive & WiFi</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: baseline;">
+                        <span class="body-text" style="color: var(--text-primary); font-weight: 600;">10:15</span>
+                        <span class="body-text">Kickoff</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: baseline;">
+                        <span class="body-text" style="color: var(--text-primary); font-weight: 600;">10:30</span>
+                        <span class="body-text">Claude Code Setup (optional)</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: baseline;">
+                        <span class="body-text" style="color: var(--accent); font-weight: 600;">10:30 – 4:30</span>
+                        <span class="body-text" style="color: var(--text-primary);">Build Time</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: baseline;">
+                        <span class="body-text" style="color: var(--text-primary); font-weight: 600;">~12:00</span>
+                        <span class="body-text">Lunch</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: baseline;">
+                        <span class="body-text" style="color: var(--text-primary); font-weight: 600;">4:30</span>
+                        <span class="body-text">Show & Tell</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===========================================
+         INTRO SLIDE 6: WIFI
+         =========================================== -->
+    <section class="slide" data-slide="5">
+        <div class="slide-content" style="align-items: center; text-align: center;">
+            <h2 class="reveal" style="margin-bottom: var(--content-gap);">Get on<br><span style="color: var(--accent)">WiFi.</span></h2>
+            <div class="dark-card reveal" style="padding: clamp(2rem, 4vw, 3.5rem); text-align: center;">
+                <p class="body-text" style="color: var(--text-primary); font-size: clamp(1rem, 2vw, 1.35rem);">Network: <strong>Portal Guest</strong></p>
+                <p class="body-text" style="color: var(--text-primary); font-size: clamp(1rem, 2vw, 1.35rem); margin-top: clamp(0.3rem, 0.5vw, 0.5rem);">Password: <strong>dream2reality</strong></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===========================================
+         INTRO SLIDE 7: TELEGRAM
+         =========================================== -->
+    <section class="slide grid-bg" data-slide="6">
+        <div class="slide-content" style="align-items: center; text-align: center;">
+            <h2 class="reveal" style="margin-bottom: var(--content-gap);">Join the<br><span style="color: var(--accent)">Telegram.</span></h2>
+            <p class="body-text reveal" style="margin-bottom: var(--content-gap); max-width: 450px;">This is where we share updates, help each other, and post what we built. Scan the QR code with your phone.</p>
+            <div class="reveal" style="background: white; border-radius: clamp(8px, 1.5vw, 16px); padding: clamp(0.75rem, 2vw, 1.5rem); display: inline-block;">
+                <img src="data:image/png;base64,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" alt="Telegram QR code" style="width: clamp(120px, 25vw, 200px); height: clamp(120px, 25vw, 200px); display: block;">
+            </div>
+        </div>
+    </section>
+
+    <!-- ===========================================
+         INTRO SLIDE 8: DYAC
+         =========================================== -->
+    <section class="slide" data-slide="7">
+        <div class="slide-content" style="align-items: center; text-align: center;">
+            <h2 class="reveal" style="margin-bottom: var(--content-gap); font-size: var(--title-size);">D.Y.A.C.</h2>
+            <p class="body-text reveal" style="font-size: clamp(1.1rem, 2.5vw, 1.75rem); color: var(--text-primary);">Did You Ask <span style="color: var(--accent)">Claude?</span></p>
+            <p class="body-text reveal" style="margin-top: var(--content-gap); max-width: 500px;">Before asking a neighbor, before raising your hand — try asking Claude first. That's the whole point. You'll be surprised how far it gets you.</p>
+        </div>
+    </section>
+
+    <!-- ===========================================
+         SLIDE 9: PAUSE — CLAUDE CODE ONBOARDING
+         Visual cue to pause kickoff before setup
+         =========================================== -->
+    <section class="slide grid-bg" data-slide="8">
+        <div class="slide-content" style="align-items: center; text-align: center;">
+            <p class="body-text reveal" style="font-size: var(--small-size); text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-secondary); opacity: 0.5; margin-bottom: var(--content-gap);">Up Next</p>
+            <h1 class="reveal" style="font-size: var(--title-size);"><span style="color: var(--accent)">Claude Code</span><br>Onboarding</h1>
+            <p class="body-text reveal" style="margin-top: var(--content-gap); opacity: 0.5;">For anyone who wants to set up Claude Code today.</p>
+        </div>
+    </section>
+
+    <!-- ===========================================
+         SLIDE 10: TITLE — CLAUDE CODE ONBOARDING
+         =========================================== -->
+    <section class="slide grid-bg glow-bg" data-slide="9">
+        <div class="slide-content">
+            <h1 class="reveal">Describe It. <span style="color: var(--accent)">Claude Code</span><br>Builds It.</h1>
+            <p class="body-text reveal" style="margin-top: var(--content-gap); max-width: 600px;">Websites. Apps. Tools. Dashboards. You describe what you want in plain English — Claude Code creates it for you.</p>
+        </div>
+    </section>
+
+    <!-- ===========================================
+         SLIDE 10: CHAT VS CODE
+         =========================================== -->
+    <section class="slide grid-bg" data-slide="10">
+        <span class="slide-number">11</span>
+        <div class="slide-content">
+            <h2 class="reveal" style="margin-bottom: var(--content-gap);">Chat Gives Advice.<br><span style="color: var(--accent)">Claude Code Does the Work.</span></h2>
+            <div class="vs-layout reveal">
+                <div class="vs-side vs-left">
+                    <div class="vs-label">Chat</div>
+                    <div class="vs-quote">"How do I make a website?"</div>
+                    <p class="body-text" style="margin-top: 0.5rem; font-size: var(--small-size); opacity: 0.6;">You get instructions. You figure out the rest.</p>
+                </div>
+                <div class="vs-divider">VS</div>
+                <div class="vs-side vs-right">
+                    <div class="vs-label">Claude Code</div>
+                    <div class="vs-quote">"Make me a website."</div>
+                    <p class="body-text" style="margin-top: 0.5rem; font-size: var(--small-size); opacity: 0.8;">You get a real, working website you can share.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===========================================
+         SLIDE 11: HOW IT WORKS
+         =========================================== -->
+    <section class="slide grid-bg" data-slide="11">
+        <span class="slide-number">12</span>
+        <div class="slide-content">
+            <h2 class="reveal" style="margin-bottom: var(--content-gap);">You Talk. It Builds.<br><span style="color: var(--accent)">You Refine.</span></h2>
+            <p class="body-text reveal" style="max-width: 550px;">Describe what you want in plain English. Claude builds it behind the scenes — you just see the result. Don't like something? Say "make the header bigger" or "change the color." It's a back-and-forth, like texting a really talented friend.</p>
+        </div>
+    </section>
+
+    <!-- ===========================================
+         SLIDE 12: STEP 1 — GET CLAUDE PRO
+         =========================================== -->
+    <section class="slide" data-slide="12">
+        <span class="slide-number">13</span>
+        <span class="step-number">01</span>
+        <div class="slide-content">
+            <h2 class="reveal" style="margin-bottom: var(--content-gap);">Sign Up for<br><span style="color: var(--accent)">Claude Pro.</span></h2>
+            <p class="body-text reveal">$20/month at <a href="https://claude.ai" target="_blank" rel="noopener" style="color: var(--accent); text-decoration: underline; text-underline-offset: 3px;">claude.ai</a></p>
+            <p class="body-text reveal" style="margin-top: clamp(0.3rem, 0.5vw, 0.5rem); opacity: 0.6;">Open claude.ai on your phone or laptop and sign up now. We'll wait.</p>
+        </div>
+    </section>
+
+    <!-- ===========================================
+         SLIDE 13: STEP 2 — OPEN TERMINAL
+         =========================================== -->
+    <section class="slide" data-slide="13">
+        <span class="slide-number">14</span>
+        <span class="step-number">02</span>
+        <div class="slide-content">
+            <h2 class="reveal" style="margin-bottom: var(--content-gap);">Open Your<br><span style="color: var(--accent)">Terminal.</span></h2>
+            <p class="body-text reveal" style="margin-bottom: var(--content-gap); max-width: 550px;">Terminal is a text-based way to talk to your computer. It looks techy, but all you'll do is paste a couple of commands.</p>
+            <div class="reveal" style="max-width: min(90vw, 500px); display: flex; flex-direction: column; gap: clamp(0.5rem, 1vw, 0.75rem);">
+                <div class="dark-card" style="padding: clamp(1rem, 2vw, 1.5rem);">
+                    <span class="mono" style="color: var(--accent); font-size: var(--small-size);">Mac</span>
+                    <p class="body-text" style="color: var(--text-primary); margin-top: 0.3rem;"><kbd>Cmd</kbd> + <kbd>Space</kbd> → type <strong>"Terminal"</strong> → <kbd>Enter</kbd></p>
+                </div>
+                <div class="dark-card" style="padding: clamp(1rem, 2vw, 1.5rem);">
+                    <span class="mono" style="color: var(--accent); font-size: var(--small-size);">PC</span>
+                    <p class="body-text" style="color: var(--text-primary); margin-top: 0.3rem;">Press <kbd>Windows</kbd> key → type <strong>"PowerShell"</strong> → <kbd>Enter</kbd></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===========================================
+         SLIDE 14: STEP 3 — INSTALL
+         =========================================== -->
+    <section class="slide" data-slide="14">
+        <span class="slide-number">15</span>
+        <span class="step-number">03</span>
+        <div class="slide-content">
+            <h2 class="reveal" style="margin-bottom: var(--content-gap);">Install<br><span style="color: var(--accent)">Claude Code.</span></h2>
+            <p class="body-text reveal" style="margin-bottom: var(--content-gap); max-width: 550px;">Copy your command, paste it into your terminal, press Enter. Takes about two minutes. Do it now — we'll wait.</p>
+            <div class="reveal" style="max-width: min(90vw, 650px); display: flex; flex-direction: column; gap: clamp(0.5rem, 1vw, 0.75rem);">
+                <div>
+                    <span class="mono" style="color: var(--accent); font-size: var(--small-size);">Mac / Linux</span>
+                    <div class="code-block" style="margin-top: 0.3rem;">
+                        <code><span class="prompt">$ </span>curl -fsSL https://claude.ai/install.sh | bash</code>
+                        <button class="copy-btn" onclick="copyText(this, 'curl -fsSL https://claude.ai/install.sh | bash')">Copy</button>
+                    </div>
+                </div>
+                <div>
+                    <span class="mono" style="color: var(--accent); font-size: var(--small-size);">PC (PowerShell)</span>
+                    <div class="code-block" style="margin-top: 0.3rem;">
+                        <code><span class="prompt">&gt; </span>npm install -g @anthropic-ai/claude-code</code>
+                        <button class="copy-btn" onclick="copyText(this, 'npm install -g @anthropic-ai/claude-code')">Copy</button>
+                    </div>
+                    <p class="body-text" style="font-size: var(--small-size); opacity: 0.5; margin-top: 0.3rem;">Need Node.js first? Get it at <a href="https://nodejs.org" target="_blank" rel="noopener" style="color: var(--accent); text-underline-offset: 3px;">nodejs.org</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===========================================
+         SLIDE 15: STEP 4 — CREATE FOLDER
+         =========================================== -->
+    <section class="slide" data-slide="15">
+        <span class="slide-number">16</span>
+        <span class="step-number">04</span>
+        <div class="slide-content">
+            <h2 class="reveal" style="margin-bottom: var(--content-gap);">Make a Folder on<br>Your Desktop Called<br><span style="color: var(--accent)">"my-site"</span></h2>
+            <p class="body-text reveal" style="max-width: 550px;">Right-click your Desktop. New Folder. Name it <strong>my-site</strong>. That's where your project will live.</p>
+        </div>
+    </section>
+
+    <!-- ===========================================
+         SLIDE 16: STEP 5 — LAUNCH CLAUDE CODE
+         =========================================== -->
+    <section class="slide" data-slide="16">
+        <span class="slide-number">17</span>
+        <span class="step-number">05</span>
+        <div class="slide-content">
+            <h2 class="reveal" style="margin-bottom: var(--content-gap);">Launch<br><span style="color: var(--accent)">Claude Code.</span></h2>
+            <p class="body-text reveal" style="margin-bottom: var(--content-gap); max-width: 550px;">Go back to your terminal. Paste your command — it opens Claude Code inside your new folder.</p>
+            <div class="reveal" style="max-width: min(90vw, 650px); display: flex; flex-direction: column; gap: clamp(0.5rem, 1vw, 0.75rem);">
+                <div>
+                    <span class="mono" style="color: var(--accent); font-size: var(--small-size);">Mac</span>
+                    <div class="code-block" style="margin-top: 0.3rem;">
+                        <code><span class="prompt">$ </span>cd ~/Desktop/my-site && claude</code>
+                        <button class="copy-btn" onclick="copyText(this, 'cd ~/Desktop/my-site && claude')">Copy</button>
+                    </div>
+                </div>
+                <div>
+                    <span class="mono" style="color: var(--accent); font-size: var(--small-size);">PC</span>
+                    <div class="code-block" style="margin-top: 0.3rem;">
+                        <code><span class="prompt">&gt; </span>cd ~\Desktop\my-site; claude</code>
+                        <button class="copy-btn" onclick="copyText(this, 'cd ~\\Desktop\\my-site; claude')">Copy</button>
+                    </div>
+                </div>
+            </div>
+            <p class="body-text reveal" style="margin-top: var(--content-gap); max-width: 550px; opacity: 0.6;">A browser window pops up — sign in with your Claude account. When you see a blinking cursor, you're in.</p>
+        </div>
+    </section>
+
+    <!-- ===========================================
+         SLIDE 17: STEP 6 — SWITCH MODEL
+         =========================================== -->
+    <section class="slide" data-slide="17">
+        <span class="slide-number">18</span>
+        <span class="step-number">06</span>
+        <div class="slide-content">
+            <h2 class="reveal" style="margin-bottom: var(--content-gap);">Switch to the<br><span style="color: var(--accent)">Latest Model.</span></h2>
+            <p class="body-text reveal" style="margin-bottom: var(--content-gap); max-width: 550px;">Claude Code may default to an older model. Type this command and pick the newest one from the list.</p>
+            <div class="code-block reveal" style="max-width: min(90vw, 400px);">
+                <code>/model</code>
+                <button class="copy-btn" onclick="copyText(this, '/model')">Copy</button>
+            </div>
+            <p class="body-text reveal" style="margin-top: var(--content-gap); max-width: 550px; opacity: 0.6;">Select <strong>claude-opus-4-6</strong>. Better model = better results.</p>
+        </div>
+    </section>
+
+    <!-- ===========================================
+         SLIDE 18: STEP 7 — INSTALL FRONTEND DESIGN
+         =========================================== -->
+    <section class="slide grid-bg" data-slide="18">
+        <span class="slide-number">19</span>
+        <span class="step-number">07</span>
+        <div class="slide-content">
+            <h2 class="reveal" style="margin-bottom: var(--content-gap);">Install<br><span style="color: var(--accent)">/frontend-design.</span></h2>
+            <p class="body-text reveal" style="margin-bottom: var(--content-gap); max-width: 550px;">This skill makes Claude way better at building beautiful websites. Paste these two commands into Claude Code, one at a time.</p>
+            <div class="reveal" style="max-width: min(90vw, 650px); display: flex; flex-direction: column; gap: clamp(0.5rem, 1vw, 0.75rem);">
+                <div>
+                    <span class="mono" style="color: var(--text-secondary); font-size: var(--small-size);">Step 1</span>
+                    <div class="code-block" style="margin-top: 0.3rem;">
+                        <code>/plugin marketplace add anthropics/claude-code</code>
+                        <button class="copy-btn" onclick="copyText(this, '/plugin marketplace add anthropics/claude-code')">Copy</button>
+                    </div>
+                </div>
+                <div>
+                    <span class="mono" style="color: var(--text-secondary); font-size: var(--small-size);">Step 2</span>
+                    <div class="code-block" style="margin-top: 0.3rem;">
+                        <code>/plugin install frontend-design@claude-code-plugins</code>
+                        <button class="copy-btn" onclick="copyText(this, '/plugin install frontend-design@claude-code-plugins')">Copy</button>
+                    </div>
+                </div>
+            </div>
+            <p class="body-text reveal" style="margin-top: var(--content-gap); opacity: 0.4; font-size: var(--small-size);">Didn't work? Try this instead:</p>
+            <div class="reveal" style="max-width: min(90vw, 650px); margin-top: clamp(0.3rem, 0.5vw, 0.5rem);">
+                <span class="mono" style="color: var(--text-secondary); font-size: var(--small-size);">Fallback</span>
+                <div class="code-block" style="margin-top: 0.3rem; white-space: normal; line-height: 1.6;">
+                    <code>Install the frontend-design skill from https://github.com/anthropics/claude-code/tree/main/plugins/frontend-design</code>
+                    <button class="copy-btn" style="align-self: flex-start;" onclick="copyText(this, 'Install the frontend-design skill from https://github.com/anthropics/claude-code/tree/main/plugins/frontend-design')">Copy</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===========================================
+         SLIDE 19: BUILD YOUR SITE
+         =========================================== -->
+    <section class="slide glow-bg" data-slide="19">
+        <span class="slide-number">20</span>
+        <div class="slide-content">
+            <h2 class="reveal" style="margin-bottom: var(--content-gap);">Your Name.<br>Your Website.<br><span style="color: var(--accent)">Let's Go.</span></h2>
+            <p class="body-text reveal" style="margin-bottom: var(--content-gap); max-width: 550px;">Copy this prompt, paste it into Claude Code, and replace the name with yours. Claude will Google you and build a site from what it finds.</p>
+            <div class="code-block reveal" style="max-width: min(90vw, 750px); white-space: normal; line-height: 1.8;">
+                <code>Use /frontend-design to build me a personal website. Google my name — First Last — and use what you find publicly online. Make it modern, clean, and impressive.</code>
+                <button class="copy-btn" style="align-self: flex-start; margin-top: 0.5rem;" onclick="copyText(this, 'Use /frontend-design to build me a personal website. Google my name — First Last — and use what you find publicly online. Make it modern, clean, and impressive.')">Copy</button>
+            </div>
+            <p class="body-text reveal" style="margin-top: var(--content-gap); max-width: 550px; opacity: 0.5; font-size: var(--small-size);">Tip: Claude can't access LinkedIn directly. Use your public name, portfolio, or company site instead.</p>
+        </div>
+    </section>
+
+    <!-- ===========================================
+         SLIDE 20: HOST ON NETLIFY
+         =========================================== -->
+    <section class="slide" data-slide="20">
+        <span class="slide-number">21</span>
+        <span class="step-number">08</span>
+        <div class="slide-content">
+            <h2 class="reveal" style="margin-bottom: var(--content-gap);">Put It<br><span style="color: var(--accent)">Online.</span></h2>
+            <p class="body-text reveal" style="margin-bottom: var(--content-gap); max-width: 550px;">Your site is built. Now make it live. Open this link and drag your <strong>my-site</strong> folder into the browser.</p>
+            <div class="code-block reveal" style="max-width: min(90vw, 550px);">
+                <code style="color: var(--accent);">https://app.netlify.com/drop</code>
+                <button class="copy-btn" onclick="copyText(this, 'https://app.netlify.com/drop')">Copy</button>
+            </div>
+            <p class="body-text reveal" style="margin-top: var(--content-gap); max-width: 550px; opacity: 0.6;">Drag and drop. No account needed. Your site goes live instantly with a real URL you can share.</p>
+        </div>
+    </section>
+
+    <!-- ===========================================
+         SLIDE 21: CLOSING
+         =========================================== -->
+    <section class="slide grid-bg glow-bg" data-slide="21">
+        <div class="slide-content" style="align-items: center; text-align: center;">
+            <h1 class="reveal">You're Ready.<br><span style="color: var(--accent)">Let's Build.</span></h1>
+            <p class="body-text reveal" style="margin-top: var(--content-gap); opacity: 0.7;">If you get stuck, ask your neighbor or raise your hand. Everyone's figuring it out together.</p>
+        </div>
+    </section>
+
+    <!-- ===========================================
+       SLIDE CONTROLLER
+       Handles navigation, animations, progress
+       =========================================== -->
+    <script>
+        /* Copy text to clipboard */
+        function copyText(btn, text) {
+            navigator.clipboard.writeText(text);
+            btn.textContent = 'Copied!';
+            btn.classList.add('copied');
+            setTimeout(() => {
+                btn.textContent = 'Copy';
+                btn.classList.remove('copied');
+            }, 2000);
+        }
+
+        class SlidePresentation {
+            constructor() {
+                this.slides = document.querySelectorAll('.slide');
+                this.currentSlide = 0;
+                this.totalSlides = this.slides.length;
+                this.isScrolling = false;
+                this.scrollTimeout = null;
+
+                this.createNavDots();
+                this.setupObserver();
+                this.bindEvents();
+                this.updateProgress();
+
+                // Show first slide immediately
+                this.slides[0].classList.add('visible');
+
+                // Hide keyboard hint after first navigation
+                this.hasNavigated = false;
+            }
+
+            /* -------------------------------------------
+               NAV DOTS — Create dot per slide
+               ------------------------------------------- */
+            createNavDots() {
+                const container = document.getElementById('navDots');
+                this.slides.forEach((_, i) => {
+                    const dot = document.createElement('button');
+                    dot.classList.add('nav-dot');
+                    if (i === 0) dot.classList.add('active');
+                    dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
+                    dot.addEventListener('click', () => this.goToSlide(i));
+                    container.appendChild(dot);
+                });
+                this.dots = container.querySelectorAll('.nav-dot');
+            }
+
+            /* -------------------------------------------
+               INTERSECTION OBSERVER
+               Triggers .visible class when slide enters
+               ------------------------------------------- */
+            setupObserver() {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                            const index = parseInt(entry.target.dataset.slide);
+                            this.currentSlide = index;
+                            this.updateDots();
+                            this.updateProgress();
+                        }
+                    });
+                }, { threshold: 0.5 });
+
+                this.slides.forEach(slide => observer.observe(slide));
+            }
+
+            /* -------------------------------------------
+               EVENT BINDING
+               Keyboard, wheel, touch
+               ------------------------------------------- */
+            bindEvents() {
+                // Keyboard
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === ' ') {
+                        e.preventDefault();
+                        this.nextSlide();
+                    } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+                        e.preventDefault();
+                        this.prevSlide();
+                    }
+                });
+
+                // Mouse wheel — debounced with dead zone for trackpad inertia
+                document.addEventListener('wheel', (e) => {
+                    e.preventDefault();
+                    if (this.isScrolling) return;
+                    // Ignore small deltas (trackpad inertia / momentum)
+                    if (Math.abs(e.deltaY) < 15) return;
+                    this.isScrolling = true;
+
+                    if (e.deltaY > 0) {
+                        this.nextSlide();
+                    } else {
+                        this.prevSlide();
+                    }
+
+                    clearTimeout(this.scrollTimeout);
+                    this.scrollTimeout = setTimeout(() => {
+                        this.isScrolling = false;
+                    }, 1200);
+                }, { passive: false });
+
+                // Touch
+                let touchStartY = 0;
+                document.addEventListener('touchstart', (e) => {
+                    touchStartY = e.touches[0].clientY;
+                }, { passive: true });
+
+                document.addEventListener('touchend', (e) => {
+                    const diff = touchStartY - e.changedTouches[0].clientY;
+                    if (Math.abs(diff) > 50) {
+                        if (diff > 0) this.nextSlide();
+                        else this.prevSlide();
+                    }
+                }, { passive: true });
+            }
+
+            /* -------------------------------------------
+               NAVIGATION
+               ------------------------------------------- */
+            goToSlide(index) {
+                if (index < 0 || index >= this.totalSlides) return;
+                this.hideHint();
+                this.slides[index].scrollIntoView({ behavior: 'smooth' });
+            }
+
+            nextSlide() {
+                this.goToSlide(this.currentSlide + 1);
+            }
+
+            prevSlide() {
+                this.goToSlide(this.currentSlide - 1);
+            }
+
+            /* -------------------------------------------
+               UI UPDATES
+               ------------------------------------------- */
+            updateDots() {
+                this.dots.forEach((dot, i) => {
+                    dot.classList.toggle('active', i === this.currentSlide);
+                });
+            }
+
+            updateProgress() {
+                const progress = ((this.currentSlide + 1) / this.totalSlides) * 100;
+                document.getElementById('progress').style.width = progress + '%';
+            }
+
+            hideHint() {
+                if (!this.hasNavigated) {
+                    this.hasNavigated = true;
+                    document.getElementById('keyHint').style.opacity = '0';
+                }
+            }
+        }
+
+        // Launch
+        new SlidePresentation();
+
+        /* ===========================================
+           CIRCLE VISUALIZATION
+           Side-by-side area-proportional circles with
+           particles, glows, shockwaves, and a punchline.
+           Each press adds a bigger circle — the first
+           shrinks into a precious speck.
+           =========================================== */
+        (function() {
+            const canvas = document.getElementById('circleCanvas');
+            const ctx = canvas.getContext('2d');
+            const slide = document.getElementById('circleSlide');
+            const punchlineEl = document.getElementById('circlePunchline');
+            const flashEl = document.getElementById('circleFlash');
+
+            const DATA = [
+                { value: 3.5,   label: 'Use AI to build',  sub: '~2-5M',   pct: '0.04%', color: '#FF6B35' },
+                { value: 20,    label: 'Pay $20/mo for AI', sub: '~15-25M', pct: '0.3%',  color: '#facc15' },
+                { value: 1300,  label: 'Use AI chatbots',   sub: '~1.3B',   pct: '16%',   color: '#4ade80' },
+                { value: 8100,  label: 'People on Earth',   sub: '~8.1B',   pct: '100%',  color: 'rgba(255,255,255,0.2)' },
+            ];
+
+            /* ---- state ---- */
+            let visibleCount = 0;
+            let animProgress = 1;
+            let isAnimating = false;
+            let slideActive = false;
+            let punchlineShown = false;
+            let punchlineTime = 0;       // timestamp when punchline triggered
+            let labelFade = 1;           // 1 = full, fades to 0 over ~800ms
+            let dpr = 1;
+            let W = 0, H = 0;
+            let frameTime = 0;
+
+            /* ---- particles ---- */
+            const particles = [];
+            const PARTICLE_COUNT = 60;
+
+            function initParticles() {
+                particles.length = 0;
+                for (let i = 0; i < PARTICLE_COUNT; i++) {
+                    particles.push({
+                        x: Math.random() * W,
+                        y: Math.random() * H,
+                        r: Math.random() * 1.5 + 0.3,
+                        vx: (Math.random() - 0.5) * 0.15,
+                        vy: (Math.random() - 0.5) * 0.1 - 0.05,
+                        alpha: Math.random() * 0.15 + 0.03,
+                    });
+                }
+            }
+
+            function updateParticles() {
+                for (const p of particles) {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    if (p.x < 0) p.x = W;
+                    if (p.x > W) p.x = 0;
+                    if (p.y < 0) p.y = H;
+                    if (p.y > H) p.y = 0;
+                }
+            }
+
+            function drawParticles() {
+                for (const p of particles) {
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                    ctx.fillStyle = 'rgba(255,255,255,' + p.alpha + ')';
+                    ctx.fill();
+                }
+            }
+
+            /* ---- shockwaves ---- */
+            const shockwaves = [];
+
+            function spawnShockwave(x, y, maxR, color) {
+                shockwaves.push({ x, y, r: 0, maxR, color, life: 0 });
+            }
+
+            function updateShockwaves() {
+                for (let i = shockwaves.length - 1; i >= 0; i--) {
+                    const s = shockwaves[i];
+                    s.life += 0.012;
+                    s.r = s.maxR * easeOutCubic(Math.min(s.life, 1));
+                    if (s.life >= 1) {
+                        shockwaves.splice(i, 1);
+                    }
+                }
+            }
+
+            function drawShockwaves() {
+                for (const s of shockwaves) {
+                    const alpha = Math.max(0, 0.25 * (1 - s.life));
+                    ctx.beginPath();
+                    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+                    ctx.strokeStyle = s.color;
+                    ctx.globalAlpha = alpha;
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+                    ctx.globalAlpha = 1;
+                }
+            }
+
+            /* ---- easing ---- */
+            function easeOutCubic(t) {
+                return 1 - Math.pow(1 - t, 3);
+            }
+
+            /* ---- sizing ---- */
+            function resize() {
+                dpr = window.devicePixelRatio || 1;
+                const rect = canvas.parentElement.getBoundingClientRect();
+                W = rect.width;
+                H = rect.height;
+                canvas.width = W * dpr;
+                canvas.height = H * dpr;
+                ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+                if (particles.length === 0) initParticles();
+            }
+
+            /* ---- radius helper ---- */
+            function getRadius(value, maxValue, maxRadius) {
+                return Math.sqrt(value / maxValue) * maxRadius;
+            }
+
+            /* ---- compute circle positions ---- */
+            function computeCircles() {
+                if (visibleCount === 0) return [];
+
+                const t = easeOutCubic(animProgress);
+
+                // Max radius: constrained to never overflow top or right.
+                // baselineY reserves space for punchline at bottom.
+                const baselineY_pre = Math.min(H * 0.55, H - Math.min(350, H * 0.4));
+                const maxR = Math.min(H * 0.18, W * 0.14, (baselineY_pre - 80) / 2);
+
+                // Scale relative to currently visible max —
+                // as bigger circles appear, earlier ones shrink dramatically
+                const prevMax = visibleCount > 1 ? DATA[visibleCount - 2].value : DATA[0].value;
+                const currMax = DATA[visibleCount - 1].value;
+                const activeMax = prevMax + (currMax - prevMax) * t;
+
+                const circles = [];
+                for (let i = 0; i < visibleCount; i++) {
+                    let r = getRadius(DATA[i].value, activeMax, maxR);
+                    if (i === visibleCount - 1 && animProgress < 1) {
+                        r = r * t;
+                    }
+                    circles.push({ ...DATA[i], r, index: i });
+                }
+
+                // Baseline adapts: on large screens sits low,
+                // on small screens pushes up to leave room for punchline
+                const baselineY = Math.min(H * 0.55, H - Math.min(350, H * 0.4));
+                const padL = W * 0.06;
+
+                // Zone widths: proportional to radius with a minimum
+                var minZone = W * 0.09;
+                var zones = circles.map(function(c) {
+                    var effectiveR = Math.max(c.r, 6);
+                    return Math.max(effectiveR * 2.6, minZone);
+                });
+                var totalZones = zones.reduce(function(a, b) { return a + b; }, 0);
+                var availW = W - padL;
+                // Scale zones to fit available width
+                if (totalZones > 0) {
+                    var sc = availW / totalZones;
+                    zones = zones.map(function(z) { return z * sc; });
+                }
+
+                var curX = padL;
+                for (let i = 0; i < circles.length; i++) {
+                    const c = circles[i];
+                    const effectiveR = Math.max(c.r, 4);
+                    // Center each circle within its zone
+                    c.x = curX + zones[i] * 0.5;
+                    // Bottom-aligned: center = baseline - radius
+                    c.cy = baselineY - effectiveR;
+                    curX += zones[i];
+                }
+
+                return circles;
+            }
+
+            /* ---- draw one frame ---- */
+            function drawFrame(now) {
+                ctx.clearRect(0, 0, W, H);
+
+                // Subtle radial gradient on background (emanating from lower center-right)
+                const grd = ctx.createRadialGradient(W * 0.6, H * 0.7, 0, W * 0.6, H * 0.7, W * 0.7);
+                grd.addColorStop(0, 'rgba(255, 107, 53, 0.03)');
+                grd.addColorStop(1, 'rgba(0, 0, 0, 0)');
+                ctx.fillStyle = grd;
+                ctx.fillRect(0, 0, W, H);
+
+                // Particles
+                updateParticles();
+                drawParticles();
+
+                // Shockwaves
+                updateShockwaves();
+                drawShockwaves();
+
+                const circles = computeCircles();
+                if (circles.length === 0) return;
+
+                const baselineY = H * 0.77;
+                const t = easeOutCubic(animProgress);
+
+                // Draw circles: largest first so smaller ones layer on top
+                for (let i = circles.length - 1; i >= 0; i--) {
+                    const c = circles[i];
+                    if (c.r < 0.3) continue;
+                    const effectiveR = Math.max(c.r, 2.5);
+                    const isNew = (i === visibleCount - 1 && animProgress < 1);
+                    const alpha = isNew ? t : 1;
+
+                    // -- Orange glow halo (first circle only) --
+                    if (i === 0) {
+                        const pulse = 0.5 + 0.15 * Math.sin(now * 0.002);
+                        const glowR = effectiveR + Math.max(8, effectiveR * 0.8);
+                        const glowGrd = ctx.createRadialGradient(c.x, c.cy, effectiveR * 0.3, c.x, c.cy, glowR);
+                        glowGrd.addColorStop(0, 'rgba(255, 107, 53, ' + (pulse * 0.4 * alpha) + ')');
+                        glowGrd.addColorStop(0.5, 'rgba(255, 107, 53, ' + (pulse * 0.15 * alpha) + ')');
+                        glowGrd.addColorStop(1, 'rgba(255, 107, 53, 0)');
+                        ctx.beginPath();
+                        ctx.arc(c.x, c.cy, glowR, 0, Math.PI * 2);
+                        ctx.fillStyle = glowGrd;
+                        ctx.fill();
+                    }
+
+                    // -- 3D gradient fill for green and gray --
+                    ctx.globalAlpha = alpha;
+                    ctx.beginPath();
+                    ctx.arc(c.x, c.cy, effectiveR, 0, Math.PI * 2);
+
+                    if (i >= 2 && effectiveR > 15) {
+                        // Inner gradient for 3D effect
+                        const innerGrd = ctx.createRadialGradient(
+                            c.x - effectiveR * 0.25,
+                            c.cy - effectiveR * 0.25,
+                            effectiveR * 0.05,
+                            c.x,
+                            c.cy,
+                            effectiveR
+                        );
+                        if (i === 2) {
+                            innerGrd.addColorStop(0, '#6ee7a8');
+                            innerGrd.addColorStop(0.6, '#4ade80');
+                            innerGrd.addColorStop(1, '#2db862');
+                        } else {
+                            innerGrd.addColorStop(0, 'rgba(255,255,255,0.3)');
+                            innerGrd.addColorStop(0.6, 'rgba(255,255,255,0.2)');
+                            innerGrd.addColorStop(1, 'rgba(255,255,255,0.1)');
+                        }
+                        ctx.fillStyle = innerGrd;
+                    } else {
+                        ctx.fillStyle = c.color;
+                    }
+                    ctx.fill();
+
+                    // Subtle rim highlight
+                    if (effectiveR > 10) {
+                        ctx.beginPath();
+                        ctx.arc(c.x, c.cy, effectiveR, 0, Math.PI * 2);
+                        ctx.strokeStyle = 'rgba(255,255,255,0.07)';
+                        ctx.lineWidth = 1.5;
+                        ctx.stroke();
+                    }
+
+                    ctx.globalAlpha = 1;
+
+                    // -- Labels below baseline --
+                    var labelAlpha;
+                    if (isNew) {
+                        labelAlpha = animProgress < 0.6 ? 0 : (animProgress - 0.6) * 2.5;
+                    } else {
+                        labelAlpha = 1;
+                    }
+                    // Smoothly fade labels out when punchline appears
+                    if (punchlineShown) {
+                        var elapsed = (now - punchlineTime) / 800; // 800ms fade
+                        labelFade = Math.max(0, 1 - elapsed);
+                    }
+                    labelAlpha *= labelFade;
+
+                    if (labelAlpha > 0.01) {
+                        ctx.globalAlpha = labelAlpha;
+
+                        const numSize = Math.max(12, Math.min(18, W * 0.02));
+                        const descSize = Math.max(10, Math.min(14, W * 0.015));
+                        const effectiveR2 = Math.max(c.r, 4);
+
+                        // All labels go ABOVE their circles
+                        // This keeps them away from the baseline/punchline area
+                        var aboveY = c.cy - effectiveR2 - 14;
+                        ctx.textAlign = 'center';
+
+                        // Description line (lighter, smaller)
+                        ctx.font = descSize + 'px "Space Grotesk", sans-serif';
+                        ctx.fillStyle = 'rgba(255,255,255,0.4)';
+                        ctx.fillText(c.label, c.x, aboveY);
+
+                        // Number line (bold, colored)
+                        ctx.font = 'bold ' + numSize + 'px "Space Grotesk", sans-serif';
+                        ctx.fillStyle = c.color;
+                        ctx.fillText(c.sub, c.x, aboveY - descSize - 4);
+
+                        ctx.globalAlpha = 1;
+                    }
+                }
+
+                // -- "that's you" bouncing pointer (fades in after punchline) --
+                if (punchlineShown) {
+                    const first = circles[0];
+                    const effectiveR = Math.max(first.r, 2.5);
+                    if (effectiveR < 40) {
+                        // Fade in over 1s, delayed 600ms after punchline
+                        var pointerElapsed = (now - punchlineTime - 600) / 1000;
+                        var pointerAlpha = Math.max(0, Math.min(0.9, pointerElapsed));
+                        if (pointerAlpha > 0) {
+                            const bounce = Math.sin(now * 0.003) * 4;
+                            const arrowY = first.cy - effectiveR - 24 + bounce;
+                            const arrowSize = Math.max(11, Math.min(14, W * 0.015));
+                            ctx.font = '600 ' + arrowSize + 'px "Space Grotesk", sans-serif';
+                            ctx.fillStyle = '#FF6B35';
+                            ctx.textAlign = 'center';
+                            ctx.globalAlpha = pointerAlpha;
+                            ctx.fillText('\u2193 that\'s you', first.x, arrowY);
+                            ctx.globalAlpha = 1;
+                        }
+                    }
+                }
+            }
+
+            /* ---- animation loop ---- */
+            function loop(now) {
+                if (!slideActive) {
+                    requestAnimationFrame(loop);
+                    return;
+                }
+                frameTime = now;
+                drawFrame(now);
+                requestAnimationFrame(loop);
+            }
+
+            /* ---- phase transition animation ---- */
+            function animatePhase(callback) {
+                animProgress = 0;
+                const duration = 1200;
+                const start = performance.now();
+
+                function tick(now) {
+                    animProgress = Math.min(1, (now - start) / duration);
+                    if (animProgress < 1) {
+                        requestAnimationFrame(tick);
+                    } else {
+                        animProgress = 1;
+                        if (callback) callback();
+                    }
+                }
+                requestAnimationFrame(tick);
+            }
+
+            /* ---- punchline flash effect ---- */
+            function triggerFlash() {
+                flashEl.style.transition = 'none';
+                flashEl.style.opacity = '0.06';
+                requestAnimationFrame(function() {
+                    flashEl.style.transition = 'opacity 600ms ease-out';
+                    flashEl.style.opacity = '0';
+                });
+            }
+
+            /* ---- advance one phase per key press ---- */
+            function advancePhase() {
+                if (isAnimating) return;
+
+                if (visibleCount === 0) {
+                    // Phase 1: show first circle (orange, AI builders)
+                    visibleCount = 1;
+                    isAnimating = true;
+                    animatePhase(function() {
+                        isAnimating = false;
+                        // Spawn a small shockwave
+                        var cc = computeCircles();
+                        if (cc.length > 0) spawnShockwave(cc[0].x, cc[0].cy, 60, '#FF6B35');
+                    });
+                } else if (visibleCount < DATA.length) {
+                    // Phases 2-4: add next circle
+                    visibleCount++;
+                    isAnimating = true;
+                    animatePhase(function() {
+                        isAnimating = false;
+                        var cc = computeCircles();
+                        var newest = cc[cc.length - 1];
+                        var shockR = Math.min(newest.r * 1.3, 250);
+                        spawnShockwave(newest.x, newest.cy, shockR, newest.color);
+                    });
+                } else if (!punchlineShown) {
+                    // Phase 5: punchline with flash
+                    punchlineShown = true;
+                    punchlineTime = performance.now();
+                    triggerFlash();
+                    punchlineEl.style.opacity = '1';
+                    punchlineEl.style.transform = 'translateY(0)';
+                } else {
+                    // All done -- let normal navigation handle it
+                    return false;
+                }
+                return true;
+            }
+
+            /* ---- slide detection ---- */
+            function isOnThisSlide() {
+                var rect = slide.getBoundingClientRect();
+                return rect.top >= -100 && rect.top <= 100;
+            }
+
+            /* ---- event interception (capture: true) ---- */
+            document.addEventListener('keydown', function(e) {
+                if (!isOnThisSlide()) return;
+                if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === ' ') {
+                    if (advancePhase()) {
+                        e.preventDefault();
+                        e.stopImmediatePropagation();
+                    }
+                }
+            }, { capture: true });
+
+            var wheelLock = false;
+            document.addEventListener('wheel', function(e) {
+                if (!isOnThisSlide() || wheelLock) return;
+                if (e.deltaY > 0) {
+                    if (advancePhase()) {
+                        e.preventDefault();
+                        e.stopImmediatePropagation();
+                        wheelLock = true;
+                        setTimeout(function() { wheelLock = false; }, 800);
+                    }
+                }
+            }, { capture: true, passive: false });
+
+            var circTouchY = 0;
+            document.addEventListener('touchstart', function(e) {
+                if (isOnThisSlide()) circTouchY = e.touches[0].clientY;
+            }, { capture: true, passive: true });
+
+            document.addEventListener('touchend', function(e) {
+                if (!isOnThisSlide()) return;
+                var diff = circTouchY - e.changedTouches[0].clientY;
+                if (diff > 50) {
+                    if (advancePhase()) {
+                        e.preventDefault();
+                        e.stopImmediatePropagation();
+                    }
+                }
+            }, { capture: true });
+
+            /* ---- intersection observer ---- */
+            var obs = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        slideActive = true;
+                        resize();
+                        if (visibleCount === 0) advancePhase();
+                    } else {
+                        slideActive = false;
+                    }
+                });
+            }, { threshold: 0.5 });
+            obs.observe(slide);
+
+            /* ---- resize handler ---- */
+            window.addEventListener('resize', resize);
+            resize();
+
+            /* ---- start render loop ---- */
+            requestAnimationFrame(loop);
+        })();
+    </script>
+</body>
+</html>
