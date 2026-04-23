@@ -180,6 +180,17 @@ export const events: Event[] = [
     lumaUrl: 'https://luma.com/rv7x48mb',
   },
   {
+    id: 'minneapolis-shiphaus-1-may-2026',
+    chapterId: 'minneapolis',
+    slug: 'shiphaus-1',
+    title: 'Shiphaus MSP #1',
+    date: '2026-05-03T10:30:00',
+    location: 'Minneapolis, MN',
+    status: 'upcoming',
+    lumaUrl: 'https://luma.com/ujmjknb3',
+    organizer: { name: 'Jake Moroshek', url: 'https://moroshek.com' },
+  },
+  {
     id: 'chicago-shiphaus-3-may-2026',
     chapterId: 'chicago',
     slug: 'shiphaus-3',
