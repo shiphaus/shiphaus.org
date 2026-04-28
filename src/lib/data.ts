@@ -153,21 +153,6 @@ export const events: Event[] = [
     organizer: { name: 'Kirill Polevoy', url: 'https://x.com/polevoy_kirill' },
   },
   {
-    id: 'ny-silly-hacks-2026',
-    chapterId: 'new-york',
-    slug: 'silly-hacks-2026',
-    title: 'Silly Hacks 2026',
-    date: '2026-03-28T10:00:00',
-    location: 'New York, NY',
-    status: 'active',
-    lumaUrl: 'https://luma.com/fools',
-    isFriends: true,
-    organizer: {
-      name: 'Bobby Thakkar',
-      url: 'https://dino.rest',
-    },
-  },
-  {
     id: 'ns-shiphaus-2-mar-2026',
     slug: 'shiphaus-ns-2',
     chapterId: 'malaysia',
