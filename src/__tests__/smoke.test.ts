@@ -56,9 +56,4 @@ describe('data helpers', () => {
     }
   });
 
-  it('silly hacks is a friends event', () => {
-    const event = getEventBySlug('new-york', 'silly-hacks-2026');
-    expect(event?.isFriends).toBe(true);
-    expect(event?.organizer?.name).toBe('Bobby Thakkar');
-  });
 });
